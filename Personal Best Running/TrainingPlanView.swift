@@ -5,27 +5,28 @@ import SwiftUI
 struct TrainingPlanView: View {
     let plan: TrainingPlan
     var onBack: () -> Void
-
+    
     @State private var selectedTab = 0
-    @State private var expandedWeek: Int? = nil
-
+    @State private var expandedWeek: Int?
+    @State private var pdfItem: PDFDocumentItem?
+    @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
+    
     var body: some View {
         VStack(spacing: 0) {
             // Header con info piano
             planHeaderView
-
+            
             Picker("Vista", selection: $selectedTab) {
                 Text("Calendario").tag(0)
-                Text("Ritmi").tag(1)
-                Text("Fonti").tag(2)
+                // Text("Ritmi").tag(1)
+                Text("Riferimenti").tag(2)
             }
             .pickerStyle(.segmented)
             .padding(.horizontal)
             .padding(.vertical, 8)
-
+            
             TabView(selection: $selectedTab) {
                 calendarView.tag(0)
-                pacesView.tag(1)
                 sourcesView.tag(2)
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
@@ -36,11 +37,22 @@ struct TrainingPlanView: View {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button("← Modifica") { onBack() }
             }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    exportPDF()
+                } label: {
+                    Image(systemName: "square.and.arrow.up")
+                }
+            }
+        }
+
+        .sheet(item: $pdfItem) { item in
+            ShareSheet(url: item.url)
         }
     }
-
+    
     // MARK: Header
-
+    
     var planHeaderView: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
@@ -60,9 +72,9 @@ struct TrainingPlanView: View {
                         .foregroundStyle(.secondary)
                 }
             }
-
+            
             Divider()
-
+            
             Text(plan.fitnessGap)
                 .font(.caption)
                 .foregroundStyle(.secondary)
@@ -70,18 +82,19 @@ struct TrainingPlanView: View {
         }
         .padding(.horizontal)
         .padding(.vertical, 10)
+        .padding(.top, 20)
         .background(Color(.systemGroupedBackground))
     }
-
+    
     // MARK: Calendar
-
+    
     var calendarView: some View {
         List {
             ForEach(plan.weeks) { week in
                 Section {
                     // Header settimana
                     WeekHeaderView(week: week)
-
+                    
                     // Workout della settimana
                     if expandedWeek == week.weekNumber {
                         ForEach(week.workouts) { workout in
@@ -106,39 +119,52 @@ struct TrainingPlanView: View {
                     .buttonStyle(.plain)
                 }
             }
+  
+            Section {
+                VStack(spacing: 8) {
+                Button(action: exportPDF) {
+                    HStack {
+                        Spacer()
+                        Label("Esporta Piano in PDF", systemImage: "square.and.arrow.up")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                        Spacer()
+                    }
+                    .padding(.vertical, 8)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(Color(red: 0.0, green: 0.0, blue: 0.3))
+                .listRowBackground(Color.clear)
+                .listRowInsets(EdgeInsets())
+               
+                Button(action: {}) {
+                    HStack {
+                        Spacer()
+                        Label("Esporta nel Calendario", systemImage: "calendar")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                        Spacer()
+                    }
+                    .padding(.vertical, 8)
+                }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.orange)
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets())
+                    .disabled(true)
+                }
+                
+            } header: {
+                Text("Gestione Piani")
+            }
+            
         }
         .listStyle(.insetGrouped)
+        
     }
-
-    // MARK: Paces
-
-    var pacesView: some View {
-        List {
-            Section("Il Tuo Profilo") {
-                LabeledContent("VDOT", value: String(format: "%.1f", plan.paces.vdot))
-                LabeledContent("Tempo stimato attuale", value: formatTime(plan.estimatedRaceTime))
-            }
-
-            Section("Ritmi di Allenamento") {
-                PaceRow(label: "Recupero 🟡", pace: plan.paces.recoveryFormatted, rpe: "3", zone: "Z1")
-                PaceRow(label: "Facile 🟢", pace: plan.paces.easyFormatted, rpe: "4-5", zone: "Z2")
-                PaceRow(label: "Ritmo Maratona 🎯", pace: plan.paces.mpFormatted, rpe: "6-7", zone: "Z3")
-                PaceRow(label: "Soglia / Tempo 🟠", pace: plan.paces.thresholdFormatted, rpe: "7-8", zone: "Z4")
-                PaceRow(label: "Interval / VO2max 🔴", pace: plan.paces.intervalFormatted, rpe: "8-9", zone: "Z5")
-            }
-
-            Section("Distribuzione Intensità Raccomandata") {
-                Text("80% bassa intensità (Z1-Z2) + 20% alta intensità (Z4-Z5)")
-                    .font(.callout)
-                Text("Fonte: Seiler & Kjerland (2006) – distribuzione polarizzata")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-        }
-    }
-
+    
     // MARK: Sources
-
+    
     var sourcesView: some View {
         List {
             Section("Fonti Scientifiche") {
@@ -155,7 +181,7 @@ struct TrainingPlanView: View {
             }
         }
     }
-
+    
     func formatTime(_ seconds: Double) -> String {
         let hour = Int(seconds) / 3600
         let minute = (Int(seconds) % 3600) / 60
@@ -163,13 +189,39 @@ struct TrainingPlanView: View {
         if hour > 0 { return String(format: "%d:%02d:%02d", hour, minute, second) }
         return String(format: "%d:%02d", minute, second)
     }
+    
+    private func exportPDF() {
+        print("Exporting PDF...")
+        
+        // 1. Generate the data
+        let data = TrainingPlanPDFGenerator().generatePDF(plan: plan, unitSystem: unitSystem)
+        
+        // 2. Setup the temporary file path
+        let fileName = "\(plan.input.raceName.replacingOccurrences(of: " ", with: "_"))_piano.pdf"
+        let tmpURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
+        
+        do {
+            // 3. Write data to disk
+            try data.write(to: tmpURL)
+            
+            print("PDF size: \(data.count) bytes")
+            print("PDF written to: \(tmpURL.path)")
+            
+            // 4. Update the state item (this triggers the sheet)
+            self.pdfItem = PDFDocumentItem(url: tmpURL)
+            
+        } catch {
+            print("PDF Export Failed: \(error.localizedDescription)")
+        }
+    }
 }
 
 // MARK: - Week Header View
 
 struct WeekHeaderView: View {
     let week: TrainingWeek
-
+    @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
+    
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
@@ -183,7 +235,7 @@ struct WeekHeaderView: View {
             }
             Spacer()
             VStack(alignment: .trailing) {
-                Text(String(format: "%.0f km", week.totalKm))
+                Text(unitSystem.formatDistance(week.totalKm))
                     .font(.title3.bold())
                 Text("volume")
                     .font(.caption2)
@@ -192,7 +244,7 @@ struct WeekHeaderView: View {
         }
         .padding(.vertical, 4)
     }
-
+    
     var phaseColor: Color {
         switch week.phase {
         case .base: return .blue
@@ -209,7 +261,8 @@ struct WeekHeaderView: View {
 struct WorkoutRowView: View {
     let workout: Workout
     @State private var expanded = false
-
+    @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Button {
@@ -220,7 +273,7 @@ struct WorkoutRowView: View {
                         Text(workout.type.emoji)
                             .font(.title3)
                     }
-
+                    
                     VStack(alignment: .leading, spacing: 2) {
                         Text(workout.date.formatted(.dateTime.weekday().day().month()))
                             .font(.caption)
@@ -228,15 +281,15 @@ struct WorkoutRowView: View {
                         Text(workout.title)
                             .font(.subheadline.bold())
                             .foregroundStyle(.primary)
-                        if let km = workout.distanceKm {
-                            Text(String(format: "%.1f km", km))
+                        if let kms = workout.distanceKm {
+                            Text(unitSystem.formatDistance(kms))
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
                     }
                     Spacer()
-                    if let pace = workout.paceTarget, workout.type != .rest {
-                        Text(pace)
+                    if let secsPerKm = workout.paceTargetSecsPerKm, workout.type != .rest {
+                        Text(unitSystem.formatPace(secsPerKm))
                             .font(.caption.monospaced())
                             .foregroundStyle(.secondary)
                     }
@@ -247,20 +300,20 @@ struct WorkoutRowView: View {
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-
+            
             if expanded {
                 VStack(alignment: .leading, spacing: 8) {
                     Divider()
-
+                    
                     Text(workout.description)
                         .font(.callout)
-
+                    
                     if let sets = workout.structuredSets {
                         Label(sets, systemImage: "list.bullet.clipboard")
                             .font(.callout)
                             .foregroundStyle(.blue)
                     }
-
+                    
                     HStack {
                         Label("RPE: \(workout.rpe)", systemImage: "heart.fill")
                         Spacer()
@@ -268,13 +321,13 @@ struct WorkoutRowView: View {
                     }
                     .font(.caption)
                     .foregroundStyle(.secondary)
-
-                    DisclosureGroup("📚 Razionale scientifico") {
-                        Text(workout.scientificRationale)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    .font(.caption.bold())
+                    
+                    //                    DisclosureGroup("📚 Razionale scientifico") {
+                    //                        Text(workout.scientificRationale)
+                    //                            .font(.caption)
+                    //                            .foregroundStyle(.secondary)
+                    //                    }
+                    //                    .font(.caption.bold())
                 }
                 .padding(.top, 8)
             }
@@ -290,7 +343,7 @@ struct PaceRow: View {
     let pace: String
     let rpe: String
     let zone: String
-
+    
     var body: some View {
         HStack {
             Text(label)
@@ -306,6 +359,90 @@ struct PaceRow: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .frame(width: 55)
+        }
+    }
+}
+
+struct PacesView: View {
+    let plan: TrainingPlan
+    @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
+    
+    var body: some View {
+        List {
+            Section("Il Tuo Profilo") {
+                LabeledContent("VDOT", value: String(format: "%.1f", plan.paces.vdot))
+                LabeledContent("Tempo stimato attuale", value: formatTime(plan.estimatedRaceTime))
+            }
+            .padding(.top, 20)
+            
+            Section("Ritmi di Allenamento") {
+                PaceRow(label: "🟡 Recupero", pace: plan.paces.recoveryFormatted(unitSystem: unitSystem), rpe: "3", zone: "Z1")
+                PaceRow(label: "🟢 Facile", pace: plan.paces.easyFormatted(unitSystem: unitSystem), rpe: "4-5", zone: "Z2")
+                PaceRow(label: "🎯 Ritmo Maratona", pace: plan.paces.mpFormatted(unitSystem: unitSystem), rpe: "6-7", zone: "Z3")
+                PaceRow(label: "🟠 Soglia / Tempo", pace: plan.paces.thresholdFormatted(unitSystem: unitSystem), rpe: "7-8", zone: "Z4")
+                PaceRow(label: "🔴 Interval / VO2max", pace: plan.paces.intervalFormatted(unitSystem: unitSystem), rpe: "8-9", zone: "Z5")
+            }
+            
+            Section("Distribuzione Intensità Raccomandata") {
+                Text("80% bassa intensità (Z1-Z2) + 20% alta intensità (Z4-Z5)")
+                    .font(.callout)
+                Text("Fonte: Seiler & Kjerland (2006) – distribuzione polarizzata")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .navigationTitle("Ritmi di Allenamento")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+    
+    private func formatTime(_ seconds: Double) -> String {
+        let hour = Int(seconds) / 3600
+        let minute = (Int(seconds) % 3600) / 60
+        let second = Int(seconds) % 60
+        if hour > 0 { return String(format: "%d:%02d:%02d", hour, minute, second) }
+        return String(format: "%d:%02d", minute, second)
+    }
+}
+#Preview {
+    let sampleInput = TrainingPlanInput(
+        raceDistance: .halfMarathon,
+        raceDate: Calendar.current.date(byAdding: .weekOfYear, value: 16, to: Date()) ?? Date(),
+        raceName: "Monza Half Marathon",
+        trainingDaysPerWeek: 4,
+        targetTime: 1 * 3600 + 45 * 60,
+        currentPerformance: CurrentPerformance(
+            distance: .tenK,
+            time: 55 * 60
+        ),
+        sex: .male
+    )
+    
+    let samplePlan = TrainingPlanGenerator().generate(input: sampleInput)
+    
+    NavigationStack {
+        PacesView(plan: samplePlan)
+    }
+}
+
+#Preview {
+    let sampleInput = TrainingPlanInput(
+        raceDistance: .halfMarathon,
+        raceDate: Calendar.current.date(byAdding: .weekOfYear, value: 16, to: Date()) ?? Date(),
+        raceName: "Monza Half Marathon",
+        trainingDaysPerWeek: 4,
+        targetTime: 1 * 3600 + 45 * 60,
+        currentPerformance: CurrentPerformance(
+            distance: .tenK,
+            time: 55 * 60
+        ),
+        sex: .male
+    )
+    
+    let samplePlan = TrainingPlanGenerator().generate(input: sampleInput)
+    
+    NavigationStack {
+        TrainingPlanView(plan: samplePlan) {
+            print("Reset tapped")
         }
     }
 }

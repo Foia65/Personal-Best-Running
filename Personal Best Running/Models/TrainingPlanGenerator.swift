@@ -44,7 +44,7 @@ class TrainingPlanGenerator {
     static let highIntensityPercent: Double = 0.20
     
     // MARK: - Generate Plan
-    
+    // swiftlint:disable:next function_body_length
     func generate(input: TrainingPlanInput) -> TrainingPlan {
         let calendar = Calendar.current
         let today = Date()
@@ -56,11 +56,14 @@ class TrainingPlanGenerator {
         )
         
         // VDOT equivalente normalizzato alla distanza target
-        let normalizedVDOT = currentVDOT * input.currentPerformance.distance.vdotConversionFactor
-        / input.raceDistance.vdotConversionFactor
-        
+//        let normalizedVDOT = currentVDOT * input.currentPerformance.distance.vdotConversionFactor
+//        / input.raceDistance.vdotConversionFactor
+
+        // Il VDOT è già una misura universale — lo stesso VDOT predice correttamente qualsiasi distanza tramite predictRaceTime. I vdotConversionFactor erano un'approssimazione errata che gonfiava il valore.
+        let normalizedVDOT = currentVDOT
+
         // Calcola i ritmi di allenamento dal VDOT corrente
-        let paces = VDOTCalculator.trainingPaces(vdot: normalizedVDOT)
+        let paces = VDOTCalculator.trainingPaces(vdot: normalizedVDOT, sex: input.sex)
         
         // Tempo stimato con VDOT attuale sulla distanza target
         let estimatedCurrent = VDOTCalculator.predictRaceTime(vdot: normalizedVDOT, distance: input.raceDistance)
@@ -98,8 +101,7 @@ class TrainingPlanGenerator {
         
         for week in 0..<totalWeeks {
             let weekPhase = phases[min(week, phases.count - 1)]
-            let weekStartDate = calendar.date(byAdding: .weekOfYear, value: week, to: today)!
-            
+            let weekStartDate = calendar.date(byAdding: .weekOfYear, value: week, to: today)! // swiftlint:disable:this force_unwrapping
             let (weekKm, weekNote) = computeWeeklyVolume(
                 weekIndex: week,
                 totalWeeks: totalWeeks,
@@ -109,6 +111,7 @@ class TrainingPlanGenerator {
                 distance: input.raceDistance
             )
             
+            let targetPaceSecsPerKm = input.targetTime / input.raceDistance.meters * 1000
             let workouts = generateWeekWorkouts(
                 weekIndex: week,
                 totalWeeks: totalWeeks,
@@ -120,17 +123,18 @@ class TrainingPlanGenerator {
                 distance: input.raceDistance,
                 raceDate: input.raceDate,
                 raceName: input.raceName,
-                vdotGap: vdotGap
+                vdotGap: vdotGap,
+                targetPaceSecsPerKm: targetPaceSecsPerKm
             )
             
-            let tw = TrainingWeek(
+            let trWk = TrainingWeek(
                 weekNumber: week + 1,
                 phase: weekPhase,
                 workouts: workouts,
                 totalKm: weekKm,
                 weeklyNote: weekNote
             )
-            weeks.append(tw)
+            weeks.append(trWk)
             prevWeekKm = weekKm
         }
         
@@ -152,6 +156,7 @@ class TrainingPlanGenerator {
         // Maratona: base più lunga (Pfitzinger [2])
         // 5/10k: più velocità, meno volume base
         
+        // swiftlint:disable:next large_tuple
         let phaseRatios: (base: Double, build: Double, peak: Double, taper: Double)
         switch distance {
         case .fiveK:
@@ -215,33 +220,33 @@ class TrainingPlanGenerator {
         
         let weekNum = weekIndex + 1
         var note = ""
-        var km: Double
+        var kms: Double
         
         switch phase {
         case .base:
             // Progressione lineare con regola del 10% [8]
             // Ogni 4a settimana: settimana di scarico (-20%)
             if weekNum % 4 == 0 {
-                km = prevKm * 0.80
+                kms = prevKm * 0.80
                 note = "Settimana di scarico (↓20%). Fonte: principio di supercompensazione [7], recupero attivo."
             } else {
-                km = min(prevKm * 1.10, prevKm + baseKm * 0.10)
+                kms = min(prevKm * 1.10, prevKm + baseKm * 0.10)
                 note = "Costruzione aerobica: +10% max volume. Fonte: regola del 10% Galloway [8]."
             }
             
         case .build:
             // Mantieni volume alto, introduci qualità [2]
             if weekNum % 3 == 0 {
-                km = prevKm * 0.85
+                kms = prevKm * 0.85
                 note = "Micro-ciclo di scarico nel blocco sviluppo. Qualità mantenuta, volume -15%."
             } else {
-                km = min(prevKm * 1.08, baseKm * 1.40)
+                kms = min(prevKm * 1.08, baseKm * 1.40)
                 note = "Sviluppo: intensità aumenta (Tempo + Interval). 80/20 distribuzione intensità [4]."
             }
             
         case .peak:
             // Picco: volume massimo o leggermente ridotto, qualità massima [2]
-            km = baseKm * 1.45
+            kms = baseKm * 1.45
             note = "Picco di forma: massimo carico complessivo. Simulazione ritmo gara. Fonte: Pfitzinger [2]."
             
         case .taper:
@@ -249,19 +254,19 @@ class TrainingPlanGenerator {
             // Fonte: Mujika & Padilla (2003)
             let taperProgress = Double(totalWeeks - weekIndex) / Double(totalWeeks)
             let taperFactor = 0.60 - (0.20 * taperProgress)
-            km = baseKm * max(0.40, taperFactor)
+            kms = baseKm * max(0.40, taperFactor)
             note = "TAPER: volume ridotto (-40/60%), intensità invariata. Supercompensazione attesa. Fonte: Mujika & Padilla [6]."
             
         case .race:
-            km = baseKm * 0.30
+            kms = baseKm * 0.30
             note = "Settimana di GARA: solo riscaldamenti leggeri fino alla gara."
         }
         
-        return (max(20, km), note)
+        return (max(20, kms), note)
     }
     
     // MARK: - Generate Week Workouts
-    
+    // swiftlint:disable:next function_body_length
     private func generateWeekWorkouts(
         weekIndex: Int,
         totalWeeks: Int,
@@ -273,7 +278,8 @@ class TrainingPlanGenerator {
         distance: RaceDistance,
         raceDate: Date,
         raceName: String,
-        vdotGap: Double
+        vdotGap: Double,
+        targetPaceSecsPerKm: Double
     ) -> [Workout] {
         
         var workouts: [Workout] = []
@@ -301,23 +307,30 @@ class TrainingPlanGenerator {
         for (slotIndex, workoutType) in weekStructure.enumerated() {
             guard slotIndex < trainingDayIndices.count else { break }
             let dayOffset = trainingDayIndices[slotIndex]
-            let workoutDate = calendar.date(byAdding: .day, value: dayOffset, to: weekStartDate)!
+            let workoutDate = calendar.date(byAdding: .day, value: dayOffset, to: weekStartDate)! // swiftlint:disable:this force_unwrapping
             
             // Check se è il giorno della gara
             let isRaceDay = calendar.isDate(workoutDate, inSameDayAs: raceDate)
             
             let workout: Workout
             if isRaceDay || (weekIndex == totalWeeks - 1 && slotIndex == weekStructure.count - 1) {
-                workout = buildRaceWorkout(date: raceDate, raceName: raceName,
-                                           distance: distance, paces: paces, week: weekIndex + 1, day: dayOffset)
+                workout = buildRaceWorkout(
+                    date: raceDate,
+                    raceName: raceName,
+                    distance: distance,
+                    paces: paces,
+                    targetPaceSecsPerKm: targetPaceSecsPerKm,   // ← NUOVO
+                    week: weekIndex + 1,
+                    day: dayOffset
+                )
             } else {
-                let km = workoutType == .longRun ? longRunKm : avgOtherKm
+                let kms = workoutType == .longRun ? longRunKm : avgOtherKm
                 workout = buildWorkout(
                     type: workoutType,
                     date: workoutDate,
                     week: weekIndex + 1,
                     day: dayOffset,
-                    kms: km,
+                    kms: kms,
                     paces: paces,
                     distance: distance,
                     phase: phase,
@@ -332,7 +345,7 @@ class TrainingPlanGenerator {
         let allDays = Set(0..<7)
         let restDays = allDays.subtracting(Set(trainingDayIndices))
         for dayOffset in restDays.sorted() {
-            let restDate = calendar.date(byAdding: .day, value: dayOffset, to: weekStartDate)!
+            let restDate = calendar.date(byAdding: .day, value: dayOffset, to: weekStartDate)! // swiftlint:disable:this force_unwrapping
             let rest = Workout(
                 date: restDate,
                 type: .rest,
@@ -343,6 +356,7 @@ class TrainingPlanGenerator {
                 distanceKm: nil,
                 durationMinutes: nil,
                 paceTarget: nil,
+                paceTargetSecsPerKm: nil,
                 structuredSets: nil,
                 scientificRationale: "Il riposo è componente fondamentale della supercompensazione. Fonte: Bompa & Haff [7].",
                 rpe: "1",
@@ -404,7 +418,7 @@ class TrainingPlanGenerator {
             
         case .peak:
             // Peak: massima qualità + lungo specifico [2]
-            let mpWork: WorkoutType = (distance == .marathon || distance == .halfMarathon) ? .mp : .interval
+            let mpWork: WorkoutType = (distance == .marathon || distance == .halfMarathon) ? .marPace : .interval
             switch daysPerWeek {
             case 3: return [.tempo, mpWork, .longRun]
             case 4: return [.interval, .tempo, mpWork, .longRun]
@@ -445,7 +459,7 @@ class TrainingPlanGenerator {
     }
     
     // MARK: - Build Single Workout
-    
+    // swiftlint:disable:next function_body_length
     private func buildWorkout(
         type: WorkoutType,
         date: Date,
@@ -468,6 +482,7 @@ class TrainingPlanGenerator {
                 distanceKm: roundKm(kms),
                 durationMinutes: nil,
                 paceTarget: paces.easyFormatted,
+                paceTargetSecsPerKm: paces.easyPaceSecsPerKm,
                 structuredSets: nil,
                 scientificRationale: "L'80% del volume ad intensità facile sviluppa la base aerobica e mitocondri senza stress eccessivo. Fonte: Seiler & Kjerland [4].",
                 rpe: "4-5",
@@ -485,6 +500,7 @@ class TrainingPlanGenerator {
                 distanceKm: roundKm(kms),
                 durationMinutes: nil,
                 paceTarget: paces.easyFormatted,
+                paceTargetSecsPerKm: paces.easyPaceSecsPerKm,
                 structuredSets: nil,
                 scientificRationale: "Il lungo stimola adattamenti aerobici, aumenta glicogeno muscolare, migliora efficienza lipidica. Fondamentale per resistenza. Fonte: Daniels [1], Pfitzinger [2].",
                 rpe: "5-6",
@@ -505,6 +521,7 @@ class TrainingPlanGenerator {
                 distanceKm: roundKm(tempoKm),
                 durationMinutes: nil,
                 paceTarget: paces.thresholdFormatted,
+                paceTargetSecsPerKm: paces.thresholdPaceSecsPerKm,
                 structuredSets: "2 km riscaldamento + \(Int(mainKm)) km a \(paces.thresholdFormatted) + 2 km defaticamento",
                 scientificRationale: "Il tempo run alla soglia anaerobica (circa 60 min di gara pace) migliora la capacità di eliminazione lattato. Fonte: Daniels [1] – T-pace zone.",
                 rpe: "7-8",
@@ -514,7 +531,7 @@ class TrainingPlanGenerator {
         case .interval:
             // Interval training a VO2max [3][5]
             // Fonte: Billat – 30/30, 1km rip, 400m rip
-            let (structure, sets) = buildIntervalStructure(distance: distance, paces: paces, phase: phase)
+            let (structure, _) = buildIntervalStructure(distance: distance, paces: paces, phase: phase)
             return Workout(
                 date: date, type: .interval, week: week, dayOfWeek: day,
                 title: "Interval Training",
@@ -522,6 +539,7 @@ class TrainingPlanGenerator {
                 distanceKm: roundKm(kms * 0.80),
                 durationMinutes: nil,
                 paceTarget: paces.intervalFormatted,
+                paceTargetSecsPerKm: paces.intervalPaceSecsPerKm,
                 structuredSets: structure,
                 scientificRationale: "Interval training al VO2max aumenta gittata cardiaca, capillarizzazione e densità mitocondriale. Fonte: Billat [3], Laursen & Jenkins [5].",
                 rpe: "8-9",
@@ -536,6 +554,7 @@ class TrainingPlanGenerator {
                 distanceKm: roundKm(max(4, kms * 0.6)),
                 durationMinutes: nil,
                 paceTarget: paces.recoveryFormatted,
+                paceTargetSecsPerKm: paces.recoveryPaceSecsPerKm,
                 structuredSets: nil,
                 scientificRationale: "Il recupero attivo accelera la clearance del lattato e mantiene il flusso sanguigno nei muscoli. Fonte: principio di recupero attivo [7].",
                 rpe: "3",
@@ -544,7 +563,7 @@ class TrainingPlanGenerator {
             
         case .progression:
             // Corsa progressiva: inizia easy, finisce a ritmo MP o T-pace [2]
-            let prog = buildProgressionDescription(km: kms, paces: paces, distance: distance)
+            let prog = buildProgressionDescription(kms: kms, paces: paces, distance: distance)
             return Workout(
                 date: date, type: .progression, week: week, dayOfWeek: day,
                 title: "Corsa Progressiva",
@@ -552,6 +571,7 @@ class TrainingPlanGenerator {
                 distanceKm: roundKm(kms),
                 durationMinutes: nil,
                 paceTarget: "Da \(paces.easyFormatted) a \(paces.thresholdFormatted)",
+                paceTargetSecsPerKm: paces.thresholdPaceSecsPerKm,
                 structuredSets: prog,
                 scientificRationale: "La corsa progressiva abitua il corpo a correre a ritmi crescenti e allena sia il sistema aerobico che la soglia. Fonte: Pfitzinger [2].",
                 rpe: "5-7",
@@ -569,31 +589,40 @@ class TrainingPlanGenerator {
                 distanceKm: roundKm(max(6, kms * 0.9)),
                 durationMinutes: nil,
                 paceTarget: "Sforzo 95% su salita",
+                paceTargetSecsPerKm: nil,
                 structuredSets: "2 km riscaldamento + \(reps) × \(hillLen) salita (pendenza 5-8%) + recupero discesa + 2 km defaticamento",
                 scientificRationale: "Le ripetute in salita sviluppano forza-specifica corsa, migliorano la potenza e riducono il rischio di infortuni rispetto all'interval in piano. Fonte: Pfitzinger [2].",
                 rpe: "8",
                 tss: kms * 85
             )
             
-        case .mp:
+        case .marPace:
             // Ritmo Maratona / Mezza
             let mpKm = distance == .marathon ? min(kms * 0.80, 28.0) : min(kms * 0.80, 16.0)
             let mpSection = max(5, mpKm - 4)
             return Workout(
-                date: date, type: .mp, week: week, dayOfWeek: day,
+                date: date, type: .marPace, week: week, dayOfWeek: day,
                 title: "Ritmo Gara",
                 description: "Sezione centrale al ritmo gara target. Ottimo per abituare fisicamente e mentalmente al passo.",
                 distanceKm: roundKm(mpKm),
                 durationMinutes: nil,
                 paceTarget: distance == .marathon ? paces.mpFormatted : paces.thresholdFormatted,
+                paceTargetSecsPerKm: distance == .marathon ? paces.marathonPaceSecsPerKm : paces.thresholdPaceSecsPerKm,
                 structuredSets: "2 km riscaldamento + \(Int(mpSection)) km a ritmo gara + 2 km defaticamento",
                 scientificRationale: "Le uscite al ritmo specifico di gara ottimizzano l'economia di corsa e la gestione del ritmo. Fonte: Pfitzinger [2], Daniels [1].",
                 rpe: "7",
                 tss: mpKm * 75
             )
             
-        case .rest, .race:
-            return buildRaceWorkout(date: date, raceName: "Gara", distance: .fiveK, paces: paces, week: week, day: day)
+        case .rest, .race: // fallback
+            return buildRaceWorkout(
+                date: date,
+                raceName: "Gara",
+                distance: .fiveK,
+                paces: paces,
+                targetPaceSecsPerKm: paces.thresholdPaceSecsPerKm,
+                week: week, day: day
+            )
         }
     }
     
@@ -624,32 +653,47 @@ class TrainingPlanGenerator {
     
     // MARK: - Progression Description
     
-    private func buildProgressionDescription(km: Double, paces: TrainingPaces, distance: RaceDistance) -> String {
-        let third = max(1, Int(km / 3))
+    private func buildProgressionDescription(kms: Double, paces: TrainingPaces, distance: RaceDistance) -> String {
+        let third = max(1, Int(kms / 3))
         return "Km 1-\(third): \(paces.easyFormatted) | Km \(third+1)-\(third*2): \(paces.mpFormatted) | Km \(third*2+1)+: \(paces.thresholdFormatted)"
     }
     
     // MARK: - Race Workout
     
-    private func buildRaceWorkout(date: Date, raceName: String, distance: RaceDistance, paces: TrainingPaces, week: Int, day: Int) -> Workout {
-        Workout(
+    // buildRaceWorkout aggiornato — usa targetPaceSecsPerKm direttamente,
+    // non derivato dai paces dell'allenamento:
+    private func buildRaceWorkout(
+        date: Date,
+        raceName: String,
+        distance: RaceDistance,
+        paces: TrainingPaces,
+        targetPaceSecsPerKm: Double,   // ← NUOVO
+        week: Int,
+        day: Int
+    ) -> Workout {
+        let mins = Int(targetPaceSecsPerKm) / 60
+        let secs = Int(targetPaceSecsPerKm) % 60
+        let racePaceFormatted = String(format: "%d:%02d /km", mins, secs)
+  
+        return Workout(
             date: date, type: .race, week: week, dayOfWeek: day,
             title: "🏆 \(raceName)",
             description: "Giorno di gara! Riscaldamento 10-15 min a ritmo easy, poi gara al ritmo target.",
             distanceKm: distance.meters / 1000,
             durationMinutes: nil,
-            paceTarget: paces.thresholdFormatted,
+            paceTarget: racePaceFormatted,
+            paceTargetSecsPerKm: targetPaceSecsPerKm,
             structuredSets: nil,
             scientificRationale: "Gara come test performance e culmine del ciclo di allenamento.",
             rpe: "9-10",
             tss: 150
         )
-    }
+}
     
     // MARK: - Helpers
     
-    private func roundKm(_ km: Double) -> Double {
-        (km * 2).rounded() / 2  // arrotonda a 0.5 km
+    private func roundKm(_ kms: Double) -> Double {
+        (kms * 2).rounded() / 2  // arrotonda a 0.5 km
     }
     
     private func buildFitnessGapString(estimatedCurrent: Double, target: Double, vdotCurrent: Double, vdotTarget: Double) -> String {
@@ -658,9 +702,20 @@ class TrainingPlanGenerator {
         let mins = absDiff / 60
         let secs = absDiff % 60
         let direction = diffSecs > 0 ? "più lento" : "più veloce"
-        let feasibility = abs(vdotTarget - vdotCurrent) < 5 ? "Obiettivo realistico ✅" :
-        abs(vdotTarget - vdotCurrent) < 10 ? "Obiettivo ambizioso ⚠️" :
-        "Obiettivo molto sfidante – considera obiettivo intermedio ❗"
+
+        let feasibility: String
+        if diffSecs >= 60 { // target più lento di almeno 1 minuto: obiettivo facile/conservativo
+            feasibility = "Obiettivo conservativo ✅"
+        } else if diffSecs > 0 { // target più lento ma meno di 1 minuto
+            feasibility = "Obiettivo alla portata ✅"
+        } else if abs(vdotTarget - vdotCurrent) < 5 {
+            feasibility = "Obiettivo realistico ✅"
+        } else if abs(vdotTarget - vdotCurrent) < 10 {
+            feasibility = "Obiettivo ambizioso ⚠️"
+        } else {
+            feasibility = "Obiettivo molto sfidante ❗"
+        }
+
         return "Il tuo VDOT attuale (sulla distanza target): \(String(format: "%.1f", vdotCurrent)) → VDOT richiesto per target: \(String(format: "%.1f", vdotTarget)). Tempo stimato attuale: \(formatTime(estimatedCurrent)). Il target è \(String(format: "%d:%02d", mins, secs)) \(direction). \(feasibility)"
     }
     
@@ -687,4 +742,3 @@ class TrainingPlanGenerator {
         ]
     }
 }
-

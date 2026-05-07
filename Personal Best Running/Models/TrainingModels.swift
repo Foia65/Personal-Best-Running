@@ -1,6 +1,105 @@
 import Foundation
 
-// MARK: - Core Enums
+// MARK: - Runner Sex
+
+enum RunnerSex: String, CaseIterable, Identifiable, Codable {
+    case male
+    case female
+
+    var id: String { rawValue }
+
+    var label: String {
+        switch self {
+        case .male:   return "Uomo"
+        case .female: return "Donna"
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .male:   return "person"
+        case .female: return "person.fill"
+        }
+    }
+
+    /// Fattore correttivo VDOT per sesso biologico.
+    /// Le donne mostrano una VO2max assoluta mediamente inferiore del ~10-12%,
+    /// ma il VDOT di Daniels è già normalizzato per la performance (non per la
+    /// fisiologia assoluta). Applichiamo un fattore conservativo di 0.96 per
+    /// produrre ritmi di allenamento leggermente più accessibili per le donne,
+    /// coerente con le tabelle sesso-specifiche di McMillan / Daniels.
+    /// Fonte: Daniels J. (2014), McMillan G. (2021).
+    var vdotCorrectionFactor: Double {
+        switch self {
+        case .male:   return 1.00
+        case .female: return 0.96
+        }
+    }
+}
+
+// MARK: - Unit System
+
+enum UnitSystem: String, CaseIterable, Identifiable, Codable {
+    case metric
+    case imperial
+
+    var id: String { rawValue }
+
+    var label: String {
+        switch self {
+        case .metric:   return "Metrico (km)"
+        case .imperial: return "Imperiale (mi)"
+        }
+    }
+
+    // MARK: Conversions
+
+    /// Converte km → unità visualizzata
+    func displayDistance(_ kms: Double) -> Double {
+        switch self {
+        case .metric:   return kms
+        case .imperial: return kms * 0.621371
+        }
+    }
+
+    /// Suffisso distanza
+    var distanceUnit: String {
+        switch self {
+        case .metric:   return "km"
+        case .imperial: return "mi"
+        }
+    }
+
+    /// Converte secondi/km → secondi/unità visualizzata
+    func displayPace(_ secsPerKm: Double) -> Double {
+        switch self {
+        case .metric:   return secsPerKm
+        case .imperial: return secsPerKm / 0.621371   // sec/mi
+        }
+    }
+
+    /// Suffisso passo
+    var paceUnit: String {
+        switch self {
+        case .metric:   return "/km"
+        case .imperial: return "/mi"
+        }
+    }
+
+    /// Formatta secondi/km → stringa passo localizzata
+    func formatPace(_ secsPerKm: Double) -> String {
+        let converted = displayPace(secsPerKm)
+        let mins = Int(converted) / 60
+        let secs = Int(converted) % 60
+        return String(format: "%d:%02d %@", mins, secs, paceUnit)
+    }
+
+    /// Formatta km → stringa distanza localizzata
+    func formatDistance(_ kms: Double) -> String {
+        let value = displayDistance(kms)
+        return String(format: "%.1f %@", value, distanceUnit)
+    }
+}
 
 enum RaceDistance: String, CaseIterable, Identifiable {
     case fiveK = "5 km"
@@ -41,7 +140,7 @@ enum WorkoutType: String, CaseIterable {
     case rest = "Riposo"
     case progression = "Corsa Progressiva"
     case hillRepeat = "Ripetute in Salita"
-    case mp = "Ritmo Maratona"
+    case marPace = "Ritmo Maratona"
 
     var emoji: String {
         switch self {
@@ -54,7 +153,7 @@ enum WorkoutType: String, CaseIterable {
         case .rest: return "⚪️"
         case .progression: return "🟣"
         case .hillRepeat: return "⛰️"
-        case .mp: return "🎯"
+        case .marPace: return "🎯"
         }
     }
 
@@ -69,7 +168,7 @@ enum WorkoutType: String, CaseIterable {
         case .rest: return "Riposo completo o attività leggera"
         case .progression: return "Da Zona 2 a Zona 3-4 progressivamente"
         case .hillRepeat: return "95-100% sforzo / forza-velocità (Zona 4-5)"
-        case .mp: return "Ritmo gara maratona (Zona 3-4)"
+        case .marPace: return "Ritmo gara maratona (Zona 3-4)"
         }
     }
 }
@@ -136,6 +235,11 @@ struct VDOTCalculator {
         )
     }
 
+    static func trainingPaces(vdot: Double, sex: RunnerSex) -> TrainingPaces {
+        let correctedVDOT = vdot * sex.vdotCorrectionFactor
+        return trainingPaces(vdot: correctedVDOT)
+    }
+    
     /// Velocità (m/min) da VDOT (inversione approssimativa)
     private static func velocityFromVDOT(_ vdot: Double) -> Double {
         // Inversione numerica semplificata della formula Daniels
@@ -182,6 +286,16 @@ struct TrainingPaces {
     var thresholdFormatted: String { formatted(thresholdPaceSecsPerKm) }
     var intervalFormatted: String { formatted(intervalPaceSecsPerKm) }
     var recoveryFormatted: String { formatted(recoveryPaceSecsPerKm) }
+    
+    func formattedPace(_ secsPerKm: Double, unitSystem: UnitSystem) -> String {
+        unitSystem.formatPace(secsPerKm)
+    }
+
+    func easyFormatted(unitSystem: UnitSystem) -> String { formattedPace(easyPaceSecsPerKm, unitSystem: unitSystem) }
+    func mpFormatted(unitSystem: UnitSystem) -> String { formattedPace(marathonPaceSecsPerKm, unitSystem: unitSystem) }
+    func thresholdFormatted(unitSystem: UnitSystem) -> String { formattedPace(thresholdPaceSecsPerKm, unitSystem: unitSystem) }
+    func intervalFormatted(unitSystem: UnitSystem) -> String { formattedPace(intervalPaceSecsPerKm, unitSystem: unitSystem) }
+    func recoveryFormatted(unitSystem: UnitSystem) -> String { formattedPace(recoveryPaceSecsPerKm, unitSystem: unitSystem) }
 }
 
 // MARK: - Workout
@@ -197,6 +311,7 @@ struct Workout: Identifiable {
     let distanceKm: Double?
     let durationMinutes: Int?
     let paceTarget: String?
+    let paceTargetSecsPerKm: Double?   // raw value, formatted at display time
     let structuredSets: String?
     let scientificRationale: String
     let rpe: String  // Rate of Perceived Exertion 1-10
@@ -212,6 +327,7 @@ struct TrainingPlanInput {
     let trainingDaysPerWeek: Int
     let targetTime: TimeInterval        // secondi
     let currentPerformance: CurrentPerformance
+    let sex: RunnerSex
 }
 
 struct CurrentPerformance {

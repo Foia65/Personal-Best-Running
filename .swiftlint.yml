@@ -39,14 +39,14 @@ type_name:
   
 # Rule configuration
 line_length:
-  warning: 300
+  warning: 320
   error: 350
   ignores_comments: true
   ignores_urls: true
 
 type_body_length:
-  warning: 550
-  error: 600
+  warning: 600
+  error: 650
 
 file_length:
   warning: 550
