@@ -3,6 +3,38 @@ import SwiftUI
 // Shared color used across views in this file
 private let navyBlue = Color(red: 0.0, green: 0.0, blue: 0.3)
 
+struct PerformanceBounds {
+    let minSeconds: Double  // tempo minimo realistico (élite)
+    let maxSeconds: Double  // tempo massimo accettabile (runner lento ma reale)
+}
+
+extension RaceDistance {
+    var performanceBounds: PerformanceBounds {
+        switch self {
+        case .fiveK:
+            return PerformanceBounds(
+                minSeconds: 13 * 60,          // 13:00 (élite mondiale ~12:35)
+                maxSeconds: 60 * 60           // 1:00:00 (12:00 /km)
+            )
+        case .tenK:
+            return PerformanceBounds(
+                minSeconds: 27 * 60,          // 27:00 (élite mondiale ~26:17)
+                maxSeconds: 2 * 3600          // 2:00:00 (12:00 /km)
+            )
+        case .halfMarathon:
+            return PerformanceBounds(
+                minSeconds: 58 * 60,          // 58:00 (élite mondiale ~57:31)
+                maxSeconds: 4 * 3600          // 4:00:00 (~11:22 /km)
+            )
+        case .marathon:
+            return PerformanceBounds(
+                minSeconds: 2 * 3600,         // 2:00:00 (élite mondiale)
+                maxSeconds: 8 * 3600          // 8:00:00 (~11:22 /km)
+            )
+        }
+    }
+}
+
 // MARK: - Content View
 
 struct ContentView: View {
@@ -86,21 +118,6 @@ struct ContentView: View {
                             Text("Impostazioni")
                         }
                         .tag(3)
-                    
-                    // debugging view
-//                    Group {
-//                        if let plan = plan {
-//                            PDFDebugView(plan: plan)
-//                        } else {
-//                            EmptyStateView(icon: "ant.circle", title: "Crea un piano per testare il PDF")
-//                        }
-//                    }
-//                    .tabItem {
-//                        Image(systemName: "ant")
-//                        Text("Debug")
-//                    }
-//                    .tag(4)
-                    
                 }
                 .tint(navyBlue)
             }
@@ -146,7 +163,6 @@ struct PlanInputView: View {
     @AppStorage("currentSeconds") private var currentSeconds: Int = 0
     @State private var showResetConfirmation = false
     
-    // Nuovi parametri (Punti 2 e 3)
     @AppStorage("runnerSex") private var runnerSex: RunnerSex = .male
     @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
     
@@ -157,6 +173,18 @@ struct PlanInputView: View {
     }
     private var currentTime: TimeInterval {
         TimeInterval(currentHours * 3600 + currentMinutes * 60 + currentSeconds)
+    }
+    
+    private var isTargetTimeOutOfBounds: Bool {
+        guard targetTime > 0 else { return false }
+        let bounds = raceDistance.performanceBounds
+        return targetTime < bounds.minSeconds || targetTime > bounds.maxSeconds
+    }
+
+    private var isCurrentTimeOutOfBounds: Bool {
+        guard currentTime > 0 else { return false }
+        let bounds = currentDistance.performanceBounds
+        return currentTime < bounds.minSeconds || currentTime > bounds.maxSeconds
     }
     
     private static func defaultRaceDate() -> Date {
@@ -182,8 +210,33 @@ struct PlanInputView: View {
         guard let minimumDate = Calendar.current.date(byAdding: .weekOfYear, value: 12, to: Date()) else {
             return false
         }
-        
-        return raceDate < minimumDate
+        // Confronta solo i componenti della data
+        return Calendar.current.startOfDay(for: raceDate) < Calendar.current.startOfDay(for: minimumDate)
+    }
+    
+//    private var isPreparationTooShort: Bool {
+//        guard let minimumDate = Calendar.current.date(byAdding: .weekOfYear, value: 12, to: Date()) else {
+//            return false
+//        }
+//        return raceDate < minimumDate
+//    }
+    
+    private var isPreparationTooLong: Bool {
+        guard let weeksAhead = Calendar.current.dateComponents(
+            [.weekOfYear],
+            from: Date(),
+            to: raceDate
+        ).weekOfYear
+        else { return false }
+        return weeksAhead > raceDistance.maxPlanWeeks
+    }
+  
+    private var isGenerateDisabled: Bool {
+        isPreparationTooShort
+            || targetTime <= 0
+            || currentTime <= 0
+            || isTargetTimeOutOfBounds
+            || isCurrentTimeOutOfBounds
     }
     
     var body: some View {
@@ -195,10 +248,14 @@ struct PlanInputView: View {
                             Text(dist.rawValue).tag(dist)
                         }
                     }
+                    .tint(.primary) // senza questo non è visibile in dark mode
+
                     HStack {
                         Text("Evento:")
+                        Spacer()
                         TextField("Nome evento", text: $raceName)
                             .autocorrectionDisabled(true)
+                            .multilineTextAlignment(.trailing)
                     }
                     DatePicker("Data gara", selection: $raceDate, in: Date()..., displayedComponents: .date)
                     if !isRaceOnSunday {
@@ -219,6 +276,16 @@ struct PlanInputView: View {
                         }
                         .font(.caption)
                         .foregroundStyle(.red)
+                    }
+
+                    if isPreparationTooLong {
+                        Label {
+                            Text("Il piano verrà limitato a \(raceDistance.maxPlanWeeks) settimane (il massimo efficace per \(raceDistance.rawValue))")
+                        } icon: {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                        }
+                        .font(.caption)
+                        .foregroundStyle(.orange)
                     }
                 }
                 header: {
@@ -251,8 +318,19 @@ struct PlanInputView: View {
                         } icon: {
                             Image(systemName: "timer")
                         }
+                        
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                    }
+                    if isTargetTimeOutOfBounds && targetTime > 0 {
+                        let bounds = raceDistance.performanceBounds
+                        Label {
+                            Text("Tempo non realistico per \(raceDistance.rawValue). Range accettato: \(formatSeconds(bounds.minSeconds)) – \(formatSeconds(bounds.maxSeconds))")
+                        } icon: {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                        }
+                        .font(.caption)
+                        .foregroundStyle(.red)
                     }
                 }
                 .listRowBackground(Color.blue.opacity(0.05))
@@ -263,6 +341,8 @@ struct PlanInputView: View {
                             Text(dist.rawValue).tag(dist)
                         }
                     }
+                    .tint(.primary) // senza questo non è visibile in dark mode
+
                     HStack {
                         Picker("Ore", selection: $currentHours) {
                             ForEach(0..<6, id: \.self) { Text("\($0)h").tag($0) }
@@ -288,6 +368,17 @@ struct PlanInputView: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                     }
+                    
+                    if isCurrentTimeOutOfBounds && currentTime > 0 {
+                        let bounds = currentDistance.performanceBounds
+                        Label {
+                            Text("Tempo non realistico per \(currentDistance.rawValue). Range accettato: \(formatSeconds(bounds.minSeconds)) – \(formatSeconds(bounds.maxSeconds))")
+                        } icon: {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                        }
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                    }
                 }
                 .listRowBackground(Color.green.opacity(0.05))
                 
@@ -308,7 +399,17 @@ struct PlanInputView: View {
                     .buttonStyle(.borderedProminent)
                     .tint(navyBlue)
                     .controlSize(.large)
+                    .disabled(isGenerateDisabled)
                     .listRowInsets(EdgeInsets())
+                    
+                    if isPreparationTooShort {
+                        Text("La preparazione richiede almeno 12 settimane. Seleziona una data successiva al \(Calendar.current.date(byAdding: .weekOfYear, value: 12, to: Date())?.formatted(date: .abbreviated, time: .omitted) ?? "")")
+                            .font(.footnote)
+                            .frame(maxWidth: .infinity)
+                            .foregroundStyle(.red)
+                            .font(.footnote)
+                            .multilineTextAlignment(.center)
+                    }
                     
                     Button(role: .destructive) {
                         resetParameters()
@@ -332,6 +433,10 @@ struct PlanInputView: View {
     }
     
     private func generate() {
+        guard !isPreparationTooShort, targetTime > 0, currentTime > 0 else {
+                // Mostra un alert o semplicemente ritorna
+                return
+            }
         let input = TrainingPlanInput(
             raceDistance: raceDistance,
             raceDate: raceDate,
@@ -343,6 +448,18 @@ struct PlanInputView: View {
         )
         let plan = TrainingPlanGenerator().generate(input: input)
         onGenerate(plan)
+    }
+    
+    private func formatSeconds(_ seconds: Double) -> String {
+        let hrs = Int(seconds) / 3600
+        let min = (Int(seconds) % 3600) / 60
+        let sec = Int(seconds) % 60
+        if hrs > 0 {
+            return sec > 0
+                ? String(format: "%d:%02d:%02d", hrs, min, sec)
+                : String(format: "%dh%02d", hrs, min)
+        }
+        return String(format: "%d:%02d", min, sec)
     }
     
     private func resetParameters() {

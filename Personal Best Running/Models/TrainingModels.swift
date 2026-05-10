@@ -118,6 +118,15 @@ enum RaceDistance: String, CaseIterable, Identifiable {
         }
     }
 
+    // lunghezza max in settimane per i piani di allenamento
+    var maxPlanWeeks: Int {
+        switch self {
+        case .fiveK:        return 16
+        case .tenK:         return 20
+        case .halfMarathon: return 20
+        case .marathon:     return 24
+        }
+    }
     /// Fattore di conversione VDOT per stimare performance su distanze diverse
     /// Fonte: Daniels' Running Formula (Jack Daniels, 3rd Ed.)
     var vdotConversionFactor: Double {
@@ -144,16 +153,15 @@ enum WorkoutType: String, CaseIterable {
 
     var emoji: String {
         switch self {
-        case .easy: return "🟢"
-        case .longRun: return "🔵"
-        case .tempo: return "🟠"
-        case .interval: return "🔴"
-        case .recovery: return "🟡"
+        case .recovery: return "🔵"    // Z1
+        case .easy, .longRun: return "🟢" // Z2
+        case .marPace: return "🟡"     // Z3
+        case .tempo: return "🔴"       // Z4
+        case .interval: return "🟣"    // Z5
+        case .progression: return "📈"
         case .race: return "🏆"
         case .rest: return "⚪️"
-        case .progression: return "🟣"
         case .hillRepeat: return "⛰️"
-        case .marPace: return "🎯"
         }
     }
 

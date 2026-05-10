@@ -55,10 +55,6 @@ class TrainingPlanGenerator {
             distanceMeters: input.currentPerformance.distance.meters
         )
         
-        // VDOT equivalente normalizzato alla distanza target
-//        let normalizedVDOT = currentVDOT * input.currentPerformance.distance.vdotConversionFactor
-//        / input.raceDistance.vdotConversionFactor
-
         // Il VDOT è già una misura universale — lo stesso VDOT predice correttamente qualsiasi distanza tramite predictRaceTime. I vdotConversionFactor erano un'approssimazione errata che gonfiava il valore.
         let normalizedVDOT = currentVDOT
 
@@ -67,6 +63,8 @@ class TrainingPlanGenerator {
         
         // Tempo stimato con VDOT attuale sulla distanza target
         let estimatedCurrent = VDOTCalculator.predictRaceTime(vdot: normalizedVDOT, distance: input.raceDistance)
+        
+        let estimatedPaceSecsPerKm = estimatedCurrent / input.raceDistance.meters * 1000
         
         // VDOT richiesto per il target
         let targetVDOT = VDOTCalculator.calculate(
@@ -83,7 +81,11 @@ class TrainingPlanGenerator {
         )
         
         // Numero di settimane disponibili
-        let totalWeeks = max(4, calendar.dateComponents([.weekOfYear], from: today, to: input.raceDate).weekOfYear ?? 4)
+        let rawWeeks = calendar.dateComponents([.weekOfYear], from: today, to: input.raceDate).weekOfYear ?? 12
+        let totalWeeks = min(input.raceDistance.maxPlanWeeks, max(12, rawWeeks))
+
+        // Calcola la data di inizio piano contando a ritroso dalla gara
+        let planStartDate = calendar.date(byAdding: .weekOfYear, value: -totalWeeks, to: input.raceDate)!
         
         // Struttura delle fasi (fonte: [7] Bompa periodizzazione)
         let phases = buildPhaseStructure(totalWeeks: totalWeeks, distance: input.raceDistance)
@@ -101,7 +103,7 @@ class TrainingPlanGenerator {
         
         for week in 0..<totalWeeks {
             let weekPhase = phases[min(week, phases.count - 1)]
-            let weekStartDate = calendar.date(byAdding: .weekOfYear, value: week, to: today)! // swiftlint:disable:this force_unwrapping
+            let weekStartDate = calendar.date(byAdding: .weekOfYear, value: week, to: planStartDate)!
             let (weekKm, weekNote) = computeWeeklyVolume(
                 weekIndex: week,
                 totalWeeks: totalWeeks,
@@ -124,7 +126,8 @@ class TrainingPlanGenerator {
                 raceDate: input.raceDate,
                 raceName: input.raceName,
                 vdotGap: vdotGap,
-                targetPaceSecsPerKm: targetPaceSecsPerKm
+                targetPaceSecsPerKm: estimatedPaceSecsPerKm,
+                estimatedPaceSecsPerKm: estimatedPaceSecsPerKm
             )
             
             let trWk = TrainingWeek(
@@ -279,7 +282,8 @@ class TrainingPlanGenerator {
         raceDate: Date,
         raceName: String,
         vdotGap: Double,
-        targetPaceSecsPerKm: Double
+        targetPaceSecsPerKm: Double,
+        estimatedPaceSecsPerKm: Double
     ) -> [Workout] {
         
         var workouts: [Workout] = []
@@ -319,7 +323,8 @@ class TrainingPlanGenerator {
                     raceName: raceName,
                     distance: distance,
                     paces: paces,
-                    targetPaceSecsPerKm: targetPaceSecsPerKm,   // ← NUOVO
+                    targetPaceSecsPerKm: targetPaceSecsPerKm,
+                    vdotGap: vdotGap,
                     week: weekIndex + 1,
                     day: dayOffset
                 )
@@ -621,6 +626,7 @@ class TrainingPlanGenerator {
                 distance: .fiveK,
                 paces: paces,
                 targetPaceSecsPerKm: paces.thresholdPaceSecsPerKm,
+                vdotGap: 0,    // ← NUOVO
                 week: week, day: day
             )
         }
@@ -659,26 +665,48 @@ class TrainingPlanGenerator {
     }
     
     // MARK: - Race Workout
-    
-    // buildRaceWorkout aggiornato — usa targetPaceSecsPerKm direttamente,
-    // non derivato dai paces dell'allenamento:
+  
     private func buildRaceWorkout(
         date: Date,
         raceName: String,
         distance: RaceDistance,
         paces: TrainingPaces,
-        targetPaceSecsPerKm: Double,   // ← NUOVO
+        targetPaceSecsPerKm: Double,
+        vdotGap: Double,              // ← NUOVO
         week: Int,
         day: Int
     ) -> Workout {
         let mins = Int(targetPaceSecsPerKm) / 60
         let secs = Int(targetPaceSecsPerKm) % 60
         let racePaceFormatted = String(format: "%d:%02d /km", mins, secs)
-  
+
+        // Description dinamica basata sul gap VDOT
+        let description: String
+        switch vdotGap {
+        case ..<(-5):
+            // Target molto più lento della forma attuale
+            description = "Giorno di gara! Il tuo obiettivo è molto conservativo rispetto alla tua forma attuale: potresti fare molto meglio. Parti controllato e valuta in corsa."
+        case -5..<(-2):
+            // Target leggermente più lento
+            description = "Giorno di gara! Il tuo obiettivo è prudente rispetto alla forma attuale. Buona base per un risultato solido senza rischi."
+        case -2..<2:
+            // Target sostanzialmente allineato alla forma attuale
+            description = "Giorno di gara! Il tuo obiettivo è allineato alla tua forma attuale. Esegui il piano di gara con fiducia: il lavoro fatto lo supporta."
+        case 2..<5:
+            // Target ambizioso ma raggiungibile
+            description = "Giorno di gara! Il tuo obiettivo è ambizioso rispetto alla forma di partenza. Se il piano è andato bene, potresti farcela. Parti cauto nei primi km."
+        case 5..<10:
+            // Target molto ambizioso
+            description = "Giorno di gara! Obiettivo sfidante rispetto alla forma di partenza. Considera questo una tappa di avvicinamento: corri al meglio della tua condizione attuale."
+        default:
+            // Gap enorme
+            description = "Giorno di gara! L'obiettivo dichiarato era molto al di là della forma di partenza. Corri al tuo ritmo stimato e usa questa gara come esperienza."
+        }
+
         return Workout(
             date: date, type: .race, week: week, dayOfWeek: day,
             title: "🏆 \(raceName)",
-            description: "Giorno di gara! Riscaldamento 10-15 min a ritmo easy, poi gara al ritmo target.",
+            description: description,
             distanceKm: distance.meters / 1000,
             durationMinutes: nil,
             paceTarget: racePaceFormatted,
@@ -688,7 +716,7 @@ class TrainingPlanGenerator {
             rpe: "9-10",
             tss: 150
         )
-}
+    }
     
     // MARK: - Helpers
     

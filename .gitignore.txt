@@ -1,7 +1,0 @@
-# Ignore user-specific Xcode project data
-support_files/
-
-# Ignore derived data, build, logs
-DerivedData/
-build/
-support_files/

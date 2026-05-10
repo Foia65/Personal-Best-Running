@@ -1,154 +1,134 @@
 import UIKit
 
-struct TrainingPlanPDFGenerator {
+struct PDFDocumentItem: Identifiable {
+    let id = UUID()
+    let url: URL
+}
+
+final class TrainingPlanPDFGenerator {
     
-    // Margini e dimensioni pagina A4
-    private let pageWidth: CGFloat  = 595.2
-    private let pageHeight: CGFloat = 841.8
-    private let margin: CGFloat     = 40.0
-    
-    private var contentWidth: CGFloat { pageWidth - margin * 2 }
-    
-    // Colori fase
-    private func phaseColor(_ phase: TrainingPhase) -> UIColor {
-        switch phase {
-        case .base:  return UIColor.systemBlue
-        case .build: return UIColor.systemOrange
-        case .peak:  return UIColor.systemRed
-        case .taper: return UIColor.systemGreen
-        case .race:  return UIColor.systemPurple
-        }
+    // MARK: - Constants
+    private enum Layout {
+        static let pageWidth: CGFloat = 595.2
+        static let pageHeight: CGFloat = 841.8
+        static let margin: CGFloat = 45.0
+        static let contentWidth: CGFloat = pageWidth - (margin * 2)
+        static let headerHeight: CGFloat = 22.0
     }
     
     // MARK: - Entry point
     
     func generatePDF(plan: TrainingPlan, unitSystem: UnitSystem) -> Data {
-        let renderer = UIGraphicsPDFRenderer(bounds: CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight))
+        let format = UIGraphicsPDFRendererFormat()
+        let bounds = CGRect(x: 0, y: 0, width: Layout.pageWidth, height: Layout.pageHeight)
+        let renderer = UIGraphicsPDFRenderer(bounds: bounds, format: format)
         
         return renderer.pdfData { ctx in
-            // — Pagina 1: copertina + ritmi —
+            // — Page 1: Cover and Paces —
             ctx.beginPage()
-            var y = drawCover(plan: plan, unitSystem: unitSystem, y: margin)
-            y = drawPacesSection(plan: plan, unitSystem: unitSystem, y: y + 20)
+            var currentY = drawCover(plan: plan, y: Layout.margin)
+            currentY = drawPacesSection(plan: plan, unitSystem: unitSystem, y: currentY + 30)
             
-            // — Pagine settimane —
-            var currentY = y + 20
+            // — Training Weeks —
             for week in plan.weeks {
-                // Se non c'è spazio sufficiente per l'header settimana, nuova pagina
-                if currentY + 60 > pageHeight - margin {
+                // Check for page break (minimum space for week header + 1 workout)
+                if currentY + 120 > Layout.pageHeight - Layout.margin {
                     ctx.beginPage()
-                    currentY = margin
+                    currentY = Layout.margin
                 }
-                currentY = drawWeek(week: week, unitSystem: unitSystem, y: currentY)
+                currentY = drawWeek(week: week, unitSystem: unitSystem, y: currentY) + 15
             }
             
-            // — Ultima pagina: fonti scientifiche —
+            // — Final Page: Scientific Sources —
             ctx.beginPage()
-            drawSources(plan: plan, y: margin)
+            drawSources(plan: plan, y: Layout.margin)
         }
     }
     
-    // MARK: - Cover
+    // MARK: - Sections Drawing
     
-    @discardableResult
-    private func drawCover(plan: TrainingPlan, unitSystem: UnitSystem, y: CGFloat) -> CGFloat {
+    private func drawCover(plan: TrainingPlan, y: CGFloat) -> CGFloat {
         var currentY = y
         
-        // Titolo app
-        let appTitle = "🏃 PB Running — Piano di Allenamento"
-        currentY = drawText(appTitle, at: currentY, font: .boldSystemFont(ofSize: 20), color: .label)
-        currentY += 6
+        // App Title
+        currentY = drawText(
+            "🏃 PB Running",
+            at: currentY,
+            font: .boldSystemFont(ofSize: 24),
+            color: .label
+        )
+        currentY = drawText(
+            "Piano di Allenamento Personalizzato",
+            at: currentY,
+            font: .systemFont(ofSize: 14),
+            color: .secondaryLabel
+        )
         
-        // Linea separatrice
-        drawLine(at: currentY)
-        currentY += 12
+        currentY += 15
+        drawSeparator(at: currentY)
+        currentY += 20
         
-        // Info gara
-        let dateStr = plan.input.raceDate.formatted(date: .long, time: .omitted)
-        let info: [(String, String)] = [
+        // Race Info Grid
+        let raceDate = plan.input.raceDate.formatted(date: .long, time: .omitted)
+        let infoItems = [
             ("Gara", plan.input.raceName),
             ("Distanza", plan.input.raceDistance.rawValue),
-            ("Data", dateStr),
-            ("Settimane", "\(plan.weeks.count)"),
-            ("Giorni/sett", "\(plan.input.trainingDaysPerWeek)"),
-            ("Sesso", plan.input.sex.label)
+            ("Data", raceDate),
+            ("Volume", "\(plan.weeks.count) settimane")
         ]
-        for (label, value) in info {
-            currentY = drawLabelValue(label: label, value: value, y: currentY)
+        
+        for item in infoItems {
+            currentY = drawKeyValuePair(key: item.0, value: item.1, y: currentY)
         }
         
-        currentY += 8
-        drawLine(at: currentY)
-        currentY += 12
-        
-        // Gap fitness
-        let gap = plan.fitnessGap
-        currentY = drawText(gap, at: currentY, font: .italicSystemFont(ofSize: 9), color: .secondaryLabel)
+        currentY += 10
+        let gapFont = UIFont.italicSystemFont(ofSize: 10)
+        currentY = drawText(plan.fitnessGap, at: currentY, font: gapFont, color: .secondaryLabel)
         
         return currentY
     }
     
-    // MARK: - Paces
-    
-    @discardableResult
     private func drawPacesSection(plan: TrainingPlan, unitSystem: UnitSystem, y: CGFloat) -> CGFloat {
         var currentY = y
         
-        currentY = drawText(
-            "Ritmi di Allenamento",
-            at: currentY,
-            font: .boldSystemFont(ofSize: 13),
-            color: .label
-        )
-        currentY += 4
+        currentY = drawSectionHeader("Andature di Riferimento", y: currentY, color: .label)
         
-        let rows: [(String, String, String)] = [
-            ("🟡 Recupero ", plan.paces.recoveryFormatted(unitSystem: unitSystem), "Z1 – RPE 3"),
-            ("🟢 Facile", plan.paces.easyFormatted(unitSystem: unitSystem), "Z2 – RPE 4-5"),
-            ("🎯 Ritmo Maratona", plan.paces.mpFormatted(unitSystem: unitSystem), "Z3 – RPE 6-7"),
-            ("🟠 Soglia / Tempo", plan.paces.thresholdFormatted(unitSystem: unitSystem), "Z4 – RPE 7-8"),
-            ("🔴 Interval / VO2", plan.paces.intervalFormatted(unitSystem: unitSystem), "Z5 – RPE 8-9")
+        let paces: [(String, String, String, UIColor)] = [
+            ("Recupero", plan.paces.recoveryFormatted(unitSystem: unitSystem), "Z1 - RPE 3", .systemBlue),
+            ("Corsa Facile", plan.paces.easyFormatted(unitSystem: unitSystem), "Z2 - RPE 4-5", .systemGreen),
+            ("Ritmo Maratona", plan.paces.mpFormatted(unitSystem: unitSystem), "Z3 - RPE 6-7", .systemOrange),
+            ("Soglia / Tempo", plan.paces.thresholdFormatted(unitSystem: unitSystem), "Z4 - RPE 7-8", .systemRed),
+            ("Intervalli / VO2", plan.paces.intervalFormatted(unitSystem: unitSystem), "Z5 - RPE 9+", .systemPurple)
         ]
         
-        for (label, pace, zone) in rows {
-            let line = "\(label)   \(pace)   \(zone)"
-            currentY = drawText(line, at: currentY, font: .monospacedSystemFont(ofSize: 9, weight: .regular), color: .label)
+        for pace in paces {
+            currentY = drawPaceRow(label: pace.0, pace: pace.1, zone: pace.2, color: pace.3, y: currentY)
         }
         
         return currentY
     }
     
-    // MARK: - Week
-    
-    @discardableResult
     private func drawWeek(week: TrainingWeek, unitSystem: UnitSystem, y: CGFloat) -> CGFloat {
-        var currentY = y + 8
+        var currentY = y
+        let color = phaseColor(for: week.phase)
         
-        // Header settimana
-        let weekTitle = "Settimana \(week.weekNumber) — \(week.phase.rawValue)  |  \(unitSystem.formatDistance(week.totalKm))"
-        let color = phaseColor(week.phase)
-        drawRect(
-            at: currentY,
-            height: 18,
-            color: color.withAlphaComponent(0.15)
-        )
-        currentY = drawText(
-            weekTitle,
-            at: currentY + 3,
-            font: .boldSystemFont(ofSize: 10), color: color
-        )
-        currentY += 2
+        // Week Header like WeekHeaderView
+        let title = "Settimana \(week.weekNumber) — \(week.phase.rawValue.uppercased())"
+        drawBackgroundRect(at: currentY, height: Layout.headerHeight, color: color.withAlphaComponent(0.1))
         
-        // Nota settimanale
-        currentY = drawText(
-            week.weeklyNote,
-            at: currentY,
-            font: .italicSystemFont(ofSize: 8),
-            color: .secondaryLabel
-        )
-        currentY += 4
+        let headerFont = UIFont.boldSystemFont(ofSize: 11)
+        currentY = drawText(title, at: currentY + 4, font: headerFont, color: color)
         
-        // Workout
+        // Total Volume
+        let volStr = "Volume stimato: \(unitSystem.formatDistance(week.totalKm))"
+        currentY = drawText(volStr, at: currentY, font: .systemFont(ofSize: 9), color: .secondaryLabel)
+        
+        if !week.weeklyNote.isEmpty {
+            currentY = drawText(week.weeklyNote, at: currentY, font: .italicSystemFont(ofSize: 9), color: .label)
+        }
+        
+        currentY += 5
+        
         for workout in week.workouts {
             currentY = drawWorkoutRow(workout: workout, unitSystem: unitSystem, y: currentY)
         }
@@ -156,138 +136,153 @@ struct TrainingPlanPDFGenerator {
         return currentY
     }
     
-    // MARK: - Workout row
-    
-    @discardableResult
     private func drawWorkoutRow(workout: Workout, unitSystem: UnitSystem, y: CGFloat) -> CGFloat {
-        var currentY = y
+        var currentY = y + 5
         
-        // Data + tipo
         let dayStr = workout.date.formatted(.dateTime.weekday(.wide).day().month())
-        let emoji  = workout.type == .rest ? "⚪️" : workout.type.emoji
-        let header = "\(emoji) \(dayStr) — \(workout.title)"
+        let emoji = workout.type == .rest ? "⚪️" : workout.type.emoji
+        let title = "\(emoji) \(dayStr) · \(workout.title)"
+        
+        currentY = drawText(title, at: currentY, font: .boldSystemFont(ofSize: 10), color: .label)
+        
+        var meta: [String] = []
+        if let kms = workout.distanceKm { meta.append(unitSystem.formatDistance(kms)) }
+        if let pace = workout.paceTargetSecsPerKm { meta.append(unitSystem.formatPace(pace)) }
+        meta.append("RPE \(workout.rpe)")
+        
         currentY = drawText(
-            header,
+            meta.joined(separator: "  |  "),
             at: currentY,
-            font: .systemFont(ofSize: 9, weight: .semibold),
-            color: .label
+            font: .monospacedSystemFont(ofSize: 8, weight: .regular),
+            color: .secondaryLabel
         )
         
-        // Distanza + passo
-        var details: [String] = []
-        if let kms = workout.distanceKm {
-            details.append(unitSystem.formatDistance(kms))
-        }
-        if let secsPerKm = workout.paceTargetSecsPerKm {
-            details.append(unitSystem.formatPace(secsPerKm))
-        } else if let pace = workout.paceTarget, workout.type == .hillRepeat {
-            details.append(pace)
-        }
-        details.append("RPE \(workout.rpe)")
-        
-        if !details.isEmpty {
-            currentY = drawText(
-                details.joined(separator: "  ·  "),
-                at: currentY,
-                font: .systemFont(ofSize: 8),
-                color: .secondaryLabel
-            )
-        }
-        
-        // Structured sets se presenti
         if let sets = workout.structuredSets {
-            currentY = drawText(
-                sets,
-                at: currentY,
-                font: .italicSystemFont(ofSize: 8),
-                color: .systemBlue.withAlphaComponent(0.8)
-            )
+            currentY = drawText(sets, at: currentY, font: .systemFont(ofSize: 9), color: .systemBlue)
         }
         
-        return currentY + 2
+        drawSeparator(at: currentY + 2, color: UIColor.separator.withAlphaComponent(0.3))
+        return currentY + 5
     }
-    
-    // MARK: - Sources
     
     private func drawSources(plan: TrainingPlan, y: CGFloat) {
         var currentY = y
-        currentY = drawText(
-            "Fonti Scientifiche",
-            at: currentY,
-            font: .boldSystemFont(ofSize: 13),
-            color: .label
-        )
-        currentY += 6
+        currentY = drawSectionHeader("Fonti Scientifiche e Note", y: currentY, color: .label)
+        
+        let notes = """
+        I ritmi di allenamento sono calcolati tramite il sistema VDOT di Jack Daniels. 
+        La distribuzione settimanale segue il principio di polarizzazione 80/20 (Seiler).
+        """
+        currentY = drawText(notes, at: currentY, font: .systemFont(ofSize: 10), color: .label)
+        currentY += 10
+        
         for source in plan.scientificSources {
-            currentY = drawText(
-                source,
-                at: currentY,
-                font: .systemFont(ofSize: 8),
-                color: .secondaryLabel
-            )
+            currentY = drawText("• \(source)", at: currentY, font: .systemFont(ofSize: 9), color: .secondaryLabel)
         }
     }
     
-    // MARK: - Drawing primitives
+    // MARK: - Helper Methods
     
-    @discardableResult
-    private func drawText(_ text: String, at y: CGFloat, font: UIFont, color: UIColor) -> CGFloat {
-        let attrs: [NSAttributedString.Key: Any] = [
-            .font: font,
-            .foregroundColor: color
-        ]
-        let rect = CGRect(x: margin, y: y, width: contentWidth, height: .greatestFiniteMagnitude)
-        let str  = NSString(string: text)
-        let bound = str.boundingRect(
-            with: CGSize(
-                width: contentWidth,
-                height: .greatestFiniteMagnitude
-            ),
-            options: .usesLineFragmentOrigin,
-            attributes: attrs,
-            context: nil
-        )
-        str.draw(in: CGRect(x: margin, y: y, width: contentWidth, height: bound.height), withAttributes: attrs)
-        return y + bound.height + 2
+    private func drawSectionHeader(_ text: String, y: CGFloat, color: UIColor) -> CGFloat {
+        let currentY = drawText(text.uppercased(), at: y, font: .boldSystemFont(ofSize: 13), color: color)
+        drawSeparator(at: currentY)
+        return currentY + 10
     }
     
-    private func drawLabelValue(label: String, value: String, y: CGFloat) -> CGFloat {
-        let labelAttr: [NSAttributedString.Key: Any] = [
-            .font: UIFont.boldSystemFont(ofSize: 10),
-            .foregroundColor: UIColor.label
-        ]
-        let valueAttr: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: 10),
-            .foregroundColor: UIColor.secondaryLabel
-        ]
-        NSString(string: label + ":").draw(
-            in: CGRect(
-                x: margin,
-                y: y,
-                width: 100,
-                height: 16
-            ),
-            withAttributes: labelAttr
+    private func drawPaceRow(label: String, pace: String, zone: String, color: UIColor, y: CGFloat) -> CGFloat {
+        let font = UIFont.systemFont(ofSize: 10)
+        let boldFont = UIFont.boldSystemFont(ofSize: 10)
+        
+        // Indicator dot/bar
+        let dotRect = CGRect(x: Layout.margin, y: y + 2, width: 4, height: 12)
+        color.setFill()
+        UIBezierPath(roundedRect: dotRect, cornerRadius: 1).fill()
+        
+        NSString(string: label).draw(
+            at: CGPoint(x: Layout.margin + 12, y: y),
+            withAttributes: [.font: font,
+                             .foregroundColor: UIColor.label]
         )
+        
+        let paceX = Layout.pageWidth - Layout.margin - 120
+        NSString(string: pace).draw(
+            at: CGPoint(x: paceX, y: y),
+            withAttributes: [.font: boldFont,
+                             .foregroundColor: UIColor.label]
+        )
+        
+        let zoneX = Layout.pageWidth - Layout.margin - 40
+        NSString(string: zone).draw(
+            at: CGPoint(x: zoneX, y: y),
+            withAttributes: [.font: boldFont,
+                             .foregroundColor: color]
+        )
+        
+        return y + 18
+    }
+    
+    private func drawKeyValuePair(key: String, value: String, y: CGFloat) -> CGFloat {
+        let keyFont = UIFont.boldSystemFont(ofSize: 10)
+        let valFont = UIFont.systemFont(ofSize: 10)
+        
+        NSString(string: "\(key):").draw(
+            at: CGPoint(x: Layout.margin, y: y),
+            withAttributes: [.font: keyFont]
+        )
+        
         NSString(string: value).draw(
-            in: CGRect(x: margin + 110, y: y, width: contentWidth - 110, height: 16),
-            withAttributes: valueAttr
+            at: CGPoint(x: Layout.margin + 80, y: y),
+            withAttributes: [.font: valFont,
+                             .foregroundColor: UIColor.secondaryLabel]
         )
+        
         return y + 16
     }
     
-    private func drawLine(at y: CGFloat) {
+    @discardableResult
+    private func drawText(_ text: String, at y: CGFloat, font: UIFont, color: UIColor) -> CGFloat {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .left
+        paragraphStyle.lineBreakMode = .byWordWrapping
+        
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .foregroundColor: color,
+            .paragraphStyle: paragraphStyle
+        ]
+        
+        let attributedString = NSAttributedString(string: text, attributes: attributes)
+        let size = CGSize(width: Layout.contentWidth, height: .greatestFiniteMagnitude)
+        let textRect = attributedString.boundingRect(with: size, options: .usesLineFragmentOrigin, context: nil)
+        
+        let drawRect = CGRect(x: Layout.margin, y: y, width: Layout.contentWidth, height: textRect.height)
+        attributedString.draw(in: drawRect)
+        
+        return y + textRect.height + 4
+    }
+    
+    private func drawSeparator(at y: CGFloat, color: UIColor = .separator) {
         let path = UIBezierPath()
-        path.move(to: CGPoint(x: margin, y: y))
-        path.addLine(to: CGPoint(x: pageWidth - margin, y: y))
-        UIColor.separator.setStroke()
+        path.move(to: CGPoint(x: Layout.margin, y: y))
+        path.addLine(to: CGPoint(x: Layout.pageWidth - Layout.margin, y: y))
+        color.setStroke()
         path.lineWidth = 0.5
         path.stroke()
     }
     
-    private func drawRect(at y: CGFloat, height: CGFloat, color: UIColor) {
-        let rect = CGRect(x: margin - 4, y: y, width: contentWidth + 8, height: height)
+    private func drawBackgroundRect(at y: CGFloat, height: CGFloat, color: UIColor) {
+        let rect = CGRect(x: Layout.margin - 5, y: y, width: Layout.contentWidth + 10, height: height)
         color.setFill()
-        UIBezierPath(rect: rect).fill()
+        UIRectFill(rect)
+    }
+    
+    private func phaseColor(for phase: TrainingPhase) -> UIColor {
+        switch phase {
+        case .base: return .systemBlue
+        case .build: return .systemOrange
+        case .peak: return .systemRed
+        case .taper: return .systemGreen
+        case .race: return .systemPurple
+        }
     }
 }

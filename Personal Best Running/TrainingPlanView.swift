@@ -45,7 +45,7 @@ struct TrainingPlanView: View {
                 }
             }
         }
-
+        
         .sheet(item: $pdfItem) { item in
             ShareSheet(url: item.url)
         }
@@ -110,6 +110,7 @@ struct TrainingPlanView: View {
                         HStack {
                             Text("Settimana \(week.weekNumber) – \(week.phase.rawValue)")
                                 .font(.caption.bold())
+                                .foregroundStyle(.blue)
                             Spacer()
                             Image(systemName: expandedWeek == week.weekNumber ? "chevron.up" : "chevron.down")
                                 .font(.caption)
@@ -119,34 +120,34 @@ struct TrainingPlanView: View {
                     .buttonStyle(.plain)
                 }
             }
-  
+            
             Section {
                 VStack(spacing: 8) {
-                Button(action: exportPDF) {
-                    HStack {
-                        Spacer()
-                        Label("Esporta Piano in PDF", systemImage: "square.and.arrow.up")
-                            .font(.headline)
-                            .foregroundStyle(.white)
-                        Spacer()
+                    Button(action: exportPDF) {
+                        HStack {
+                            Spacer()
+                            Label("Esporta Piano in PDF", systemImage: "square.and.arrow.up")
+                                .font(.headline)
+                                .foregroundStyle(.white)
+                            Spacer()
+                        }
+                        .padding(.vertical, 8)
                     }
-                    .padding(.vertical, 8)
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(Color(red: 0.0, green: 0.0, blue: 0.3))
-                .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets())
-               
-                Button(action: {}) {
-                    HStack {
-                        Spacer()
-                        Label("Esporta nel Calendario", systemImage: "calendar")
-                            .font(.headline)
-                            .foregroundStyle(.white)
-                        Spacer()
+                    .buttonStyle(.borderedProminent)
+                    .tint(Color(red: 0.0, green: 0.0, blue: 0.3))
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets())
+                    
+                    Button(action: {}) {
+                        HStack {
+                            Spacer()
+                            Label("Esporta nel Calendario", systemImage: "calendar")
+                                .font(.headline)
+                                .foregroundStyle(.white)
+                            Spacer()
+                        }
+                        .padding(.vertical, 8)
                     }
-                    .padding(.vertical, 8)
-                }
                     .buttonStyle(.borderedProminent)
                     .tint(.orange)
                     .listRowBackground(Color.clear)
@@ -225,9 +226,9 @@ struct WeekHeaderView: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
-                Text(week.phase.rawValue)
-                    .font(.subheadline.bold())
-                    .foregroundStyle(phaseColor)
+//                Text(week.phase.rawValue)
+//                    .font(.subheadline.bold())
+//                    .foregroundStyle(.primary)
                 Text(week.weeklyNote)
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -245,15 +246,15 @@ struct WeekHeaderView: View {
         .padding(.vertical, 4)
     }
     
-    var phaseColor: Color {
-        switch week.phase {
-        case .base: return .blue
-        case .build: return .orange
-        case .peak: return .red
-        case .taper: return .green
-        case .race: return .purple
-        }
-    }
+//    var phaseColor: Color {
+//        switch week.phase {
+//        case .base: return .blue
+//        case .build: return .orange
+//        case .peak: return .red
+//        case .taper: return .green
+//        case .race: return .purple
+//        }
+//    }
 }
 
 // MARK: - Workout Row View
@@ -306,12 +307,12 @@ struct WorkoutRowView: View {
                     Divider()
                     
                     Text(workout.description)
-                        .font(.callout)
+                        .font(.footnote)
                     
                     if let sets = workout.structuredSets {
                         Label(sets, systemImage: "list.bullet.clipboard")
-                            .font(.callout)
-                            .foregroundStyle(.blue)
+                            .font(.footnote)
+                            .foregroundStyle(.primary)
                     }
                     
                     HStack {
@@ -343,23 +344,40 @@ struct PaceRow: View {
     let pace: String
     let rpe: String
     let zone: String
+    let color: Color // New: pass the color directly
     
     var body: some View {
-        HStack {
-            Text(label)
-                .font(.subheadline)
+        HStack(spacing: 16) {
+            // 1. Intensity Indicator Bar
+            RoundedRectangle(cornerRadius: 2)
+                .fill(color)
+                .frame(width: 4, height: 35)
+            
+            VStack(alignment: .leading, spacing: 2) {
+                Text(label)
+                    .font(.subheadline.bold())
+                Text("RPE \(rpe)")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            
             Spacer()
-            Text(zone)
-                .font(.caption.bold())
-                .foregroundStyle(.secondary)
-                .frame(width: 30)
-            Text(pace)
-                .font(.subheadline.monospaced().bold())
-            Text("RPE \(rpe)")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .frame(width: 55)
+            
+            VStack(alignment: .trailing, spacing: 2) {
+                Text(pace)
+                    .font(.system(.title3, design: .rounded).bold()) // Rounded design feels more modern
+                    .foregroundColor(.primary)
+                
+                Text(zone)
+                    .font(.caption2.bold())
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(color.opacity(0.2))
+                    .foregroundStyle(color)
+                    .clipShape(Capsule())
+            }
         }
+        .padding(.vertical, 4)
     }
 }
 
@@ -369,30 +387,82 @@ struct PacesView: View {
     
     var body: some View {
         List {
-            Section("Il Tuo Profilo") {
-                LabeledContent("VDOT", value: String(format: "%.1f", plan.paces.vdot))
-                LabeledContent("Tempo stimato attuale", value: formatTime(plan.estimatedRaceTime))
+            Section {
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text("Il Tuo VDOT")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        Text(String(format: "%.1f", plan.paces.vdot))
+                            .font(.title2.bold())
+                    }
+                    Spacer()
+                    Divider()
+                    Spacer()
+                    VStack(alignment: .trailing) {
+                        Text("Stima Gara")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        Text(formatTime(plan.estimatedRaceTime))
+                            .font(.title2.bold())
+                    }
+                }
+                .padding(.vertical, 8)
+            } header: {
+                Text("Profilo Atleta")
             }
-            .padding(.top, 20)
             
-            Section("Ritmi di Allenamento") {
-                PaceRow(label: "🟡 Recupero", pace: plan.paces.recoveryFormatted(unitSystem: unitSystem), rpe: "3", zone: "Z1")
-                PaceRow(label: "🟢 Facile", pace: plan.paces.easyFormatted(unitSystem: unitSystem), rpe: "4-5", zone: "Z2")
-                PaceRow(label: "🎯 Ritmo Maratona", pace: plan.paces.mpFormatted(unitSystem: unitSystem), rpe: "6-7", zone: "Z3")
-                PaceRow(label: "🟠 Soglia / Tempo", pace: plan.paces.thresholdFormatted(unitSystem: unitSystem), rpe: "7-8", zone: "Z4")
-                PaceRow(label: "🔴 Interval / VO2max", pace: plan.paces.intervalFormatted(unitSystem: unitSystem), rpe: "8-9", zone: "Z5")
-            }
-            
-            Section("Distribuzione Intensità Raccomandata") {
-                Text("80% bassa intensità (Z1-Z2) + 20% alta intensità (Z4-Z5)")
-                    .font(.callout)
-                Text("Fonte: Seiler & Kjerland (2006) – distribuzione polarizzata")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+            Section {
+                PaceRow(
+                    label: "Recupero",
+                    pace: plan.paces.recoveryFormatted(unitSystem: unitSystem),
+                    rpe: "3",
+                    zone: "Z1",
+                    color: .blue
+                )
+                
+                PaceRow(
+                    label: "Corsa Facile",
+                    pace: plan.paces.easyFormatted(unitSystem: unitSystem),
+                    rpe: "4-5",
+                    zone: "Z2",
+                    color: .green
+                )
+                
+                PaceRow(
+                    label: "Ritmo Maratona",
+                    pace: plan.paces.mpFormatted(unitSystem: unitSystem),
+                    rpe: "6-7",
+                    zone: "Z3",
+                    color: .yellow
+                )
+                
+                PaceRow(
+                    label: "Soglia / Tempo",
+                    pace: plan.paces.thresholdFormatted(unitSystem: unitSystem),
+                    rpe: "7-8",
+                    zone: "Z4",
+                    color: .red
+                )
+                
+                PaceRow(
+                    label: "Intervalli / VO2max",
+                    pace: plan.paces.intervalFormatted(unitSystem: unitSystem),
+                    rpe: "9+",
+                    zone: "Z5",
+                    color: .purple
+                )
+            } header: {
+                Text("Andature di Allenamento")
+            } footer: {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Regola 80/20")
+                        .font(.headline)
+                        .padding(.top, 10)
+                    Text("L'80% degli allenamenti dovrebbe essere a bassa intensità (Z1-Z2) per costruire la base aerobica, mentre il 20% dovrebbe essere ad alta intensità (Z4-Z5).")
+                }
             }
         }
-        .navigationTitle("Ritmi di Allenamento")
-        .navigationBarTitleDisplayMode(.inline)
     }
     
     private func formatTime(_ seconds: Double) -> String {
@@ -403,6 +473,7 @@ struct PacesView: View {
         return String(format: "%d:%02d", minute, second)
     }
 }
+
 #Preview {
     let sampleInput = TrainingPlanInput(
         raceDistance: .halfMarathon,
