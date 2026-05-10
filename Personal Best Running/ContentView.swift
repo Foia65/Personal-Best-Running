@@ -213,14 +213,7 @@ struct PlanInputView: View {
         // Confronta solo i componenti della data
         return Calendar.current.startOfDay(for: raceDate) < Calendar.current.startOfDay(for: minimumDate)
     }
-    
-//    private var isPreparationTooShort: Bool {
-//        guard let minimumDate = Calendar.current.date(byAdding: .weekOfYear, value: 12, to: Date()) else {
-//            return false
-//        }
-//        return raceDate < minimumDate
-//    }
-    
+        
     private var isPreparationTooLong: Bool {
         guard let weeksAhead = Calendar.current.dateComponents(
             [.weekOfYear],

@@ -85,7 +85,7 @@ class TrainingPlanGenerator {
         let totalWeeks = min(input.raceDistance.maxPlanWeeks, max(12, rawWeeks))
 
         // Calcola la data di inizio piano contando a ritroso dalla gara
-        let planStartDate = calendar.date(byAdding: .weekOfYear, value: -totalWeeks, to: input.raceDate)!
+        let planStartDate = calendar.date(byAdding: .weekOfYear, value: -totalWeeks, to: input.raceDate)! // swiftlint:disable:this force_unwrapping
         
         // Struttura delle fasi (fonte: [7] Bompa periodizzazione)
         let phases = buildPhaseStructure(totalWeeks: totalWeeks, distance: input.raceDistance)
@@ -103,17 +103,17 @@ class TrainingPlanGenerator {
         
         for week in 0..<totalWeeks {
             let weekPhase = phases[min(week, phases.count - 1)]
-            let weekStartDate = calendar.date(byAdding: .weekOfYear, value: week, to: planStartDate)!
+            let weekStartDate = calendar.date(byAdding: .weekOfYear, value: week, to: planStartDate)!  // swiftlint:disable:this force_unwrapping
             let (weekKm, weekNote) = computeWeeklyVolume(
                 weekIndex: week,
                 totalWeeks: totalWeeks,
                 phase: weekPhase,
                 baseKm: baseWeeklyKm,
-                prevKm: prevWeekKm,
-                distance: input.raceDistance
+                prevKm: prevWeekKm
             )
             
-            let targetPaceSecsPerKm = input.targetTime / input.raceDistance.meters * 1000
+         //   let targetPaceSecsPerKm = input.targetTime / input.raceDistance.meters * 1000
+            
             let workouts = generateWeekWorkouts(
                 weekIndex: week,
                 totalWeeks: totalWeeks,
@@ -126,8 +126,8 @@ class TrainingPlanGenerator {
                 raceDate: input.raceDate,
                 raceName: input.raceName,
                 vdotGap: vdotGap,
-                targetPaceSecsPerKm: estimatedPaceSecsPerKm,
-                estimatedPaceSecsPerKm: estimatedPaceSecsPerKm
+                targetPaceSecsPerKm: estimatedPaceSecsPerKm
+              //  estimatedPaceSecsPerKm: estimatedPaceSecsPerKm
             )
             
             let trWk = TrainingWeek(
@@ -218,7 +218,6 @@ class TrainingPlanGenerator {
         phase: TrainingPhase,
         baseKm: Double,
         prevKm: Double,
-        distance: RaceDistance
     ) -> (Double, String) {
         
         let weekNum = weekIndex + 1
@@ -282,8 +281,8 @@ class TrainingPlanGenerator {
         raceDate: Date,
         raceName: String,
         vdotGap: Double,
-        targetPaceSecsPerKm: Double,
-        estimatedPaceSecsPerKm: Double
+        targetPaceSecsPerKm: Double
+   //     estimatedPaceSecsPerKm: Double
     ) -> [Workout] {
         
         var workouts: [Workout] = []
@@ -297,13 +296,13 @@ class TrainingPlanGenerator {
             phase: phase,
             daysPerWeek: daysPerWeek,
             distance: distance,
-            weekIndex: weekIndex,
-            totalWeeks: totalWeeks,
+//            weekIndex: weekIndex,
+//            totalWeeks: totalWeeks,
             vdotGap: vdotGap
         )
         
         // Calcola km per sessione
-        let longRunKm = computeLongRunKm(weeklyKm: weeklyKm, distance: distance, phase: phase)
+        let longRunKm = computeLongRunKm(weeklyKm: weeklyKm, distance: distance)
         let remainingKm = weeklyKm - longRunKm
         let otherSessionsCount = max(1, daysPerWeek - 1)
         let avgOtherKm = remainingKm / Double(otherSessionsCount)
@@ -322,7 +321,6 @@ class TrainingPlanGenerator {
                     date: raceDate,
                     raceName: raceName,
                     distance: distance,
-                    paces: paces,
                     targetPaceSecsPerKm: targetPaceSecsPerKm,
                     vdotGap: vdotGap,
                     week: weekIndex + 1,
@@ -337,10 +335,10 @@ class TrainingPlanGenerator {
                     day: dayOffset,
                     kms: kms,
                     paces: paces,
-                    distance: distance,
-                    phase: phase,
-                    weekIndex: weekIndex,
-                    totalWeeks: totalWeeks
+                    distance: distance
+//                    phase: phase,
+//                    weekIndex: weekIndex,
+//                    totalWeeks: totalWeeks
                 )
             }
             workouts.append(workout)
@@ -390,12 +388,11 @@ class TrainingPlanGenerator {
     
     // MARK: - Week Structure (types per session)
     
-    private func buildWeekStructure(
+    private func buildWeekStructure( // swiftlint:disable:this cyclomatic_complexity
+
         phase: TrainingPhase,
         daysPerWeek: Int,
         distance: RaceDistance,
-        weekIndex: Int,
-        totalWeeks: Int,
         vdotGap: Double
     ) -> [WorkoutType] {
         
@@ -449,16 +446,16 @@ class TrainingPlanGenerator {
     
     // MARK: - Long Run KM
     
-    private func computeLongRunKm(weeklyKm: Double, distance: RaceDistance, phase: TrainingPhase) -> Double {
+    private func computeLongRunKm(weeklyKm: Double, distance: RaceDistance) -> Double {
         // Il lungo non supera il 30-33% del volume settimanale (Daniels [1])
         // O distanza massima raccomandata per distanza gara
         let maxFraction: Double = 0.33
         let absoluteMax: Double
         switch distance {
-        case .fiveK:       absoluteMax = 14
-        case .tenK:        absoluteMax = 18
+        case .fiveK: absoluteMax = 14
+        case .tenK: absoluteMax = 18
         case .halfMarathon: absoluteMax = 22
-        case .marathon:    absoluteMax = 35
+        case .marathon: absoluteMax = 35
         }
         return min(weeklyKm * maxFraction, absoluteMax)
     }
@@ -472,10 +469,7 @@ class TrainingPlanGenerator {
         day: Int,
         kms: Double,
         paces: TrainingPaces,
-        distance: RaceDistance,
-        phase: TrainingPhase,
-        weekIndex: Int,
-        totalWeeks: Int
+        distance: RaceDistance
     ) -> Workout {
         
         switch type {
@@ -536,7 +530,7 @@ class TrainingPlanGenerator {
         case .interval:
             // Interval training a VO2max [3][5]
             // Fonte: Billat – 30/30, 1km rip, 400m rip
-            let (structure, _) = buildIntervalStructure(distance: distance, paces: paces, phase: phase)
+            let (structure, _) = buildIntervalStructure(distance: distance, paces: paces)
             return Workout(
                 date: date, type: .interval, week: week, dayOfWeek: day,
                 title: "Interval Training",
@@ -568,7 +562,7 @@ class TrainingPlanGenerator {
             
         case .progression:
             // Corsa progressiva: inizia easy, finisce a ritmo MP o T-pace [2]
-            let prog = buildProgressionDescription(kms: kms, paces: paces, distance: distance)
+            let prog = buildProgressionDescription(kms: kms, paces: paces)
             return Workout(
                 date: date, type: .progression, week: week, dayOfWeek: day,
                 title: "Corsa Progressiva",
@@ -624,9 +618,8 @@ class TrainingPlanGenerator {
                 date: date,
                 raceName: "Gara",
                 distance: .fiveK,
-                paces: paces,
                 targetPaceSecsPerKm: paces.thresholdPaceSecsPerKm,
-                vdotGap: 0,    // ← NUOVO
+                vdotGap: 0,
                 week: week, day: day
             )
         }
@@ -634,7 +627,8 @@ class TrainingPlanGenerator {
     
     // MARK: - Interval Structure Builder
     
-    private func buildIntervalStructure(distance: RaceDistance, paces: TrainingPaces, phase: TrainingPhase) -> (String, String) {
+    private func buildIntervalStructure(
+        distance: RaceDistance, paces: TrainingPaces) -> (String, String) {
         // Fonte: Daniels [1] – I-pace (Interval pace)
         // Fonte: Billat [3] – vVO2max intervals
         switch distance {
@@ -659,7 +653,7 @@ class TrainingPlanGenerator {
     
     // MARK: - Progression Description
     
-    private func buildProgressionDescription(kms: Double, paces: TrainingPaces, distance: RaceDistance) -> String {
+    private func buildProgressionDescription(kms: Double, paces: TrainingPaces) -> String {
         let third = max(1, Int(kms / 3))
         return "Km 1-\(third): \(paces.easyFormatted) | Km \(third+1)-\(third*2): \(paces.mpFormatted) | Km \(third*2+1)+: \(paces.thresholdFormatted)"
     }
@@ -670,9 +664,8 @@ class TrainingPlanGenerator {
         date: Date,
         raceName: String,
         distance: RaceDistance,
-        paces: TrainingPaces,
         targetPaceSecsPerKm: Double,
-        vdotGap: Double,              // ← NUOVO
+        vdotGap: Double,
         week: Int,
         day: Int
     ) -> Workout {
@@ -769,4 +762,4 @@ class TrainingPlanGenerator {
             "[8] Galloway J. (2010). Running Until You're 100. Meyer & Meyer Sport."
         ]
     }
-}
+} // swiftlint:disable:this file_length

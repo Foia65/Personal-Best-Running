@@ -93,6 +93,7 @@ final class TrainingPlanPDFGenerator {
         
         currentY = drawSectionHeader("Andature di Riferimento", y: currentY, color: .label)
         
+        // swiftlint:disable:next large_tuple
         let paces: [(String, String, String, UIColor)] = [
             ("Recupero", plan.paces.recoveryFormatted(unitSystem: unitSystem), "Z1 - RPE 3", .systemBlue),
             ("Corsa Facile", plan.paces.easyFormatted(unitSystem: unitSystem), "Z2 - RPE 4-5", .systemGreen),
