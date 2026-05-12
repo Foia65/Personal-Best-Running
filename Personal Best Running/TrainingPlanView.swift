@@ -10,6 +10,7 @@ struct TrainingPlanView: View {
     @State private var expandedWeek: Int?
     @State private var pdfItem: PDFDocumentItem?
     @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
+    @StateObject private var calendarManager = CalendarManager()
     
     var body: some View {
         VStack(spacing: 0) {
@@ -18,7 +19,6 @@ struct TrainingPlanView: View {
             
             Picker("Vista", selection: $selectedTab) {
                 Text("Calendario").tag(0)
-                // Text("Ritmi").tag(1)
                 Text("Riferimenti").tag(2)
             }
             .pickerStyle(.segmented)
@@ -31,7 +31,7 @@ struct TrainingPlanView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
         }
-        .navigationTitle("Piano: \(plan.input.raceName)")
+//        .navigationTitle("Piano: \(plan.input.raceName)")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -138,7 +138,7 @@ struct TrainingPlanView: View {
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets())
                     
-                    Button(action: {}) {
+                    Button(action: exportCalendar) {
                         HStack {
                             Spacer()
                             Label("Esporta nel Calendario", systemImage: "calendar")
@@ -152,7 +152,6 @@ struct TrainingPlanView: View {
                     .tint(.orange)
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets())
-                    .disabled(true)
                 }
                 
             } header: {
@@ -161,7 +160,12 @@ struct TrainingPlanView: View {
             
         }
         .listStyle(.insetGrouped)
-        
+        //   .navigationTitle("Programma Corse")
+        .alert("Calendario Aggiornato", isPresented: $calendarManager.showConfirmation) {
+            Button("Ottimo", role: .cancel) { }
+        } message: {
+            Text("Ho aggiunto correttamente \(calendarManager.lastEventCount) eventi al tuo calendario 'PB Running'.")
+        }
     }
     
     // MARK: Sources
@@ -191,6 +195,60 @@ struct TrainingPlanView: View {
         return String(format: "%d:%02d", minute, second)
     }
     
+    private func exportCalendar() {
+        print("Exporting to Calendar...")
+        
+        // salvo tutti i workouts in allEvents
+        var allEvents: [EventData] = []
+        for week in plan.weeks {
+            for workout in week.workouts {
+                // Escludiamo il riposo
+                guard workout.title != "Riposo" else { continue }
+                
+                // 1. Gestione Passo (Pace) usando UnitSystem
+                var paceString = ""
+                if let paceSecsPerKm = workout.paceTargetSecsPerKm {
+                    paceString = "@ " + unitSystem.formatPace(paceSecsPerKm)
+                }
+                
+                // 2. Gestione Distanza usando UnitSystem
+                let distanceString: String
+                if let kms = workout.distanceKm {
+                    distanceString = unitSystem.formatDistance(kms)
+                } else {
+                    distanceString = "N/A"
+                }
+                
+                // 3. Creazione delle note dell'evento
+                let structuredDetails = (workout.structuredSets?.isEmpty == false) ? "📋 \(workout.structuredSets!)" : ""
+                let notes = "\(workout.description)\n\n\(structuredDetails)\n\n❤️ RPE: \(workout.rpe)"
+                
+                // 4. Creazione dell'oggetto EventData
+                let newEvent = EventData(
+                    date: workout.date,
+                    title: "W\(week.weekNumber) \(workout.title) - \(distanceString) \(paceString) ",
+                    // notes: workout.description
+                    notes: notes
+                )
+                allEvents.append(newEvent)
+            }
+        }
+        
+        // --- STAMPA NELLA CONSOLE ---
+        
+        print("\n--- ELENCO EVENTI DA SCRIVERE (\(allEvents.count)) ---")
+        
+        allEvents.forEach { event in
+            let dateStr = event.date.formatted(date: .abbreviated, time: .omitted)
+            print("📅 Data: \(dateStr) | 🏃 Titolo: \(event.title)")
+            print("📝 Note: \(event.notes)")
+            print("------------------------------------------")
+        }
+        
+        // scrivo sul calendario
+        calendarManager.addEventsBatch(allEvents)
+    }
+    
     private func exportPDF() {
         print("Exporting PDF...")
         
@@ -217,6 +275,7 @@ struct TrainingPlanView: View {
     }
 }
 
+
 // MARK: - Week Header View
 
 struct WeekHeaderView: View {
@@ -226,9 +285,6 @@ struct WeekHeaderView: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
-//                Text(week.phase.rawValue)
-//                    .font(.subheadline.bold())
-//                    .foregroundStyle(.primary)
                 Text(week.weeklyNote)
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -245,16 +301,6 @@ struct WeekHeaderView: View {
         }
         .padding(.vertical, 4)
     }
-    
-//    var phaseColor: Color {
-//        switch week.phase {
-//        case .base: return .blue
-//        case .build: return .orange
-//        case .peak: return .red
-//        case .taper: return .green
-//        case .race: return .purple
-//        }
-//    }
 }
 
 // MARK: - Workout Row View
@@ -323,58 +369,14 @@ struct WorkoutRowView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     
-                    //                    DisclosureGroup("📚 Razionale scientifico") {
-                    //                        Text(workout.scientificRationale)
-                    //                            .font(.caption)
-                    //                            .foregroundStyle(.secondary)
-                    //                    }
-                    //                    .font(.caption.bold())
+                    //                                        DisclosureGroup("📚 Razionale scientifico") {
+                    //                                            Text(workout.scientificRationale)
+                    //                                                .font(.caption)
+                    //                                                .foregroundStyle(.secondary)
+                    //                                        }
+                    //                                        .font(.caption.bold())
                 }
                 .padding(.top, 8)
-            }
-        }
-        .padding(.vertical, 4)
-    }
-}
-
-// MARK: - Pace Row
-
-struct PaceRow: View {
-    let label: String
-    let pace: String
-    let rpe: String
-    let zone: String
-    let color: Color // New: pass the color directly
-    
-    var body: some View {
-        HStack(spacing: 16) {
-            // 1. Intensity Indicator Bar
-            RoundedRectangle(cornerRadius: 2)
-                .fill(color)
-                .frame(width: 4, height: 35)
-            
-            VStack(alignment: .leading, spacing: 2) {
-                Text(label)
-                    .font(.subheadline.bold())
-                Text("RPE \(rpe)")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-            
-            Spacer()
-            
-            VStack(alignment: .trailing, spacing: 2) {
-                Text(pace)
-                    .font(.system(.title3, design: .rounded).bold()) // Rounded design feels more modern
-                    .foregroundColor(.primary)
-                
-                Text(zone)
-                    .font(.caption2.bold())
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(color.opacity(0.2))
-                    .foregroundStyle(color)
-                    .clipShape(Capsule())
             }
         }
         .padding(.vertical, 4)
@@ -387,46 +389,67 @@ struct PacesView: View {
     
     var body: some View {
         List {
+            
+            // MARK: - Profilo Atleta
             Section {
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text("Il Tuo VDOT")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                        Text(String(format: "%.1f", plan.paces.vdot))
-                            .font(.title2.bold())
+                // Mostriamo sia la stima attuale che il target dichiarato.
+                // Sono due valori distinti e confonderli era il bug originale:
+                // - Stima attuale: predictRaceTime dal VDOT di partenza
+                // - Target: input.targetTime dichiarato dall'utente
+                // Fonte: Daniels [1] cap. 5 – VDOT come misura della forma attuale.
+                VStack(spacing: 12) {
+                    HStack {
+                        vdotBadge
+                        Spacer()
+                        Divider().frame(height: 44)
+                        Spacer()
+                        timeColumn(
+                            label: "Stima Attuale",
+                            value: formatTime(plan.estimatedRaceTime),
+                            subtitle: plan.input.raceDistance.rawValue,
+                            valueColor: .primary
+                        )
+                        Spacer()
+                        Divider().frame(height: 44)
+                        Spacer()
+                        timeColumn(
+                            label: "Target",
+                            value: formatTime(plan.input.targetTime),
+                            subtitle: plan.input.raceDistance.rawValue,
+                            valueColor: targetColor
+                        )
                     }
-                    Spacer()
-                    Divider()
-                    Spacer()
-                    VStack(alignment: .trailing) {
-                        Text("Stima Gara")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                        Text(formatTime(plan.estimatedRaceTime))
-                            .font(.title2.bold())
-                    }
+                    .padding(.vertical, 8)
+                    
+                    // Gap fitness già formattato nel piano (VDOT attuale → target)
+                    Text(plan.fitnessGap)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .padding(.vertical, 8)
             } header: {
                 Text("Profilo Atleta")
             }
             
+            // MARK: - Andature di Allenamento
+            // Le andature sono calcolate dal VDOT ATTUALE, non dal target.
+            // È corretto: ci si allena alla forma che si ha oggi.
+            // Fonte: Daniels [1] cap. 4 – "Train at the level you are."
             Section {
-                PaceRow(
-                    label: "Recupero",
-                    pace: plan.paces.recoveryFormatted(unitSystem: unitSystem),
-                    rpe: "3",
-                    zone: "Z1",
-                    color: .blue
-                )
+                
+                // [FIX-6] Rimossa la riga "Recupero" come zona separata.
+                // Daniels [1] cap. 4 non definisce una recovery zone distinta dall'Easy:
+                // usa E-pace (59-74% VO2max) per tutto il continuum di bassa intensità.
+                // Il recupero attivo usa il limite inferiore dell'E-pace.
                 
                 PaceRow(
                     label: "Corsa Facile",
                     pace: plan.paces.easyFormatted(unitSystem: unitSystem),
                     rpe: "4-5",
                     zone: "Z2",
-                    color: .green
+                    color: .green,
+                    danielsCode: "E",
+                    detail: "59-74% VO2max · 65-79% FCmax"
                 )
                 
                 PaceRow(
@@ -434,7 +457,9 @@ struct PacesView: View {
                     pace: plan.paces.mpFormatted(unitSystem: unitSystem),
                     rpe: "6-7",
                     zone: "Z3",
-                    color: .yellow
+                    color: .yellow,
+                    danielsCode: "M",
+                    detail: "75-84% VO2max · 80-89% FCmax"
                 )
                 
                 PaceRow(
@@ -442,39 +467,232 @@ struct PacesView: View {
                     pace: plan.paces.thresholdFormatted(unitSystem: unitSystem),
                     rpe: "7-8",
                     zone: "Z4",
-                    color: .red
+                    color: .red,
+                    danielsCode: "T",
+                    // [FIX-5] Corretto da "80-90% FCmax" a "88-92% FCmax".
+                    // Fonte: Daniels [1] cap. 4.
+                    detail: "85-88% VO2max · 88-92% FCmax"
                 )
                 
                 PaceRow(
-                    label: "Intervalli / VO2max",
+                    label: "Intervalli",
                     pace: plan.paces.intervalFormatted(unitSystem: unitSystem),
-                    rpe: "9+",
+                    rpe: "8-9",
                     zone: "Z5",
-                    color: .purple
+                    color: .purple,
+                    danielsCode: "I",
+                    detail: "95-100% VO2max · rec. attivo (jog)"
                 )
+                
+                // [FIX-2] Nuova riga: R (Repetition) pace.
+                // Daniels [1] cap. 4: scopo primario è velocità ed economia.
+                // Work bout MAX 2 min, recupero COMPLETO (jog = distanza corsa).
+                // ~6 sec/400m più veloce dell'I-pace ("regola dei 6 secondi").
+                PaceRow(
+                    label: "Ripetute",
+                    pace: plan.paces.repetitionFormatted(unitSystem: unitSystem),
+                    rpe: "9+",
+                    zone: "Z5+",
+                    color: .orange,
+                    danielsCode: "R",
+                    detail: "105-120% VDOT · max 2 min/rep · rec. completo"
+                )
+                
             } header: {
                 Text("Andature di Allenamento")
-            } footer: {
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Regola 80/20")
-                        .font(.headline)
-                        .padding(.top, 10)
-                    Text("L'80% degli allenamenti dovrebbe essere a bassa intensità (Z1-Z2) per costruire la base aerobica, mentre il 20% dovrebbe essere ad alta intensità (Z4-Z5).")
-                }
+                
             }
+            
+            Section {
+                VStack(alignment: .leading, spacing: 10) {
+                    
+                    Label("Come sono calcolate", systemImage: "info.circle")
+                        .font(.footnote.bold())
+                        .foregroundStyle(.secondary)
+                        .padding(.top, 6)
+                    
+                    Text(
+                        "Le andature si basano sul tuo **VDOT attuale** (\(String(format: "%.1f", plan.paces.vdot))), " +
+                        "non sull'obiettivo. Ci si allena alla forma che si ha oggi: " +
+                        "i ritmi migliorano man mano che il VDOT cresce."
+                    )
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    
+                    Divider()
+                    
+                    Label("Distribuzione 80/20", systemImage: "chart.pie")
+                        .font(.footnote.bold())
+                        .foregroundStyle(.secondary)
+                    
+                    Text("~80% del volume a E-pace (Z2), ~20% a T/I/R (Z4-Z5+). " +
+                         "Fonte: Seiler & Kjerland (2006).")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    
+                    Divider()
+                    
+                    Label("Lungo: max 25% del volume settimanale", systemImage: "ruler")
+                        .font(.footnote.bold())
+                        .foregroundStyle(.secondary)
+                    
+                    Text("Il lungo non supera il 25% del volume settimanale né 150 minuti. " +
+                         "Fonte: Daniels (2022) cap. 4.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    
+                    Divider()
+                    Label("Zona 1 (Z1) - perché non è in tabella", systemImage: "questionmark.circle")
+                        .font(.footnote.bold())
+                        .foregroundStyle(.secondary)
+                    // usato *** perchè con i + la preview andava in crash (!)
+                    Text("""
+                            Daniels non assegna un ritmo specifico alla Z1: \
+                            l'E-pace (Z2, 59-74% VO2max) copre già tutto il range di bassa intensità, \
+                            recupero attivo incluso. \
+                            Nei giorni di recupero corri semplicemente al limite inferiore dell'E-pace, \
+                            senza un target preciso — l'obiettivo è muoversi, non allenare
+                            """)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                }
+                .padding(.vertical, 4)
+            } header: {
+                Text("Note")
+            }
+        }
+        .navigationTitle("Andature")
+    }
+    
+    // MARK: - Subviews
+    
+    private var vdotBadge: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text("VDOT")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            Text(String(format: "%.1f", plan.paces.vdot))
+                .font(.title2.bold())
+                .foregroundStyle(.indigo)
+            Text("forma attuale")
+                .font(.caption2)
+                .foregroundStyle(.tertiary)
         }
     }
     
+    private func timeColumn(
+        label: String,
+        value: String,
+        subtitle: String,
+        valueColor: Color
+    ) -> some View {
+        VStack(alignment: .trailing, spacing: 2) {
+            Text(label)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            Text(value)
+                .font(.title2.bold())
+                .foregroundStyle(valueColor)
+            Text(subtitle)
+                .font(.caption2)
+                .foregroundStyle(.tertiary)
+        }
+    }
+    
+    // Colore del target in base all'ambizione del gap VDOT
+    private var targetColor: Color {
+        let targetVDOT = VDOTCalculator.calculate(
+            timeInSeconds: plan.input.targetTime,
+            distanceMeters: plan.input.raceDistance.meters
+        )
+        let gap = targetVDOT - plan.paces.vdot
+        switch gap {
+        case ..<2:  return .green    // conservativo / realistico
+        case 2..<5: return .orange   // ambizioso
+        default:    return .red      // molto sfidante
+        }
+    }
+    
+    // MARK: - Helpers
+    
     private func formatTime(_ seconds: Double) -> String {
-        let hour = Int(seconds) / 3600
-        let minute = (Int(seconds) % 3600) / 60
-        let second = Int(seconds) % 60
-        if hour > 0 { return String(format: "%d:%02d:%02d", hour, minute, second) }
-        return String(format: "%d:%02d", minute, second)
+        let ore = Int(seconds) / 3600
+        let min = (Int(seconds) % 3600) / 60
+        let sec = Int(seconds) % 60
+        if ore > 0 { return String(format: "%d:%02d:%02d", ore, min, sec) }
+        return String(format: "%d:%02d", min, sec)
     }
 }
 
-#Preview {
+// MARK: - PaceRow
+
+// Rispetto alla versione precedente:
+// - aggiunto danielsCode (lettera ufficiale E/M/T/I/R) nel badge
+// - aggiunto detail (intensità fisiologica sintetica sotto il label)
+// - zona e RPE spostati in trailing come seconda riga
+struct PaceRow: View {
+    let label: String
+    let pace: String
+    let rpe: String
+    let zone: String
+    let color: Color
+    var danielsCode: String = ""
+    var detail: String = ""
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            
+            // Badge: cerchio colorato con lettera Daniels
+            ZStack {
+                Circle()
+                    .fill(color.opacity(0.15))
+                    .frame(width: 40, height: 40)
+                Text(danielsCode.isEmpty ? zone : danielsCode)
+                    .font(
+                        .system(
+                            size: danielsCode.isEmpty ? 10 : 18,
+                            weight: .bold,
+                            design: .rounded
+                        )
+                    )
+                    .foregroundStyle(color)
+            }
+            
+            // Label + dettaglio intensità
+            VStack(alignment: .leading, spacing: 2) {
+                Text(label)
+                    .font(.subheadline.weight(.medium))
+                if !detail.isEmpty {
+                    Text(detail)
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            
+            Spacer()
+            
+            // Passo + RPE + zona
+            VStack(alignment: .trailing, spacing: 2) {
+                Text(pace)
+                    .font(.subheadline.monospacedDigit().bold())
+                HStack(spacing: 4) {
+                    Text("RPE \(rpe)")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                    Text("·")
+                        .font(.caption2)
+                        .foregroundStyle(.tertiary)
+                    Text(zone)
+                        .font(.caption2.bold())
+                        .foregroundStyle(color)
+                }
+            }
+        }
+        .padding(.vertical, 4)
+    }
+}
+
+#Preview ("Andature") {
     let sampleInput = TrainingPlanInput(
         raceDistance: .halfMarathon,
         raceDate: Calendar.current.date(byAdding: .weekOfYear, value: 16, to: Date()) ?? Date(),
@@ -495,7 +713,7 @@ struct PacesView: View {
     }
 }
 
-#Preview {
+#Preview ("Piano"){
     let sampleInput = TrainingPlanInput(
         raceDistance: .halfMarathon,
         raceDate: Calendar.current.date(byAdding: .weekOfYear, value: 16, to: Date()) ?? Date(),
@@ -517,3 +735,4 @@ struct PacesView: View {
         }
     }
 }
+

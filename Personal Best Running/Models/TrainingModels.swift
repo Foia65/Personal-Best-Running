@@ -139,44 +139,210 @@ enum RaceDistance: String, CaseIterable, Identifiable {
     }
 }
 
-enum WorkoutType: String, CaseIterable {
-    case easy = "Corsa Facile"
-    case longRun = "Lungo"
-    case tempo = "Tempo Run"
-    case interval = "Interval Training"
-    case recovery = "Recupero Attivo"
-    case race = "GARA"
-    case rest = "Riposo"
-    case progression = "Corsa Progressiva"
-    case hillRepeat = "Ripetute in Salita"
-    case marPace = "Ritmo Maratona"
+// MARK: - WorkoutType
+//
+// Enum dei tipi di allenamento basato sulle categorie ufficiali di Daniels [1].
+//
+// FONTI
+// [1] Daniels J. (2022). Daniels' Running Formula (4th ed.). Human Kinetics.
+//     Cap. 4: E, M, T, I, R — le cinque intensità core del sistema Daniels.
+// [2] Pfitzinger P., Douglas S. (2009). Advanced Marathoning (2nd ed.). Human Kinetics.
+// [6] Mujika I., Padilla S. (2003). Scientific bases for precompetition tapering strategies.
+//     Medicine & Science in Sports & Exercise, 35(7), 1182-1187.
+//
+// MODIFICHE RISPETTO ALLA VERSIONE PRECEDENTE
+//
+// [FIX-2] Aggiunto caso .repetition (R-pace di Daniels).
+//   Era completamente assente. Daniels [1] cap. 4 dedica una sezione autonoma
+//   alle Repetition: scopo primario è velocità ed economia di corsa.
+//   Work bout MAX 2 min, recupero COMPLETO (jog = distanza del lavoro).
+//   Introdotte in Phase II (Build), prima delle Interval.
+//
+// [FIX-5] Intensità FCmax di .tempo corretta: da "80-90%" a "88-92%".
+//   Daniels [1] cap. 4: T-pace = 85-88% VO2max / 88-92% FCmax (atleti allenati).
+//   Il precedente 80% coincideva con M-pace, non con la soglia anaerobica.
+//
+// [FIX-6] Intensità di .recovery allineata all'E-pace di Daniels.
+//   Daniels non definisce una zona "recovery" separata: usa E-pace (59-74% VO2max)
+//   per tutto il continuum di bassa intensità. L'intensityDescription ora
+//   rispecchia questo, usando il limite inferiore dell'E-pace.
 
+enum WorkoutType: String, CaseIterable {
+
+    // ── Daniels core training types ─────────────────────────────────────────
+    case easy        = "Corsa Facile"
+    case longRun     = "Lungo"
+    case marPace     = "Ritmo Maratona"
+    case tempo       = "Tempo Run"
+    case interval    = "Interval Training"
+
+    // [FIX-2] Nuovo caso: R (Repetition) pace di Daniels [1] cap. 4.
+    // Scopo: velocità, economia di corsa, potenza anaerobica.
+    // Distinto dall'Interval per: work bout più breve (max 2 min),
+    // recupero completo (non attivo), intensità più alta (~105-120% VDOT).
+    case repetition  = "Ripetute"
+
+    // ── Tipi supplementari ───────────────────────────────────────────────────
+    case progression = "Corsa Progressiva"
+    case hillRepeat  = "Ripetute in Salita"
+
+    // ── Speciali ─────────────────────────────────────────────────────────────
+    case recovery    = "Recupero Attivo"
+    case race        = "GARA"
+    case rest        = "Riposo"
+
+    // MARK: - Emoji / colore zona
+
+    // Le zone di colore seguono approssimativamente le zone cardiache
+    // come descritte da Daniels [1] e dalla letteratura sull'endurance.
     var emoji: String {
         switch self {
-        case .recovery: return "🔵"    // Z1
-        case .easy, .longRun: return "🟢" // Z2
-        case .marPace: return "🟡"     // Z3
-        case .tempo: return "🔴"       // Z4
-        case .interval: return "🟣"    // Z5
-        case .progression: return "📈"
-        case .race: return "🏆"
-        case .rest: return "⚪️"
-        case .hillRepeat: return "⛰️"
+        case .rest:                    return "⚪️"  // nessuno sforzo
+        case .recovery:                return "🔵"  // Z1 – molto leggero
+        case .easy, .longRun:          return "🟢"  // Z2 – aerobico base
+        case .marPace:                 return "🟡"  // Z3 – aerobico moderato
+        case .tempo:                   return "🔴"  // Z4 – soglia anaerobica
+        case .interval, .repetition:   return "🟣"  // Z5 – VO2max / velocità
+        case .progression:             return "📈"  // Z2→Z4 progressivo
+        case .hillRepeat:              return "⛰️"  // Z4-5 forza-velocità
+        case .race:                    return "🏆"  // sforzo massimo pianificato
         }
     }
 
+    // MARK: - Descrizione intensità fisiologica
+
+    // Le percentuali di FCmax e VO2max seguono Daniels [1] cap. 4 (figura 4.1).
+    // [FIX-5] .tempo: corretto da "80-90% FCmax" a "88-92% FCmax".
+    // [FIX-6] .recovery: rimosso il riferimento a una zona separata inesistente;
+    //         ora indica il limite inferiore dell'E-pace di Daniels.
+    // [FIX-2] .repetition: descrizione basata su Daniels [1] cap. 4 R-pace section.
     var intensityDescription: String {
         switch self {
-        case .easy: return "60-70% FCmax / Easy pace (Zona 1-2)"
-        case .longRun: return "65-75% FCmax / Easy-Moderate (Zona 2)"
-        case .tempo: return "80-90% FCmax / Soglia Latt. (Zona 4)"
-        case .interval: return "95-100% VO2max pace (Zona 5)"
-        case .recovery: return "55-60% FCmax / Very Easy (Zona 1)"
-        case .race: return "Gara – sforzo massimo pianificato"
-        case .rest: return "Riposo completo o attività leggera"
-        case .progression: return "Da Zona 2 a Zona 3-4 progressivamente"
-        case .hillRepeat: return "95-100% sforzo / forza-velocità (Zona 4-5)"
-        case .marPace: return "Ritmo gara maratona (Zona 3-4)"
+        case .rest:
+            return "Riposo completo o attività leggera"
+
+        case .recovery:
+            // [FIX-6] Daniels non definisce una zona recovery distinta dall'Easy.
+            // Usa il limite inferiore del range E-pace (59% VO2max / 65% FCmax).
+            // Fonte: [1] cap. 4 – E pace range 59-74% VO2max.
+            return "59-65% VO2max / 65-70% FCmax – limite inferiore E-pace (Daniels)"
+
+        case .easy:
+            // Fonte: [1] cap. 4: "E is typically about 59 to 74 percent of O2max
+            // or about 65 to 79 percent of maximum heart rate."
+            return "59-74% VO2max / 65-79% FCmax – Easy pace (Daniels E)"
+
+        case .longRun:
+            // Il lungo è sempre a E-pace. Fonte: [1] cap. 4.
+            return "59-74% VO2max / 65-79% FCmax – E-pace (L run = E run prolungato)"
+
+        case .marPace:
+            // Fonte: [1] cap. 4 figura 4.1: M = 75-84% VO2max / 80-89% FCmax.
+            return "75-84% VO2max / 80-89% FCmax – Marathon pace (Daniels M)"
+
+        case .tempo:
+            // [FIX-5] Corretto: Daniels [1] cap. 4: "T-pace at about 85 to 88 percent
+            // of O2max (88 to 92 percent of maximum heart rate) for well-trained athletes."
+            // La versione precedente indicava 80-90% FCmax — il limite inferiore era
+            // troppo basso, coincideva con M-pace anziché con la soglia lattato.
+            return "85-88% VO2max / 88-92% FCmax – Threshold/Tempo pace (Daniels T)"
+
+        case .interval:
+            // Fonte: [1] cap. 4: I-pace = ~95-100% VO2max (vVO2max).
+            // Work bout 3-5 min. Recupero attivo (jog) uguale o leggermente inferiore
+            // al tempo di lavoro.
+            return "95-100% VO2max / ~98% FCmax – Interval pace (Daniels I)"
+
+        case .repetition:
+            // [FIX-2] Nuovo. Fonte: [1] cap. 4 – Repetition training section.
+            // "The primary purpose of R training is to improve anaerobic power,
+            //  speed, and economy of running."
+            // R-pace ≈ 105-120% intensità VDOT (più veloce di I-pace).
+            // "Daniels' 6-second rule": R pace è ~6 sec/400m più veloce di I pace.
+            // Work bout MAX 2 minuti. Recupero COMPLETO (jog = distanza corsa).
+            return "105-120% VDOT (>100% VO2max) – Repetition pace (Daniels R) – max 2 min/rep"
+
+        case .progression:
+            // Da E-pace a T-pace progressivamente. Fonte: [2] Pfitzinger.
+            return "Da 59% a 88% VO2max – E→M→T progressivo (Z2→Z4)"
+
+        case .hillRepeat:
+            // Colline: stimolo forza-velocità a impatto articolare ridotto.
+            // Compatibile con Phase I/II di Daniels. Fonte: [2] Pfitzinger.
+            return "~90-95% sforzo in salita – forza specifica (Z4-5, impatto ridotto)"
+
+        case .race:
+            return "Sforzo massimo pianificato – ritmo gara specifico"
+        }
+    }
+
+    // MARK: - Fase consigliata (Daniels [1] cap. 10)
+
+    // Indica in quale fase del piano Daniels introduce preferibilmente questo tipo.
+    // Utile per validazione e UI.
+    // [FIX-3] La sequenza corretta è: E (Base) → R (Build) → T+I (Peak).
+    //         Non: E (Base) → T+I (Build). L'I non va introdotto prima di R.
+    var recommendedPhases: [TrainingPhase] {
+        switch self {
+        case .rest:
+            return [.base, .build, .peak, .taper, .race]
+        case .recovery:
+            return [.base, .build, .peak, .taper, .race]
+        case .easy, .longRun:
+            // E-pace è presente in tutte le fasi come volume di base.
+            return [.base, .build, .peak, .taper, .race]
+        case .progression, .hillRepeat:
+            // Stimoli leggeri compatibili con Phase I (Base) di Daniels.
+            return [.base, .build]
+        case .repetition:
+            // [FIX-2][FIX-3] R introdotto in Phase II (Build), prima di I.
+            // Fonte: [1] cap. 10 – Phase II: "going from E running to R workouts
+            // is adding only a speed stress."
+            return [.build, .peak]
+        case .tempo:
+            // T introdotto da Phase II (Build) in poi.
+            return [.build, .peak, .taper]
+        case .marPace:
+            // M-pace rilevante in Peak, soprattutto per maratona/HM. Fonte: [2].
+            return [.peak, .taper]
+        case .interval:
+            // [FIX-3] I introdotto solo in Peak (Phase III/IV di Daniels), mai in Base.
+            // Nella versione precedente era inserito già nella fase Build.
+            return [.peak]
+        case .race:
+            return [.race]
+        }
+    }
+
+    // MARK: - Massimo volume per sessione (% del volume settimanale)
+
+    // Limiti definiti da Daniels [1] cap. 4.
+    // Utile per validazione dei workout generati.
+    var maxSessionFractionOfWeeklyVolume: Double? {
+        switch self {
+        case .longRun:
+            // [FIX-1] 25% — Daniels [1] cap. 4: "no more than 25 percent
+            // of weekly mileage." Precedentemente era 33%, non supportato.
+            return 0.25
+        case .tempo:
+            // Daniels [1] cap. 4: "not totaling more than 10 percent of
+            // your weekly mileage in a single workout."
+            return 0.10
+        case .marPace:
+            // Daniels [1] cap. 4: "not add up to more than the lesser of
+            // 20 percent of your weekly mileage or 18 miles."
+            return 0.20
+        case .interval:
+            // Daniels [1] cap. 4: "maximum the lesser of 10K or 8 percent
+            // of your weekly mileage."
+            return 0.08
+        case .repetition:
+            // [FIX-2] Daniels [1] cap. 4: R sessioni più brevi e intense.
+            // Limite conservativo: 5% del volume settimanale.
+            return 0.05
+        case .easy, .recovery, .progression,
+             .hillRepeat, .rest, .race:
+            return nil  // nessun limite percentuale rigido per questi tipi
         }
     }
 }
@@ -360,9 +526,22 @@ struct TrainingWeek: Identifiable {
     let weekNumber: Int
     let phase: TrainingPhase
     let workouts: [Workout]
-    let totalKm: Double
     let weeklyNote: String
+    
+    // Somma le distanze reali dei workout
+    var totalKm: Double {
+            workouts.compactMap(\.distanceKm).reduce(0, +)
+        }
 }
+
+// serve per scrivere sul calendario
+struct EventData: Identifiable {
+    let id = UUID()
+    var date: Date
+    var title: String
+    var notes: String
+}
+
 
 enum TrainingPhase: String {
     case base = "Fase Base"
@@ -379,5 +558,26 @@ enum TrainingPhase: String {
         case .taper: return "Riduzione volume (40-60%), mantenimento intensità, recupero e supercompensazione"
         case .race: return "Settimana di gara"
         }
+    }
+}
+
+extension TrainingPaces {
+    // [FIX-2] R-pace: circa 105-120% dell'intensità VDOT (velocità > I-pace).
+    // Daniels [1]: R pace ≈ ritmo gara sul miglio / 1500m.
+    // "Regola dei 6 secondi": R pace è ~6 sec/400m più veloce di I pace.
+    // Implementazione: invertiamo la formula con VDOT * 1.05 (approssimazione
+    // conservativa, equivale a circa 5% più veloce del ritmo di gara a VO2max).
+    var repetitionPaceSecsPerKm: Double {
+        // Approssimazione: R pace ≈ I pace - 6 sec/400m ≈ I pace * 0.965
+        // (6 sec su 400m = 15 sec/km, e a I-pace ~3:30-4:00/km, -15 sec ≈ 4%)
+        return intervalPaceSecsPerKm * 0.965
+    }
+
+    var repetitionFormatted: String {
+        formatted(repetitionPaceSecsPerKm)
+    }
+
+    func repetitionFormatted(unitSystem: UnitSystem) -> String {
+        formattedPace(repetitionPaceSecsPerKm, unitSystem: unitSystem)
     }
 }

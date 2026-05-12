@@ -42,7 +42,7 @@ struct ContentView: View {
     @State private var showingPlan = false
     @State private var selectedTab = 0
     @AppStorage("runnerSex") private var runnerSex: RunnerSex = .male
-    
+    @StateObject private var calendarManager = CalendarManager()
     private var headerTitle: String {
         runnerSex == .male ? "🏃‍♂️ Personal Best Running" : "🏃‍♀️ Personal Best Running"
     }
@@ -97,7 +97,7 @@ struct ContentView: View {
                     }
                     .tag(1)
                     
-                    // Tab 3: ritmi di allenamento
+                    // Tab 3: profilo runner e ritmi di allenamento
                     Group {
                         if let plan = plan {
                             PacesView(plan: plan)
@@ -107,7 +107,7 @@ struct ContentView: View {
                     }
                     .tabItem {
                         Image(systemName: "figure.run")
-                        Text("Ritmi")
+                        Text("Profilo")
                     }
                     .tag(2)
                     

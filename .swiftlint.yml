@@ -49,8 +49,8 @@ type_body_length:
   error: 650
 
 file_length:
-  warning: 550
-  error: 700
+  warning: 650
+  error: 750
   ignore_comment_only_lines: true
 
 function_body_length:
