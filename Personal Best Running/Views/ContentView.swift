@@ -43,17 +43,17 @@ struct ContentView: View {
     @State private var selectedTab = 0
     @AppStorage("runnerSex") private var runnerSex: RunnerSex = .male
     @StateObject private var calendarManager = CalendarManager()
-    private var headerTitle: String {
-        runnerSex == .male ? "🏃‍♂️ Personal Best Running" : "🏃‍♀️ Personal Best Running"
-    }
-    
+
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
                 ZStack {
                     navyBlue
                         .ignoresSafeArea(edges: .top)
-                    Text(headerTitle)
+                    HStack {
+                        Image(systemName: "figure.run")
+                        Text("Personal Best Running")
+                    }
                         .font(.system(size: 24, weight: .bold, design: .rounded))
                         .foregroundColor(.white)
                         .padding(.vertical, 12)
@@ -62,7 +62,7 @@ struct ContentView: View {
                 .frame(height: 60)
                 
                 TabView(selection: $selectedTab) {
-                    
+                    // Tab 1: input parametri per il plan
                     PlanInputView(
                         onGenerate: { newPlan in
                             self.plan = newPlan
@@ -93,7 +93,7 @@ struct ContentView: View {
                     }
                     .tabItem {
                         Image(systemName: "calendar")
-                        Text("Calendario")
+                        Text("Piano")
                     }
                     .tag(1)
                     
@@ -107,19 +107,31 @@ struct ContentView: View {
                     }
                     .tabItem {
                         Image(systemName: "figure.run")
-                        Text("Profilo")
+                        Text("Ritmi")
                     }
                     .tag(2)
                     
-                    // Tab 4: preferenze
-                    SettingsView()
-                        .tabItem {
-                            Image(systemName: "gear")
-                            Text("Impostazioni")
+                    // Tab 4: info
+                    Group {
+                        if let plan = plan {
+                            AthleteProfileView(plan: plan)
+                        } else {
+                            EmptyStateView(icon: "calendar.badge.plus", title: "Nessun piano attivo")
+                        }
+                    }                        .tabItem {
+                            Image(systemName: "person")
+                            Text("Profilo")
                         }
                         .tag(3)
+
+                    // Tab 5: preferenze
+                    SettingsView()
+                        .tabItem {
+                            Image(systemName: "gearshape")
+                            Text("Impostazioni")
+                        }
+                        .tag(4)
                 }
-                .tint(navyBlue)
             }
         }
     }
@@ -285,11 +297,14 @@ struct PlanInputView: View {
                     Text("Gara Target")
                         .padding(.top, 20)
                 }
+                .listRowInsets(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
+
                 .listRowBackground(Color.orange.opacity(0.05)) // Only this row is yellow
                 .id("top")
 
-                Section("Tempo Target (h:mm:ss)") {
+                Section("Tempo Target") {
                     HStack {
+                        Spacer()
                         Picker("Ore", selection: $targetHours) {
                             ForEach(0..<6, id: \.self) { Text("\($0)h").tag($0) }
                         }.pickerStyle(.wheel).frame(width: 80)
@@ -301,8 +316,9 @@ struct PlanInputView: View {
                         Picker("Sec", selection: $targetSeconds) {
                             ForEach(0..<60, id: \.self) { Text(String(format: "%02d", $0)).tag($0) }
                         }.pickerStyle(.wheel).frame(width: 80)
+                        Spacer()
                     }
-                    .frame(height: 100)
+                    .frame(height: 70)
                     
                     if targetTime > 0 {
                         let paceSecsPerKm = targetTime / raceDistance.meters * 1000
@@ -311,10 +327,10 @@ struct PlanInputView: View {
                         } icon: {
                             Image(systemName: "timer")
                         }
-                        
                         .font(.caption)
                         .foregroundStyle(.secondary)
                     }
+                    
                     if isTargetTimeOutOfBounds && targetTime > 0 {
                         let bounds = raceDistance.performanceBounds
                         Label {
@@ -327,6 +343,7 @@ struct PlanInputView: View {
                     }
                 }
                 .listRowBackground(Color.blue.opacity(0.05))
+                .listRowInsets(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
                 
                 Section("Performance Attuale") {
                     Picker("Distanza di riferimento", selection: $currentDistance) {
@@ -349,7 +366,7 @@ struct PlanInputView: View {
                             ForEach(0..<60, id: \.self) { Text(String(format: "%02d", $0)).tag($0) }
                         }.pickerStyle(.wheel).frame(width: 80)
                     }
-                    .frame(height: 100)
+                    .frame(height: 70)
                     
                     if currentTime > 0 {
                         let currentPaceSecsPerKm = currentTime / currentDistance.meters * 1000
@@ -374,12 +391,15 @@ struct PlanInputView: View {
                     }
                 }
                 .listRowBackground(Color.green.opacity(0.05))
+                .listRowInsets(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
+
                 
                 Section("Giorni di Allenamento") {
                     Stepper("Giorni/settimana: \(trainingDays)", value: $trainingDays, in: 3...6)
                 }
                 .listRowBackground(Color.indigo.opacity(0.05))
-                
+                .listRowInsets(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
+
                 Section {
                     Button(action: generate) {
                         HStack {
@@ -437,7 +457,7 @@ struct PlanInputView: View {
             trainingDaysPerWeek: trainingDays,
             targetTime: targetTime,
             currentPerformance: CurrentPerformance(distance: currentDistance, time: currentTime),
-            sex: runnerSex           // ← NUOVO campo
+            sex: runnerSex
         )
         let plan = TrainingPlanGenerator().generate(input: input)
         onGenerate(plan)
@@ -474,4 +494,5 @@ struct PlanInputView: View {
 
 #Preview {
     ContentView()
+        .environmentObject(ThemeManager())
 }

@@ -148,7 +148,7 @@ class TrainingPlanGenerator { // swiftlint:disable:this type_body_length
 
         let targetPaceSecsPerKm = input.targetTime / input.raceDistance.meters * 1000
         
-        let estimatedPaceSecsPerKm = estimatedCurrent / input.raceDistance.meters * 1000
+     //   let estimatedPaceSecsPerKm = estimatedCurrent / input.raceDistance.meters * 1000
 
         // VDOT richiesto per il tempo target
         let targetVDOT = VDOTCalculator.calculate(
@@ -339,7 +339,7 @@ class TrainingPlanGenerator { // swiftlint:disable:this type_body_length
                        "Fonte: principio di scarico [7], mantenimento [1]."
             } else {
                 kms = min(prevKm * 1.10, prevKm + baseKm * 0.10)
-                note = "Base aerobica: ↑max 10% volume. Nessun lavoro I in questa fase. " +
+                note = "Base aerobica: ↑max 10% volume. Nessun lavoro di tipo I in questa fase. " +
                        "Fonte: regola del 10% [1][8]."
             }
 
@@ -969,7 +969,7 @@ class TrainingPlanGenerator { // swiftlint:disable:this type_body_length
 
         return Workout(
             date: date, type: .race, week: week, dayOfWeek: day,
-            title: "🏆 \(raceName)",
+            title: "\(raceName)",
             description: description,
             distanceKm: distance.meters / 1000,
             durationMinutes: nil,
@@ -1002,15 +1002,15 @@ class TrainingPlanGenerator { // swiftlint:disable:this type_body_length
 
         let feasibility: String
         if diffSecs >= 60 {
-            feasibility = "Obiettivo conservativo ✅"
+            feasibility = "\nObiettivo conservativo ✅"
         } else if diffSecs > 0 {
-            feasibility = "Obiettivo alla portata ✅"
+            feasibility = "\nObiettivo alla portata ✅"
         } else if abs(vdotTarget - vdotCurrent) < 5 {
-            feasibility = "Obiettivo realistico ✅"
+            feasibility = "\nObiettivo realistico ✅"
         } else if abs(vdotTarget - vdotCurrent) < 10 {
-            feasibility = "Obiettivo ambizioso ⚠️"
+            feasibility = "\nObiettivo ambizioso ⚠️"
         } else {
-            feasibility = "Obiettivo molto sfidante❗"
+            feasibility = "\nObiettivo molto sfidante❗"
         }
 
         return "VDOT attuale: \(String(format: "%.1f", vdotCurrent)) → " +
@@ -1046,4 +1046,4 @@ class TrainingPlanGenerator { // swiftlint:disable:this type_body_length
             "[8] Galloway J. (2010). Running Until You're 100. Meyer & Meyer Sport."
         ]
     }
-} 
+}  // swiftlint:disable:this file_length

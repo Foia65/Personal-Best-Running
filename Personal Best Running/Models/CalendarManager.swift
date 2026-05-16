@@ -1,3 +1,8 @@
+/*
+ Gestisce la scrittura degli allenamenti ("eventi")
+ nel calendario "PB running"
+ */
+
 import Foundation
 import EventKit
 import Combine
