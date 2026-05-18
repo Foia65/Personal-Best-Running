@@ -1,5 +1,7 @@
 import SwiftUI
 
+// MARK: - AthleteProfileView
+//
 // Vista indipendente del profilo atleta.
 // Contiene:
 //   1. Riga VDOT / Stima attuale / Target
@@ -10,9 +12,9 @@ import SwiftUI
 struct AthleteProfileView: View {
     let plan: TrainingPlan
 
-    private var vdot: Double { plan.paces.vdot }
-    private var sex: RunnerSex { plan.input.sex }
-    private var level: RunnerLevel { sex.runnerLevel(vdot: vdot) }
+    private var vdot: Double {plan.paces.vdot}
+    private var sex: RunnerSex {plan.input.sex}
+    private var level: RunnerLevel {sex.runnerLevel(vdot: vdot)}
 
     var body: some View {
         List {
@@ -47,19 +49,28 @@ struct AthleteProfileView: View {
 
                     Divider()
 
-                    // Barra livello runner.
-                    // Usa soglie differenziate per sesso (RunRepeat 2023, WMA).
+                    // Barra livello runner. Usa soglie differenziate per sesso (RunRepeat 2023, WMA).
                     RunnerLevelBar(level: level, sex: sex)
 
                     Divider()
 
                     // Gap fitness VDOT attuale → target
-                    Text(plan.fitnessGap)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                    // RIMOSSO perchè info ripetitiva (presente in "piano")
+//                    HStack(alignment: .top, spacing: 8) {
+//                        Image(systemName: plan.feasibility.sfSymbol)
+//                            .font(.subheadline.weight(.semibold))
+//                            .foregroundStyle(plan.feasibility.color)
+//                            .padding(.top, 1)
+//
+//                        Text(plan.fitnessGap)
+//                            .font(.caption)
+//                            .foregroundStyle(.secondary)
+//                            .frame(maxWidth: .infinity, alignment: .leading)
+//                    }
                 }
                 .padding(.vertical, 4)
+            } header: {
+                Text("Profilo Atleta")
             }
 
             // MARK: Previsioni Multi-Distanza
@@ -125,17 +136,65 @@ struct AthleteProfileView: View {
         }
     }
 
-    private var targetColor: Color {
-        let targetVDOT = VDOTCalculator.calculate(
-            timeInSeconds: plan.input.targetTime,
-            distanceMeters: plan.input.raceDistance.meters
-        )
-        let gap = targetVDOT - vdot
-        switch gap {
-        case ..<2:  return .green
-        case 2..<5: return .orange
-        default:    return .red
+    private var targetColor: Color { plan.feasibility.color }
+
+    private func formatTime(_ seconds: Double) -> String {
+        let ore = Int(seconds) / 3600
+        let min = (Int(seconds) % 3600) / 60
+        let sec = Int(seconds) % 60
+        if ore > 0 { return String(format: "%d:%02d:%02d", ore, min, sec) }
+        return String(format: "%d:%02d", min, sec)
+    }
+}
+
+// MARK: - MultiDistancePredictionRow
+//
+// Singola riga della tabella previsioni: distanza + tempo stimato + passo medio.
+// Evidenzia la distanza obiettivo del piano con un badge "obiettivo".
+
+struct MultiDistancePredictionRow: View {
+    let distance: RaceDistance
+    let vdot: Double
+    let isTarget: Bool
+    @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
+
+    private var predictedSeconds: Double {
+        VDOTCalculator.predictRaceTime(vdot: vdot, distance: distance)
+    }
+
+    private var predictedPaceSecsPerKm: Double {
+        predictedSeconds / distance.meters * 1000
+    }
+
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 2) {
+                HStack(spacing: 6) {
+                    Text(distance.rawValue)
+                        .font(.subheadline.weight(.medium))
+                    if isTarget {
+                        Text("obiettivo")
+                            .font(.system(size: 10, weight: .semibold))
+                            .foregroundStyle(.indigo)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Color.indigo.opacity(0.1), in: Capsule())
+                    }
+                }
+                /// Usa unitSystem.formatPace per rispettare la preferenza metrico/imperiale.
+                /// Il suffisso (/km o /mi) è già incluso in unitSystem.formatPace.
+                Text(unitSystem.formatPace(predictedPaceSecsPerKm))
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer()
+
+            Text(formatTime(predictedSeconds))
+                .font(.subheadline.monospacedDigit().bold())
+                .foregroundStyle(isTarget ? .indigo : .primary)
         }
+        .padding(.vertical, 2)
     }
 
     private func formatTime(_ seconds: Double) -> String {
@@ -173,12 +232,12 @@ struct RunnerLevelDescriptionView: View {
     }
 
     private var vdotToNextLevel: Double? {
-        let sogliaLiv = sex.levelThresholds
+        let sogliaLivello = sex.levelThresholds
         switch level {
-        case .beginner:     return sogliaLiv.recreational
-        case .recreational: return sogliaLiv.intermediate
-        case .intermediate: return sogliaLiv.advanced
-        case .advanced:     return sogliaLiv.elite
+        case .beginner:     return sogliaLivello.recreational
+        case .recreational: return sogliaLivello.intermediate
+        case .intermediate: return sogliaLivello.advanced
+        case .advanced:     return sogliaLivello.elite
         case .elite:        return nil
         }
     }
@@ -195,13 +254,13 @@ struct RunnerLevelDescriptionView: View {
 
     // Inizio del range VDOT del livello corrente (per la barra di progressione)
     private var vdotRangeStart: Double {
-        let sogliaLiv = sex.levelThresholds
+        let sogliaLivello = sex.levelThresholds
         switch level {
         case .beginner:     return 0
-        case .recreational: return sogliaLiv.recreational
-        case .intermediate: return sogliaLiv.intermediate
-        case .advanced:     return sogliaLiv.advanced
-        case .elite:        return sogliaLiv.elite
+        case .recreational: return sogliaLivello.recreational
+        case .intermediate: return sogliaLivello.intermediate
+        case .advanced:     return sogliaLivello.advanced
+        case .elite:        return sogliaLivello.elite
         }
     }
 
@@ -228,7 +287,6 @@ struct RunnerLevelDescriptionView: View {
                             .font(.footnote)
                         Text("Verso \(nextName)")
                             .font(.footnote.bold())
-                            .foregroundStyle(.blue)
                         Spacer()
                         Text("mancano \(String(format: "%.1f", gap)) pt VDOT")
                             .font(.caption2.bold())
@@ -259,9 +317,11 @@ struct RunnerLevelDescriptionView: View {
                             .foregroundStyle(.secondary)
                     }
 
-//                    Text("Con un piano di 16-20 settimane è realistico guadagnare 3-5 punti VDOT.")
-//                        .font(.caption2)
-//                        .foregroundStyle(.secondary)
+                    Text("Con un piano di 16-20 settimane è realistico guadagnare 3-5 punti VDOT.")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true) // per vedere tutto il text (problema con GeometryReader)
+
                 }
             } else {
                 Label("Hai raggiunto il livello massimo della scala.", systemImage: "star.fill")
@@ -270,68 +330,6 @@ struct RunnerLevelDescriptionView: View {
             }
         }
         .padding(.vertical, 4)
-    }
-}
-
-// MARK: - MultiDistancePredictionRow
-//
-// Singola riga della tabella previsioni: distanza + tempo stimato + passo medio.
-// Evidenzia la distanza obiettivo del piano con un badge "obiettivo".
-
-struct MultiDistancePredictionRow: View {
-    let distance: RaceDistance
-    let vdot: Double
-    let isTarget: Bool
-
-    private var predictedSeconds: Double {
-        VDOTCalculator.predictRaceTime(vdot: vdot, distance: distance)
-    }
-
-    private var predictedPaceSecsPerKm: Double {
-        predictedSeconds / distance.meters * 1000
-    }
-
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 2) {
-                HStack(spacing: 6) {
-                    Text(distance.rawValue)
-                        .font(.subheadline.weight(.medium))
-                    if isTarget {
-                        Text("obiettivo")
-                            .font(.system(size: 10, weight: .semibold))
-                            .foregroundStyle(.indigo)
-                            .padding(.horizontal, 6)
-                            .padding(.vertical, 2)
-                            .background(Color.indigo.opacity(0.1), in: Capsule())
-                    }
-                }
-                Text(formatPace(predictedPaceSecsPerKm) + " /km medio")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-            }
-
-            Spacer()
-
-            Text(formatTime(predictedSeconds))
-                .font(.subheadline.monospacedDigit().bold())
-                .foregroundStyle(isTarget ? .indigo : .primary)
-        }
-        .padding(.vertical, 2)
-    }
-
-    private func formatTime(_ seconds: Double) -> String {
-        let ore = Int(seconds) / 3600
-        let min = (Int(seconds) % 3600) / 60
-        let sec = Int(seconds) % 60
-        if ore > 0 { return String(format: "%d:%02d:%02d", ore, min, sec) }
-        return String(format: "%d:%02d", min, sec)
-    }
-
-    private func formatPace(_ secsPerKm: Double) -> String {
-        let min = Int(secsPerKm) / 60
-        let sec = Int(secsPerKm) % 60
-        return String(format: "%d:%02d", min, sec)
     }
 }
 
@@ -353,5 +351,77 @@ struct MultiDistancePredictionRow: View {
     
     NavigationStack {
         AthleteProfileView(plan: samplePlan)
+    }
+}
+
+// MARK: - RunnerLevelBar
+struct RunnerLevelBar: View {
+    let level: RunnerLevel
+    let sex: RunnerSex
+
+    private let levels: [RunnerLevel] = [
+        .beginner, .recreational, .intermediate, .advanced, .elite
+    ]
+
+    private var levelIndex: Int {
+        levels.firstIndex(of: level) ?? 0
+    }
+
+    private var fillFraction: Double {
+        Double(levelIndex) / Double(levels.count - 1)
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("Livello atleta")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Spacer()
+                Text(level.rawValue)
+                    .font(.caption.bold())
+                    .foregroundStyle(.blue)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 3)
+                    .background(Color.blue.opacity(0.12), in: Capsule())
+            }
+
+            GeometryReader { geo in
+                let dotCount = levels.count
+                let spacing = geo.size.width / CGFloat(dotCount - 1)
+                ZStack(alignment: .leading) {
+                    Capsule()
+                        .fill(Color.secondary.opacity(0.15))
+                        .frame(height: 4)
+                        .frame(maxWidth: .infinity)
+                    Capsule()
+                        .fill(Color.blue.opacity(0.7))
+                        .frame(width: geo.size.width * fillFraction, height: 4)
+                        .animation(.easeInOut(duration: 0.4), value: levelIndex)
+                    ForEach(0..<dotCount, id: \.self) { i in
+                        let isReached = i <= levelIndex
+                        Circle()
+                            .fill(isReached ? Color.blue : Color.secondary.opacity(0.25))
+                            .frame(width: 8, height: 8)
+                            .offset(x: CGFloat(i) * spacing - 4)
+                            .animation(.easeInOut(duration: 0.4), value: levelIndex)
+                    }
+                }
+                .frame(height: 8)
+            }
+            .frame(height: 8)
+
+            HStack(spacing: 0) {
+                ForEach(0..<levels.count, id: \.self) { i in
+                    let isActive = i == levelIndex
+                    Text(levels[i].rawValue)
+                        .font(.system(size: 10))
+                        .fontWeight(isActive ? .bold : .regular)
+                        .foregroundStyle(isActive ? Color.blue : Color.secondary)
+                        .frame(maxWidth: .infinity)
+                        .multilineTextAlignment(.center)
+                }
+            }
+        }
     }
 }

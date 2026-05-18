@@ -393,7 +393,6 @@ struct PlanInputView: View {
                 .listRowBackground(Color.green.opacity(0.05))
                 .listRowInsets(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
 
-                
                 Section("Giorni di Allenamento") {
                     Stepper("Giorni/settimana: \(trainingDays)", value: $trainingDays, in: 3...6)
                 }

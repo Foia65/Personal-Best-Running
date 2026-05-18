@@ -73,6 +73,7 @@ identifier_name:
 
 # Disable some rules you may find noisy
 disabled_rules:
+  - orphaned_doc_comment
   - trailing_whitespace
   - todo
 #  - identifier_name

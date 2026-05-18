@@ -10,7 +10,8 @@ struct TrainingPlanView: View {
     @State private var pdfItem: PDFDocumentItem?
     @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
     @StateObject private var calendarManager = CalendarManager()
-    
+    private var goalFeasibility: GoalFeasibility { plan.feasibility }
+
     var body: some View {
         VStack(spacing: 0) {
             // Header con info piano
@@ -58,11 +59,18 @@ struct TrainingPlanView: View {
             }
             
             Divider()
-            
-            Text(plan.fitnessGap)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
+  
+            HStack(alignment: .top, spacing: 8) {
+                Image(systemName: plan.feasibility.sfSymbol)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(plan.feasibility.color)
+                    .padding(.top, 1)
+
+                Text(plan.fitnessGap)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
         .padding(.horizontal)
         .padding(.vertical, 10)
@@ -297,7 +305,7 @@ struct WorkoutRowView: View {
                 withAnimation { expanded.toggle() }
             } label: {
                 HStack {
-                    WorkoutBadge(type: workout.type, size: 36) .font(.title3)
+                    WorkoutBadge(type: workout.type, size: 36)
                     
                     VStack(alignment: .leading, spacing: 2) {
                         Text(workout.date.formatted(.dateTime.weekday().day().month()))
@@ -363,16 +371,9 @@ struct WorkoutRowView: View {
 
 // MARK: - WorkoutBadge
 struct WorkoutBadge: View {
-    // Badge riutilizzabile che incapsula SF Symbol + colore del WorkoutType.
-    // Usato sia in PacesView (PaceRow) che in calendarView (WorkoutRowView),
-    // garantendo coerenza visiva da un'unica definizione.
-    //
-    // Uso:
-    //   WorkoutBadge(type: workout.type)           // dimensione standard (40pt)
-    //   WorkoutBadge(type: workout.type, size: 32) // dimensione custom
     let type: WorkoutType
     var size: CGFloat = 40
-    
+
     var body: some View {
         ZStack {
             Circle()

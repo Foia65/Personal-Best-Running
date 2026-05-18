@@ -10,21 +10,21 @@ struct PDFDocumentItem: Identifiable {
 
 class TrainingPlanPDFGenerator {
     
-    // Configurazione layout
-    private let pageWidth: CGFloat = 595.2 // A4
-    private let pageHeight: CGFloat = 841.8 // A4
+    // Configurazione del layout A4 standard (72 punti per pollice)
+    private let pageWidth: CGFloat = 595.2
+    private let pageHeight: CGFloat = 841.8
     private let margin: CGFloat = 40
     private var currentY: CGFloat = 0
     
     func generatePDF(plan: TrainingPlan, unitSystem: UnitSystem) -> Data {
-        let pdfMetaData = [
-            kCGPDFContextCreator: "PB Running App",
-            kCGPDFContextAuthor: "Jack Daniels VDOT System",
-            kCGPDFContextTitle: "Piano di Allenamento: \(plan.input.raceName)"
+        // CORREZIONE: Convertiamo le chiavi CFString in String per evitare errori di subscripting
+        let pdfMetaData: [String: Any] = [
+            kCGPDFContextCreator as String: "PB Running App",
+            kCGPDFContextTitle as String: "Piano di Allenamento: \(plan.input.raceName)"
         ]
         
         let format = UIGraphicsPDFRendererFormat()
-        format.documentInfo = pdfMetaData as [String: Any]
+        format.documentInfo = pdfMetaData
         
         let renderer = UIGraphicsPDFRenderer(bounds: CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight), format: format)
         
@@ -32,188 +32,233 @@ class TrainingPlanPDFGenerator {
             context.beginPage()
             currentY = margin
             
-            // 1. Header (Titolo e Info Gara)
-            drawHeader(plan: plan)
+            // 1. Header Principale con Riepilogo e Distanza Totale
+            drawHeader(plan: plan, unitSystem: unitSystem)
             
-            // 2. Profilo Atleta e Andature
-            drawAthleteProfile(plan: plan, unitSystem: unitSystem)
+            // 2. Profilo VDOT dell'Atleta
+            drawAthleteProfile(plan: plan)
             
-            // 3. Tabella Andature (Paces)
+            // 3. Tabella dei Ritmi di Riferimento (Jack Daniels VDOT)
             drawPacesTable(plan: plan, unitSystem: unitSystem)
             
-            // 4. Calendario Allenamenti
-            drawCalendar(plan: plan, unitSystem: unitSystem, context: context)
+            // 4. Calendario degli Allenamenti suddiviso per Fasi
+            drawCalendarByPhases(plan: plan, unitSystem: unitSystem, context: context)
             
-            // 5. Fonti e Note finali
-            drawFooter(plan: plan)
+            // 5. Piè di pagina
+            drawFooter()
         }
         
         return data
     }
     
-    // MARK: - Componenti di Disegno
-    
-    private func drawHeader(plan: TrainingPlan) {
+    // MARK: - Disegno Header Principale
+    private func drawHeader(plan: TrainingPlan, unitSystem: UnitSystem) {
+        let totalDistance = plan.weeks.reduce(0) { $0 + $1.totalKm }
+        
         let titleAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.boldSystemFont(ofSize: 22),
-            .foregroundColor: UIColor.black
+            .foregroundColor: UIColor.label
         ]
         
         let subtitleAttributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: 14),
+            .font: UIFont.systemFont(ofSize: 12),
             .foregroundColor: UIColor.secondaryLabel
         ]
-        
-        // Nome Gara
-        let title = "🏃‍♂️ " +  plan.input.raceName.uppercased()
+
+        let title = plan.input.raceName.uppercased()
         title.draw(at: CGPoint(x: margin, y: currentY), withAttributes: titleAttributes)
-        currentY += 28
+        currentY += 26
         
-        // Info Sottotitolo
-        let subtitle = "\(plan.input.raceDistance.rawValue) • \(plan.input.raceDate.formatted(date: .abbreviated, time: .omitted)) • \(plan.weeks.count) Settimane"
-        subtitle.draw(at: CGPoint(x: margin, y: currentY), withAttributes: subtitleAttributes)
+        let raceDateStr = plan.input.raceDate.formatted(date: .abbreviated, time: .omitted)
+        let infoLine = "\(plan.input.raceDistance.rawValue) • Obiettivo: \(formatTime(plan.input.targetTime)) • \(plan.weeks.count) Settimane • Gara: \(raceDateStr)"
+        infoLine.draw(at: CGPoint(x: margin, y: currentY), withAttributes: subtitleAttributes)
+        currentY += 18
         
-        currentY += 20
+        let totalDistStr = "DISTANZA TOTALE DEL PROGRAMMA: \(unitSystem.formatDistance(totalDistance))"
+        totalDistStr.draw(at: CGPoint(x: margin, y: currentY), withAttributes: [
+            .font: UIFont.boldSystemFont(ofSize: 10),
+            .foregroundColor: UIColor.systemOrange
+        ])
+        
+        currentY += 22
         drawDivider()
         currentY += 15
     }
-    // swiftlint:disable:next unused_parameter
-    private func drawAthleteProfile(plan: TrainingPlan, unitSystem: UnitSystem) {
-        let labelAttr: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 10), .foregroundColor: UIColor.secondaryLabel]
-        let valueAttr: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 16), .foregroundColor: UIColor.label]
+
+    // MARK: - Disegno Calendario Avanzato per Fasi
+    private func drawCalendarByPhases(plan: TrainingPlan, unitSystem: UnitSystem, context: UIGraphicsPDFRendererContext) {
+        var currentPhase: String?
         
-        // VDOT attuale
-        "VDOT ATTUALE".draw(at: CGPoint(x: margin, y: currentY), withAttributes: labelAttr)
-        String(format: "%.1f", plan.paces.vdot).draw(at: CGPoint(x: margin, y: currentY + 12), withAttributes: valueAttr)
-        
-        // Target Time
-        "TARGET GARA".draw(at: CGPoint(x: margin + 150, y: currentY), withAttributes: labelAttr)
-        formatTime(plan.input.targetTime).draw(at: CGPoint(x: margin + 150, y: currentY + 12), withAttributes: valueAttr)
-        
-        currentY += 45
-        
-        let gapAttr: [NSAttributedString.Key: Any] = [.font: UIFont.italicSystemFont(ofSize: 11), .foregroundColor: UIColor.darkGray]
-        let gapRect = CGRect(x: margin, y: currentY, width: pageWidth - (margin*2), height: 40)
-        plan.fitnessGap.draw(in: gapRect, withAttributes: gapAttr)
-        
-        currentY += 40
-    }
-    
-    private func drawPacesTable(plan: TrainingPlan, unitSystem: UnitSystem) {
-        "ANDATURE DI RIFERIMENTO".draw(at: CGPoint(x: margin, y: currentY), withAttributes: [.font: UIFont.boldSystemFont(ofSize: 12)])
-        currentY += 15
-        
-        let paces = plan.paces
-        let rows = [
-            ("Easy (E)", paces.easyFormatted(unitSystem: unitSystem), "Z2 / Recupero"),
-            ("Marathon (M)", paces.mpFormatted(unitSystem: unitSystem), "Z3 / Aerobico"),
-            ("Threshold (T)", paces.thresholdFormatted(unitSystem: unitSystem), "Z4 / Soglia"),
-            ("Interval (I)", paces.intervalFormatted(unitSystem: unitSystem), "Z5 / VO2Max"),
-            ("Repetition (R)", paces.repetitionFormatted(unitSystem: unitSystem), "Velocità")
-        ]
-        
-        for row in rows {
-            let rowText = "\(row.0):"
-            rowText.draw(at: CGPoint(x: margin, y: currentY), withAttributes: [.font: UIFont.systemFont(ofSize: 11)])
-            row.1.draw(at: CGPoint(x: margin + 120, y: currentY), withAttributes: [.font: UIFont.monospacedSystemFont(ofSize: 11, weight: .bold)])
-            row.2.draw(at: CGPoint(x: margin + 220, y: currentY), withAttributes: [.font: UIFont.systemFont(ofSize: 10), .foregroundColor: UIColor.secondaryLabel])
-            currentY += 18
-        }
-        
-        currentY += 20
-        drawDivider()
-        currentY += 20
-    }
-    
-    private func drawCalendar(plan: TrainingPlan, unitSystem: UnitSystem, context: UIGraphicsPDFRendererContext) {
         for week in plan.weeks {
-            // Controllo spazio rimanente per la sezione settimana
-            if currentY > pageHeight - 150 {
+            if currentY > pageHeight - 120 {
                 context.beginPage()
                 currentY = margin
             }
             
-            // Header Settimana
-            let weekTitle = "SETTIMANA \(week.weekNumber) - \(week.phase.rawValue)".uppercased()
-            weekTitle.draw(at: CGPoint(x: margin, y: currentY), withAttributes: [.font: UIFont.boldSystemFont(ofSize: 13), .foregroundColor: UIColor.systemBlue])
+            // CORREZIONE: Gestione coerente con la stringa/enum della fase proveniente da TrainingPlanView
+            if week.phase.rawValue != currentPhase {
+                currentPhase = week.phase.rawValue
+                drawPhaseHeader(phaseName: week.phase.rawValue)
+            }
             
-            let volume = "Volume: \(unitSystem.formatDistance(week.totalKm))"
-            let volWidth = volume.size(withAttributes: [.font: UIFont.boldSystemFont(ofSize: 11)]).width
-            volume.draw(at: CGPoint(x: pageWidth - margin - volWidth, y: currentY), withAttributes: [.font: UIFont.boldSystemFont(ofSize: 11)])
+            let weekTitle = "SETTIMANA \(week.weekNumber)".uppercased()
+            weekTitle.draw(at: CGPoint(x: margin, y: currentY), withAttributes: [.font: UIFont.boldSystemFont(ofSize: 12)])
             
-            currentY += 18
+            let volStr = "Volume: \(unitSystem.formatDistance(week.totalKm))"
+            let volWidth = volStr.size(withAttributes: [.font: UIFont.boldSystemFont(ofSize: 11)]).width
+            volStr.draw(at: CGPoint(x: pageWidth - margin - volWidth, y: currentY), withAttributes: [.font: UIFont.boldSystemFont(ofSize: 11)])
             
-            // Nota settimanale
-            let noteRect = CGRect(x: margin, y: currentY, width: pageWidth - (margin*2), height: 30)
-            week.weeklyNote.draw(in: noteRect, withAttributes: [.font: UIFont.systemFont(ofSize: 9), .foregroundColor: UIColor.gray])
-            currentY += 25
+            currentY += 16
             
-            // Workout
+            let noteRect = CGRect(x: margin, y: currentY, width: pageWidth - (margin * 2), height: 32)
+            week.weeklyNote.draw(in: noteRect, withAttributes: [
+                .font: UIFont.italicSystemFont(ofSize: 9),
+                .foregroundColor: UIColor.secondaryLabel
+            ])
+            currentY += 26
+            
             for workout in week.workouts {
-                if currentY > pageHeight - 60 {
+                if currentY > pageHeight - 65 {
                     context.beginPage()
                     currentY = margin
                 }
                 
-                let dateStr = workout.date.formatted(.dateTime.weekday().day().month())
-                let workoutTitle = "\(workout.title) \(workout.distanceKm != nil ? "(\(unitSystem.formatDistance(workout.distanceKm!)))" : "")"
-                
-                let dateAttr: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 9), .foregroundColor: UIColor.secondaryLabel]
-                let titleAttr: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 10)]
-                
-                dateStr.draw(at: CGPoint(x: margin, y: currentY), withAttributes: dateAttr)
-                workoutTitle.draw(at: CGPoint(x: margin + 80, y: currentY), withAttributes: titleAttr)
-                
-                if let pace = workout.paceTargetSecsPerKm {
-                    let paceStr = unitSystem.formatPace(pace)
-                    let paceWidth = paceStr.size(withAttributes: [.font: UIFont.monospacedSystemFont(ofSize: 9, weight: .regular)]).width
-                    paceStr.draw(at: CGPoint(x: pageWidth - margin - paceWidth, y: currentY), withAttributes: [.font: UIFont.monospacedSystemFont(ofSize: 9, weight: .regular)])
-                }
-                
-                currentY += 14
-                
-                // Descrizione sintetica
-                let descRect = CGRect(x: margin + 80, y: currentY, width: pageWidth - margin - 150, height: 40)
-                let desc = workout.structuredSets ?? workout.description
-                desc.draw(in: descRect, withAttributes: [.font: UIFont.systemFont(ofSize: 8), .foregroundColor: UIColor.darkGray])
-                
-                currentY += 22
+                drawWorkoutRow(workout: workout, unitSystem: unitSystem)
             }
+            
+            currentY += 10
+            drawDivider(color: .systemGray6)
             currentY += 10
         }
     }
     
-    // swiftlint:disable:next unused_parameter
-    private func drawFooter(plan: TrainingPlan) {
-        if currentY > pageHeight - 100 { return } // Evitiamo di creare una pagina solo per il footer se troppo lungo
+    private func drawPhaseHeader(phaseName: String) {
+        currentY += 5
+        let rect = CGRect(x: margin, y: currentY, width: pageWidth - (margin * 2), height: 22)
         
-        currentY += 10
-        drawDivider()
-        currentY += 10
+        let phaseBgColor = UIColor.systemGroupedBackground
+        phaseBgColor.setFill()
+        UIBezierPath(roundedRect: rect, cornerRadius: 4).fill()
         
-        "FONTI SCIENTIFICHE E NOTE".draw(at: CGPoint(x: margin, y: currentY), withAttributes: [.font: UIFont.boldSystemFont(ofSize: 10)])
-        currentY += 15
+        let phaseAttr: [NSAttributedString.Key: Any] = [
+            .font: UIFont.boldSystemFont(ofSize: 10),
+            .foregroundColor: UIColor.systemBlue
+        ]
         
-        let footerText = "Metodologia: Jack Daniels' Running Formula (VDOT). Distribuzione intensità 80/20. Progressione volume < 10% settimanale."
-        footerText.draw(in: CGRect(x: margin, y: currentY, width: pageWidth - (margin * 2), height: 50), withAttributes: [.font: UIFont.systemFont(ofSize: 8), .foregroundColor: UIColor.secondaryLabel])
+        let fullPhaseTitle = "FASE DI ALLENAMENTO: \(phaseName.uppercased())"
+        let size = fullPhaseTitle.size(withAttributes: phaseAttr)
+        fullPhaseTitle.draw(at: CGPoint(x: margin + 8, y: currentY + (22 - size.height) / 2), withAttributes: phaseAttr)
+        
+        currentY += 32
     }
     
-    // MARK: - Helpers
+    private func drawWorkoutRow(workout: Workout, unitSystem: UnitSystem) {
+        let dateStr = workout.date.formatted(.dateTime.weekday(.abbreviated).day().month())
+        let titleStr = workout.title
+        
+        dateStr.draw(at: CGPoint(x: margin, y: currentY), withAttributes: [
+            .font: UIFont.systemFont(ofSize: 9),
+            .foregroundColor: UIColor.secondaryLabel
+        ])
+        
+        titleStr.draw(at: CGPoint(x: margin + 65, y: currentY), withAttributes: [.font: UIFont.boldSystemFont(ofSize: 10)])
+        
+        if let pace = workout.paceTargetSecsPerKm, workout.type != .rest {
+            let pStr = unitSystem.formatPace(pace)
+            let pWidth = pStr.size(withAttributes: [.font: UIFont.monospacedSystemFont(ofSize: 9, weight: .semibold)]).width
+            pStr.draw(at: CGPoint(x: pageWidth - margin - pWidth, y: currentY), withAttributes: [
+                .font: UIFont.monospacedSystemFont(ofSize: 9, weight: .semibold),
+                .foregroundColor: UIColor.label
+            ])
+        }
+        
+        currentY += 14
+        
+        var detailText = workout.description
+        if let structuredSets = workout.structuredSets, !structuredSets.isEmpty {
+            detailText += " \nSets: \(structuredSets)"
+        }
+        
+        let detailRect = CGRect(x: margin + 65, y: currentY, width: pageWidth - margin - 140, height: 28)
+        detailText.draw(in: detailRect, withAttributes: [
+            .font: UIFont.systemFont(ofSize: 8),
+            .foregroundColor: UIColor.darkGray
+        ])
+        
+        if let kms = workout.distanceKm {
+            let distStr = unitSystem.formatDistance(kms)
+            let distWidth = distStr.size(withAttributes: [.font: UIFont.systemFont(ofSize: 8.5)]).width
+            distStr.draw(at: CGPoint(x: pageWidth - margin - distWidth, y: currentY), withAttributes: [
+                .font: UIFont.systemFont(ofSize: 8.5),
+                .foregroundColor: UIColor.secondaryLabel
+            ])
+        }
+        
+        currentY += 22
+    }
+
+    private func drawAthleteProfile(plan: TrainingPlan) {
+        let labelAttr: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 8.5), .foregroundColor: UIColor.secondaryLabel]
+        let valueAttr: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 13), .foregroundColor: UIColor.label]
+        
+        "VDOT ATTUALE".draw(at: CGPoint(x: margin, y: currentY), withAttributes: labelAttr)
+        String(format: "%.1f", plan.paces.vdot).draw(at: CGPoint(x: margin, y: currentY + 11), withAttributes: valueAttr)
+        
+        "VALUTAZIONE GAP DI FITNESS".draw(at: CGPoint(x: margin + 110, y: currentY), withAttributes: labelAttr)
+        let gapRect = CGRect(x: margin + 110, y: currentY + 11, width: pageWidth - margin * 2 - 110, height: 28)
+        plan.fitnessGap.draw(in: gapRect, withAttributes: [.font: UIFont.systemFont(ofSize: 9.5), .foregroundColor: UIColor.label])
+        
+        currentY += 42
+    }
     
-    private func drawDivider() {
+    private func drawPacesTable(plan: TrainingPlan, unitSystem: UnitSystem) {
+        let headerAttr: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 10)]
+        "RITMI DI ALLENAMENTO DI RIFERIMENTO (MIN/KM)".draw(at: CGPoint(x: margin, y: currentY), withAttributes: headerAttr)
+        currentY += 15
+        
+        let passi = plan.paces
+        let paceData = [
+            ("Easy (E)", passi.easyFormatted(unitSystem: unitSystem)),
+            ("Marathon (M)", passi.mpFormatted(unitSystem: unitSystem)),
+            ("Threshold (T)", passi.thresholdFormatted(unitSystem: unitSystem)),
+            ("Interval (I)", passi.intervalFormatted(unitSystem: unitSystem)),
+            ("Repetition (R)", passi.repetitionFormatted(unitSystem: unitSystem))
+        ]
+        
+        var tempX = margin
+        let columnWidth = (pageWidth - margin * 2) / 5
+        
+        for item in paceData {
+            item.0.draw(at: CGPoint(x: tempX, y: currentY), withAttributes: [.font: UIFont.systemFont(ofSize: 8), .foregroundColor: UIColor.secondaryLabel])
+            item.1.draw(at: CGPoint(x: tempX, y: currentY + 11), withAttributes: [.font: UIFont.boldSystemFont(ofSize: 10.5)])
+            tempX += columnWidth
+        }
+        
+        currentY += 35
+        drawDivider()
+        currentY += 15
+    }
+
+    private func drawFooter() {
+        let footerStr = "Generato da PB Running • Logiche scientifiche basate sul sistema VDOT di Jack Daniels e polarizzazione 80/20"
+        let attr: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 7), .foregroundColor: UIColor.lightGray]
+        let size = footerStr.size(withAttributes: attr)
+        footerStr.draw(at: CGPoint(x: (pageWidth - size.width) / 2, y: pageHeight - 30), withAttributes: attr)
+    }
+    
+    private func drawDivider(color: UIColor = .systemGray5) {
         let path = UIBezierPath()
         path.move(to: CGPoint(x: margin, y: currentY))
         path.addLine(to: CGPoint(x: pageWidth - margin, y: currentY))
-        UIColor.systemGray5.setStroke()
+        color.setStroke()
         path.lineWidth = 0.5
         path.stroke()
     }
     
     private func formatTime(_ seconds: Double) -> String {
-        let hour = Int(seconds) / 3600
-        let minute = (Int(seconds) % 3600) / 60
-        let second = Int(seconds) % 60
-        if hour > 0 { return String(format: "%d:%02d:%02d", hour, minute, second) }
-        return String(format: "%d:%02d", minute, second)
+        let ore = Int(seconds) / 3600
+        let min = (Int(seconds) % 3600) / 60
+        let sec = Int(seconds) % 60
+        return ore > 0 ? String(format: "%d:%02d:%02d", ore, min, sec) : String(format: "%d:%02d", min, sec)
     }
 }

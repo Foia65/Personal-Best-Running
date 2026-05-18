@@ -109,6 +109,10 @@ struct SettingsView: View {
             //    .font(.system(.subheadline, design: .default, weight: .semibold))
             }
             
+//            Section {
+//                NavigationLink("Metodologia") { MethodologyView() }
+//            }
+            
         }
 //        .navigationTitle("Impostazioni")
 //        .navigationBarTitleDisplayMode(.large)
