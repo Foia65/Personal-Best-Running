@@ -53,24 +53,11 @@ struct AthleteProfileView: View {
                     RunnerLevelBar(level: level, sex: sex)
 
                     Divider()
-
-                    // Gap fitness VDOT attuale → target
-                    // RIMOSSO perchè info ripetitiva (presente in "piano")
-//                    HStack(alignment: .top, spacing: 8) {
-//                        Image(systemName: plan.feasibility.sfSymbol)
-//                            .font(.subheadline.weight(.semibold))
-//                            .foregroundStyle(plan.feasibility.color)
-//                            .padding(.top, 1)
-//
-//                        Text(plan.fitnessGap)
-//                            .font(.caption)
-//                            .foregroundStyle(.secondary)
-//                            .frame(maxWidth: .infinity, alignment: .leading)
-//                    }
                 }
                 .padding(.vertical, 4)
             } header: {
                 Text("Profilo Atleta")
+                    .padding(.top , 20)
             }
 
             // MARK: Previsioni Multi-Distanza
@@ -105,9 +92,13 @@ struct AthleteProfileView: View {
 
     private var vdotBadge: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text("VDOT")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            HStack(spacing: 4) {
+                Text("VDOT")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                // Link contestuale → sezione VDOT in MethodologyView
+                MethodologyButton(section: .vdot)
+            }
             Text(String(format: "%.1f", vdot))
                 .font(.title2.bold())
                 .foregroundStyle(.indigo)
@@ -116,6 +107,19 @@ struct AthleteProfileView: View {
                 .foregroundStyle(.tertiary)
         }
     }
+//    private var vdotBadge: some View {
+//        VStack(alignment: .leading, spacing: 2) {
+//            Text("VDOT")
+//                .font(.caption)
+//                .foregroundStyle(.secondary)
+//            Text(String(format: "%.1f", vdot))
+//                .font(.title2.bold())
+//                .foregroundStyle(.indigo)
+//            Text("forma attuale")
+//                .font(.caption2)
+//                .foregroundStyle(.tertiary)
+//        }
+//    }
 
     private func timeColumn(
         label: String,

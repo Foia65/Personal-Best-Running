@@ -11,25 +11,12 @@ struct TrainingPlanView: View {
     @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
     @StateObject private var calendarManager = CalendarManager()
     private var goalFeasibility: GoalFeasibility { plan.feasibility }
-
+    
     var body: some View {
         VStack(spacing: 0) {
             // Header con info piano
             planHeaderView
-            
-            Picker("Vista", selection: $selectedTab) {
-                Text("Calendario").tag(0)
-                Text("Riferimenti").tag(2)
-            }
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
-            .padding(.vertical, 8)
-            
-            TabView(selection: $selectedTab) {
-                calendarView.tag(0)
-                sourcesView.tag(2)
-            }
-            .tabViewStyle(.page(indexDisplayMode: .never))
+            calendarView
         }
         .sheet(item: $pdfItem) { item in
             ShareSheet(url: item.url)
@@ -59,18 +46,27 @@ struct TrainingPlanView: View {
             }
             
             Divider()
-  
+            
             HStack(alignment: .top, spacing: 8) {
                 Image(systemName: plan.feasibility.sfSymbol)
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(plan.feasibility.color)
                     .padding(.top, 1)
-
+                
                 Text(plan.fitnessGap)
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
+            HStack {
+                Image(systemName: "calendar")
+                Text("Calendario Allenamenti")
+                .font(.title3.bold())
+            }
+            .foregroundStyle(.primary)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding(.top, 30)
+            
         }
         .padding(.horizontal)
         .padding(.vertical, 10)
@@ -103,6 +99,8 @@ struct TrainingPlanView: View {
                             Text("Settimana \(week.weekNumber) – \(week.phase.rawValue)")
                                 .font(.caption.bold())
                                 .foregroundStyle(.blue)
+                            // Link contestuale → sezione fase corrispondente in MethodologyView
+                            MethodologyButton(section: week.phase.methodologySection)
                             Spacer()
                             Image(systemName: expandedWeek == week.weekNumber ? "chevron.up" : "chevron.down")
                                 .font(.caption)
@@ -125,6 +123,7 @@ struct TrainingPlanView: View {
                         }
                         .padding(.vertical, 8)
                     }
+                    .padding(.vertical, 8)
                     .buttonStyle(.borderedProminent)
                     .tint(Color(red: 0.0, green: 0.0, blue: 0.3))
                     .listRowBackground(Color.clear)
@@ -140,6 +139,7 @@ struct TrainingPlanView: View {
                         }
                         .padding(.vertical, 8)
                     }
+                    .padding(.vertical, 8)
                     .buttonStyle(.borderedProminent)
                     .tint(.orange)
                     .listRowBackground(Color.clear)
@@ -147,9 +147,14 @@ struct TrainingPlanView: View {
                 }
                 
             } header: {
-                Text("Gestione Piani")
+                Text("Condivisione")
             }
             
+            Section("Note") {
+                Text("I ritmi di allenamento sono calcolati tramite il sistema VDOT di Jack Daniels. La distribuzione settimanale segue il principio di polarizzazione 80/20 (Seiler). La progressione del volume rispetta la regola del 10% per prevenire infortuni.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
         }
         .listStyle(.insetGrouped)
         //   .navigationTitle("Programma Corse")
@@ -157,25 +162,6 @@ struct TrainingPlanView: View {
             Button("Ottimo", role: .cancel) { }
         } message: {
             Text("Ho aggiunto correttamente \(calendarManager.lastEventCount) eventi al tuo calendario 'PB Running'.")
-        }
-    }
-    
-    // MARK: Sources
-    
-    var sourcesView: some View {
-        List {
-            Section("Fonti Scientifiche") {
-                ForEach(plan.scientificSources, id: \.self) { source in
-                    Text(source)
-                        .font(.caption)
-                        .padding(.vertical, 2)
-                }
-            }
-            Section("Note") {
-                Text("I ritmi di allenamento sono calcolati tramite il sistema VDOT di Jack Daniels. La distribuzione settimanale segue il principio di polarizzazione 80/20 (Seiler). La progressione del volume rispetta la regola del 10% per prevenire infortuni.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
         }
     }
     
@@ -373,7 +359,7 @@ struct WorkoutRowView: View {
 struct WorkoutBadge: View {
     let type: WorkoutType
     var size: CGFloat = 40
-
+    
     var body: some View {
         ZStack {
             Circle()
@@ -407,4 +393,4 @@ struct WorkoutBadge: View {
             print("Reset tapped")
         }
     }
-} 
+}

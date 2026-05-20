@@ -122,8 +122,8 @@ enum RunnerSex: String, CaseIterable, Identifiable, Codable {
     
     var icon: String {
         switch self {
-        case .male:   return "person"
-        case .female: return "person.fill"
+        case .male:   return "figure.stand"
+        case .female: return "figure.stand.dress"
         }
     }
     
@@ -500,7 +500,7 @@ enum WorkoutType: String, CaseIterable {
             return "Da 59% a 88% VO2max – E→M→T progressivo (Z2→Z4)"
 
         case .hillRepeat:
-            // Colline: stimolo forza-velocità a impatto articolare ridotto.
+            // Collinare: stimolo forza-velocità a impatto articolare ridotto.
             // Compatibile con Phase I/II di Daniels. Fonte: [2] Pfitzinger.
             return "~90-95% sforzo in salita – forza specifica (Z4-5, impatto ridotto)"
 
@@ -576,6 +576,20 @@ enum WorkoutType: String, CaseIterable {
         case .easy, .recovery, .progression,
              .hillRepeat, .rest, .race:
             return nil  // nessun limite percentuale rigido per questi tipi
+        }
+    }
+    
+    // Sezione corrispondente in MethodologyView.
+    // nil per tipi senza zona Daniels dedicata (rest, race, ecc.).
+    var methodologySection: MethodologySection? {
+        switch self {
+        case .easy, .longRun, .recovery: return .zoneE
+        case .marPace:                   return .zoneM
+        case .tempo:                     return .zoneT
+        case .interval:                  return .zoneI
+        case .repetition:                return .zoneR
+        case .progression, .hillRepeat:  return .phaseBase
+        case .rest, .race:               return nil
         }
     }
 }
@@ -713,7 +727,7 @@ struct TrainingPaces {
     
     func repetitionFormatted(unitSystem: UnitSystem) -> String {
         formattedPace(repetitionPaceSecsPerKm, unitSystem: unitSystem)
-    } //
+    } 
 }
 
 // MARK: - Workout
@@ -789,9 +803,9 @@ struct EventData: Identifiable {
 // MARK: Training Phases
 enum TrainingPhase: String {
     case base = "Fase Base"
-    case build = "Fase Sviluppo"
-    case peak = "Fase Picco"
-    case taper = "Taper"
+    case build = "Fase di Sviluppo"
+    case peak = "Fase di Picco"
+    case taper = "Scarico"
     case race = "Gara"
     
     var description: String {
@@ -803,4 +817,14 @@ enum TrainingPhase: String {
         case .race: return "Settimana di gara"
         }
     }
+    
+    var methodologySection: MethodologySection {
+            switch self {
+            case .base:  return .phaseBase
+            case .build: return .phaseBuild
+            case .peak:  return .phasePeak
+            case .taper: return .taper
+            case .race:  return .sources
+            }
+        }
 }

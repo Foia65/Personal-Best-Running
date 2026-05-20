@@ -54,19 +54,24 @@ struct PacesView: View {
 
             Section {
                 NoteRow(
-                    symbol: "info.circle",
+                    symbol: "function",
                     title: "Come sono calcolate",
-                    text: "Le andature si basano sul tuo VDOT attuale (\(String(format: "%.1f", plan.paces.vdot))), non sull'obiettivo. Ci si allena alla forma che si ha oggi: i ritmi migliorano man mano che il VDOT cresce."
+                    text: "Le andature si basano sul tuo VDOT attuale (\(String(format: "%.1f", plan.paces.vdot))), non sull'obiettivo. Ci si allena alla forma che si ha oggi: i ritmi migliorano man mano che il VDOT cresce.",
+                    methodologySection: .vdot
+
                 )
                 NoteRow(
                     symbol: "chart.pie",
                     title: "Distribuzione 80/20",
-                    text: "~80% del volume a E-pace (Z2), ~20% a T/I/R (Z4-Z5+). Fonte: Seiler & Kjerland (2006)."
+                    text: "~80% del volume a E-pace (Z2), ~20% a T/I/R (Z4-Z5+). Fonte: Seiler & Kjerland (2006).",
+                    methodologySection: .volume8020
                 )
                 NoteRow(
                     symbol: "ruler",
                     title: "Lungo: max 25% del volume settimanale",
-                    text: "Il lungo non supera il 25% del volume settimanale né 150 minuti. Fonte: Daniels (2022) cap. 4."
+                    text: "Il lungo non supera il 25% del volume settimanale né 150 minuti. Fonte: Daniels (2022) cap. 4.",
+                    methodologySection: .volumeLong
+
                 )
                 NoteRow(
                     symbol: "questionmark.circle",
@@ -116,6 +121,10 @@ struct PaceRow: View {
                             .padding(.vertical, 2)
                             .background(type.color.opacity(0.12), in: Capsule())
                     }
+                    // Link contestuale → sezione zona corrispondente in MethodologyView
+                    if let section = type.methodologySection {
+                        MethodologyButton(section: section)
+                    }
                 }
                 Text(detail)
                     .font(.caption2)
@@ -149,12 +158,19 @@ struct NoteRow: View {
     let symbol: String
     let title: String
     let text: String
+    // Opzionale: se specificata, mostra un MethodologyButton accanto al titolo.
+    var methodologySection: MethodologySection? = nil
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Label(title, systemImage: symbol)
-                .font(.footnote.bold())
-                .foregroundStyle(.secondary)
+            HStack(spacing: 6) {
+                Label(title, systemImage: symbol)
+                    .font(.footnote.bold())
+                    .foregroundStyle(.secondary)
+                if let section = methodologySection {
+                    MethodologyButton(section: section)
+                }
+            }
             Text(text)
                 .font(.caption)
                 .foregroundStyle(.secondary)
@@ -162,6 +178,23 @@ struct NoteRow: View {
         .padding(.vertical, 4)
     }
 }
+//struct NoteRow: View {
+//    let symbol: String
+//    let title: String
+//    let text: String
+//
+//    var body: some View {
+//        VStack(alignment: .leading, spacing: 4) {
+//            Label(title, systemImage: symbol)
+//                .font(.footnote.bold())
+//                .foregroundStyle(.secondary)
+//            Text(text)
+//                .font(.caption)
+//                .foregroundStyle(.secondary)
+//        }
+//        .padding(.vertical, 4)
+//    }
+//}
 
 #Preview  {
     let sampleInput = TrainingPlanInput(
