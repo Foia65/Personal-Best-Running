@@ -65,8 +65,10 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
 
     // MARK: - Generate Plan
      func generate(input: TrainingPlanInput) -> TrainingPlan {     // swiftlint:disable:this function_body_length
-        let calendar = Calendar.current
-        let today = Date()
+       // let calendar = Calendar.current
+         var calendar = Calendar.current
+         calendar.firstWeekday = 2  // 2 = lunedì — iOS usa domenica come default
+         let today = Date()
 
         // Calcola VDOT corrente dalla performance attuale
         let currentVDOT = VDOTCalculator.calculate(
@@ -89,7 +91,10 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
             vdot: normalizedVDOT,
             distance: input.raceDistance
         )
-        let estimatedPaceSecsPerKm = estimatedCurrent / input.raceDistance.meters * 1000
+        // [FIX] targetPaceSecsPerKm usa il tempo TARGET dichiarato dall'utente,
+        // non la stima dalla forma attuale. Il bug originale passava estimatedPaceSecsPerKm
+        // che mostrava il passo stimato (es. 5:52/km) invece del target (es. 5:19/km).
+        let targetPaceSecsPerKm = input.targetTime / input.raceDistance.meters * 1000
 
         // VDOT richiesto per il tempo target
         let targetVDOT = VDOTCalculator.calculate(
@@ -110,8 +115,21 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
         ).weekOfYear ?? 12
         let totalWeeks = min(input.raceDistance.maxPlanWeeks, max(12, rawWeeks))
 
-        let planStartDate = calendar.date(
+        // Calcola la data di inizio piano e agganciala al lunedì.
+        // Senza questo fix, planStartDate cade nello stesso giorno della settimana
+        // della gara (es. mercoledì), rendendo l'indice 6 un martedì invece di domenica.
+        // Agganciando al lunedì, l'indice 0=lun e l'indice 6=dom in ogni settimana.
+        let rawStartDate = calendar.date(
             byAdding: .weekOfYear, value: -totalWeeks, to: input.raceDate
+        )! // swiftlint:disable:this force_unwrapping
+
+        // Trova il lunedì della settimana di rawStartDate.
+        // calendar.firstWeekday = 2 (lunedì), quindi:
+        // .weekday component: 1=lun, 2=mar, ..., 7=dom (con firstWeekday=2)
+        let weekdayComponent = calendar.component(.weekday, from: rawStartDate)
+        let daysFromMonday = (weekdayComponent - calendar.firstWeekday + 7) % 7
+        let planStartDate = calendar.date(
+            byAdding: .day, value: -daysFromMonday, to: rawStartDate
         )! // swiftlint:disable:this force_unwrapping
 
         // Struttura delle fasi. Fonte: [1] cap. 10 (4 fasi), [7] Bompa periodizzazione.
@@ -155,7 +173,7 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
                 raceDate: input.raceDate,
                 raceName: input.raceName,
                 vdotGap: vdotGap,
-                targetPaceSecsPerKm: estimatedPaceSecsPerKm
+                targetPaceSecsPerKm: targetPaceSecsPerKm
             )
 
             let trWk = TrainingWeek(
@@ -204,14 +222,14 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
         /// Fonte: [1] cap. 10 (distribuzione fasi), [2] Pfitzinger (maratona).
         let phaseRatios: (base: Double, build: Double, peak: Double, taper: Double) // swiftlint:disable:this large_tuple
         switch distance {
-        case .fiveK:
-            phaseRatios = (0.25, 0.38, 0.27, 0.10)
         case .tenK:
             phaseRatios = (0.28, 0.38, 0.24, 0.10)
         case .halfMarathon:
             phaseRatios = (0.33, 0.37, 0.20, 0.10)
         case .marathon:
             phaseRatios = (0.38, 0.35, 0.17, 0.10)
+        case .fiveK:  // non distanza target, ma richiesto per exhaustiveness
+            phaseRatios = (0.25, 0.38, 0.27, 0.10)
         }
 
         let baseWeeks  = max(2, Int(Double(totalWeeks) * phaseRatios.base))
@@ -231,28 +249,33 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
 
     // MARK: - Weekly Volume Computation
 
-    private func estimateBaseWeeklyKm(
+    private func estimateBaseWeeklyKm( // swiftlint:disable:this cyclomatic_complexity
         daysPerWeek: Int,
         vdot: Double,
         distance: RaceDistance
     ) -> Double {
 
         // Km per sessione base, per fascia VDOT.
-        // Fonte: Daniels [1] cap. 2 (livelli di partenza raccomandati).
+        // [FIX] Valori aumentati per riflettere il volume reale nei piani Daniels/Pfitzinger.
+        // Un runner VDOT 40 che prepara la maratona dovrebbe fare 55-70 km/settimana
+        // in picco — con 4 giorni di allenamento servono ~13-15 km/sessione media.
+        // Fonte: Daniels [1] tavole piani cap. 15-16, Pfitzinger [2] cap. 2-3.
         let kmPerSession: Double
         switch vdot {
-        case ..<35: kmPerSession = 5.0   // beginner: sessioni brevi, adattamento graduale
-        case 35..<45: kmPerSession = 8.0
-        case 45..<55: kmPerSession = 11.0
-        default: kmPerSession = 14.0
+        case ..<35: kmPerSession = 6.0    // beginner: sessioni brevi, adattamento graduale
+        case 35..<45: kmPerSession = 10.0 // recreational: ~10 km/sessione base
+        case 45..<55: kmPerSession = 14.0 // intermediate
+        default: kmPerSession = 18.0      // advanced
         }
 
+        // Il fattore distanza amplifica il volume per distanze più lunghe.
+        // La maratona richiede un volume base significativamente maggiore della 5K.
         let distanceFactor: Double
         switch distance {
-        case .fiveK: distanceFactor = 0.75
-        case .tenK: distanceFactor = 0.88
+        case .tenK: distanceFactor = 0.85
         case .halfMarathon: distanceFactor = 1.0
-        case .marathon: distanceFactor = 1.15
+        case .marathon: distanceFactor = 1.25  // [FIX] era 1.15, troppo basso
+        case .fiveK: distanceFactor = 0.70     // non target, ma richiesto per exhaustiveness
         }
 
         let computed = Double(daysPerWeek) * kmPerSession * distanceFactor
@@ -265,57 +288,34 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
         ///
         /// Soglie basate su: distribuzione di popolazione (RunRepeat 2023),
         /// letteratura su prevenzione infortuni nei runner ricreativi.
+        // Cap assoluto: questo è il volume BASE di partenza (settimana 1).
+        // Il picco sarà base * 1.42 (moltiplicatore in computeWeeklyVolume).
+        // Fonte: Daniels [1] tavole, Pfitzinger [2], letteratura infortuni.
         let absoluteCap: Double
         switch (distance, vdot) {
         // 5K
-        case (.fiveK, ..<35):    absoluteCap = 18    // beginner 5K: max ~18 km/sett
-        case (.fiveK, 35..<45):  absoluteCap = 32
-        case (.fiveK, 45..<55):  absoluteCap = 50
-        case (.fiveK, _):        absoluteCap = 65
         // 10K
-        case (.tenK, ..<35):     absoluteCap = 25
-        case (.tenK, 35..<45):   absoluteCap = 42
-        case (.tenK, 45..<55):   absoluteCap = 60
-        case (.tenK, _):         absoluteCap = 75
+        case (.tenK, ..<35):     absoluteCap = 28
+        case (.tenK, 35..<45):   absoluteCap = 45
+        case (.tenK, 45..<55):   absoluteCap = 62
+        case (.tenK, _):         absoluteCap = 80
         // HM
-        case (.halfMarathon, ..<35):   absoluteCap = 35
-        case (.halfMarathon, 35..<45): absoluteCap = 55
-        case (.halfMarathon, 45..<55): absoluteCap = 70
-        case (.halfMarathon, _):       absoluteCap = 90
-        // Maratona
-        case (.marathon, ..<35):   absoluteCap = 45
-        case (.marathon, 35..<45): absoluteCap = 65
-        case (.marathon, 45..<55): absoluteCap = 85
-        case (.marathon, _):       absoluteCap = 110
+        case (.halfMarathon, ..<35):   absoluteCap = 38
+        case (.halfMarathon, 35..<45): absoluteCap = 55   // base ~55 → picco ~78 km
+        case (.halfMarathon, 45..<55): absoluteCap = 72
+        case (.halfMarathon, _):       absoluteCap = 95
+        // Maratona — [FIX] cap alzati: base più alta → picco realistico
+        case (.marathon, ..<35):   absoluteCap = 48   // base ~48 → picco ~68 km
+        case (.marathon, 35..<45): absoluteCap = 75   // base ~75 → picco ~106 km ← target Pfitzinger
+        case (.marathon, 45..<55): absoluteCap = 95   // base ~95 → picco ~135 km
+        case (.marathon, _):       absoluteCap = 120
         default:                   absoluteCap = 100
         }
 
         return min(computed, absoluteCap)
     }
     
-//    private func estimateBaseWeeklyKm(
-//        daysPerWeek: Int,
-//        vdot: Double,
-//        distance: RaceDistance
-//    ) -> Double {
-//        let kmPerSession: Double
-//        switch vdot {
-//        case ..<35: kmPerSession = 7.0
-//        case 35..<45: kmPerSession = 10.0
-//        case 45..<55: kmPerSession = 13.0
-//        default: kmPerSession = 16.0
-//        }
-//
-//        let distanceFactor: Double
-//        switch distance {
-//        case .fiveK: distanceFactor = 0.8
-//        case .tenK: distanceFactor = 0.9
-//        case .halfMarathon: distanceFactor = 1.0
-//        case .marathon: distanceFactor = 1.15
-//        }
-//
-//        return Double(daysPerWeek) * kmPerSession * distanceFactor
-//    }
+    // Versione precedente di estimateBaseWeeklyKm rimossa (volumi troppo bassi).
 
     private func computeWeeklyVolume(
         weekIndex: Int,
@@ -381,7 +381,10 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
             note = "Settimana di gara: solo riscaldamenti leggeri."
         }
 
-        return (max(20, kms), note)
+        // Floor minimo per evitare settimane vuote, ma proporzionale al base.
+        // Il precedente floor fisso di 20 km era troppo alto per 5K beginner.
+        let minKms = max(baseKm * 0.60, 8.0)
+        return (max(minKms, kms), note)
     }
 
     // MARK: - Generate Week Workouts
@@ -418,17 +421,26 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
         // del lungo in base alla fase e alla progressione interna, non solo
         // dal volume settimanale. Questo garantisce una curva di progressione
         // reale verso le distanze tipiche di gara.
+        // [FIX-DANIELS] Il lungo è cappato a 150 min a E-pace reale del runner.
+        // Fonte: Daniels [1] cap. 4 — il lungo si misura in tempo, non in km.
         let longRunKm = computeLongRunKm(
             weeklyKm: weeklyKm,
             distance: distance,
             phase: phase,
             weekIndex: weekIndex,
             totalWeeks: totalWeeks,
-            vdot: paces.vdot
+            vdot: paces.vdot,
+            easyPaceSecsPerKm: paces.easyPaceSecsPerKm
         )
         let remainingKm = weeklyKm - longRunKm
         let otherSessionsCount = max(1, daysPerWeek - 1)
-        let avgOtherKm = remainingKm / Double(otherSessionsCount)
+        // [FIX] Cap: le sessioni non-lungo non superano mai il lungo.
+        // Senza questo, quando il lungo è vincolato dal cap 150 min (runner lenti),
+        // il budget rimanente produce sessioni più lunghe del lungo stesso
+        // (es. un progressivo da 12 km con un lungo da 10 km).
+        // L'85% lascia un margine visibile tra le sessioni e il lungo.
+        let rawAvgOtherKm = remainingKm / Double(otherSessionsCount)
+        let avgOtherKm = min(rawAvgOtherKm, longRunKm * 0.85)
 
         for (slotIndex, workoutType) in weekStructure.enumerated() {
             guard slotIndex < trainingDayIndices.count else { break }
@@ -466,7 +478,7 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
             workouts.append(workout)
         }
 
-        // Giorni di riposo
+        // Giorni di riposo standard (giorni non di allenamento nella settimana)
         let allDays = Set(0..<7)
         let restDays = allDays.subtracting(Set(trainingDayIndices))
         for dayOffset in restDays.sorted() {
@@ -494,6 +506,46 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
             workouts.append(rest)
         }
 
+        // Nell'ultima settimana, i giorni dopo la gara diventano riposo extra.
+        // Questo gestisce gare che cadono prima di domenica (es. sabato mattina):
+        // i giorni da raceDay+1 a domenica sono tutti riposo post-gara.
+        if weekIndex == totalWeeks - 1 {
+            let raceDayOffset = calendar.dateComponents(
+                [.day], from: weekStartDate, to: raceDate
+            ).day ?? 6
+
+            // Aggiungi riposo per ogni giorno dopo la gara fino a fine settimana
+            // Se la gara è domenica (offset 6) non ci sono giorni successivi.
+            // Il controllo su raceDayOffset < 6 evita un range invalido 7..<7.
+            if raceDayOffset < 6 {
+            for dayOffset in (raceDayOffset + 1)..<7 {
+                // Salta se il giorno è già presente nei workout (non dovrebbe succedere)
+                guard !workouts.contains(where: { $0.dayOfWeek == dayOffset }) else { continue }
+                let postRaceDate = calendar.date(
+                    byAdding: .day, value: dayOffset, to: weekStartDate
+                )! // swiftlint:disable:this force_unwrapping
+                let postRaceRest = Workout(
+                    date: postRaceDate,
+                    type: .rest,
+                    week: weekIndex + 1,
+                    dayOfWeek: dayOffset,
+                    title: "Riposo post-gara",
+                    description: "Recupero dopo la gara. Riposo completo.",
+                    distanceKm: nil,
+                    durationMinutes: nil,
+                    paceTarget: nil,
+                    paceTargetSecsPerKm: nil,
+                    structuredSets: nil,
+                    scientificRationale: "Recupero post-gara: riposo completo per almeno 48-72h. " +
+                                         "Fonte: principio di recupero [7].",
+                    rpe: "1",
+                    tss: 0
+                )
+                workouts.append(postRaceRest)
+            }
+            } // if raceDayOffset < 6
+        }
+
         return workouts.sorted { $0.date < $1.date }
     }
 
@@ -503,12 +555,16 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
         /// Distribuzione ottimale: evita back-to-back sessioni intense,
         /// garantisce recupero tra le sessioni di qualità.
         /// Fonte: [2] Pfitzinger – distribuzione settimanale.
+        // Indici 0-6: 0=lunedì, 6=domenica (con calendar.firstWeekday=2).
+        // Il lungo è SEMPRE domenica (indice 6) — convenzione universale del runner.
+        // Si evitano sessioni di qualità sabato+domenica back-to-back:
+        // il sabato è sempre facile o riposo quando c'è il lungo domenica.
         switch daysPerWeek {
-        case 3: return [0, 2, 5]
-        case 4: return [0, 2, 4, 6]
-        case 5: return [0, 1, 3, 4, 6]
-        case 6: return [0, 1, 2, 4, 5, 6]
-        default: return [0, 2, 5]
+        case 3: return [1, 3, 6]           // mar, gio, dom(lungo)
+        case 4: return [1, 3, 5, 6]        // mar, gio, sab(easy), dom(lungo)
+        case 5: return [1, 2, 4, 5, 6]     // mar, mer, ven, sab(easy), dom(lungo)
+        case 6: return [0, 1, 3, 4, 5, 6]  // lun, mar, gio, ven, sab(easy), dom(lungo)
+        default: return [1, 3, 6]
         }
     }
 
@@ -631,96 +687,117 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
     //
     // Fonte: Daniels [1] cap. 4 (25% weekly, 150 min cap),
     //        Pfitzinger [2] cap. 3 (progressione lungo in piani maratona).
+    // [FIX-DANIELS] Il lungo si misura in TEMPO, non in km.
+    // Daniels [1] cap. 4: "The purpose of the long run is to spend time on
+    // your feet, not to cover a specific distance."
+    // "I also suggest that your longest steady run be no more than 2.5 hours
+    // (150 minutes), even if preparing for a marathon."
+    //
+    // Il vdotFactor precedente era sbagliato: Daniels prescrive 150 min per TUTTI.
+    // Il cap temporale produce naturalmente km minori per runner più lenti:
+    //   VDOT 60 (E-pace ~4:24/km): 150 min → ~34 km (cappato a 32)
+    //   VDOT 45 (E-pace ~5:33/km): 150 min → ~27 km
+    //   VDOT 35 (E-pace ~6:47/km): 150 min → ~22 km
+    //   VDOT 28 (E-pace ~8:03/km): 150 min → ~19 km
+    //
+    // Fonte: Daniels [1] cap. 4, Pfitzinger [2] cap. 3.
     private func computeLongRunKm(
         weeklyKm: Double,
         distance: RaceDistance,
         phase: TrainingPhase,
         weekIndex: Int,
         totalWeeks: Int,
-        vdot: Double
+        vdot: Double,
+        easyPaceSecsPerKm: Double   // E-pace reale del runner per il cap temporale
     ) -> Double {
 
-        // Progressione interna alla fase (0.0 = prima settimana, 1.0 = ultima)
-        // Calcolata approssimativamente dal weekIndex globale e dalla distribuzione fasi.
+        _ = vdot   // scartato esplicitamente per evitare il warning swiftlint
+        
         let phaseFraction = phaseProgressionFraction(
             phase: phase, weekIndex: weekIndex, totalWeeks: totalWeeks
         )
 
-        // Target per fase e distanza (km ideali indipendenti dal volume settimanale)
-        let (lo, hi) = longRunPhaseRange(phase: phase, distance: distance)
-        var target = lo + (hi - lo) * phaseFraction
+        let (low, high) = longRunPhaseRange(phase: phase, distance: distance)
+        var target = low + (high - low) * phaseFraction
 
-        // Fattore VDOT: runner più lenti fanno lunghi proporzionalmente più brevi.
-        // La stessa sessione richiede più tempo → il vincolo temporale di Daniels
-        // (max 150 min) produce km assoluti minori per runner con VDOT basso.
-        let vdotFactor: Double
-        switch vdot {
-        case ..<35:  vdotFactor = 0.75
-        case 35..<45: vdotFactor = 0.87
-        case 45..<55: vdotFactor = 1.00
-        default:     vdotFactor = 1.08
-        }
-        target *= vdotFactor
+        // [FIX] Rimosso vdotFactor: non è Daniels.
+        // Il cap temporale (150 min a E-pace) gestisce già la differenza
+        // tra runner veloci e lenti in modo fisiologicamente corretto.
 
-        // Cap assoluto: limite temporale di Daniels [1] (~150 min).
-        // 32 km ≈ 150 min a ~4:40/km (VDOT 50); scalato dal fattore VDOT sopra.
+        // Cap temporale di Daniels: max 150 minuti a E-pace reale del runner.
+        let maxKmByTime = (150.0 * 60.0) / easyPaceSecsPerKm
+
+        // Cap assoluto per distanza
         let absoluteMax: Double
         switch distance {
-        case .fiveK:        absoluteMax = 14
         case .tenK:         absoluteMax = 18
         case .halfMarathon: absoluteMax = 22
         case .marathon:     absoluteMax = 32
+        default:            absoluteMax = 18
         }
 
-        // Per 5K e 10K: il lungo non deve dominare il volume → cap 25% weekly.
-        // Per HM e maratona: il target è phase-driven, il volume settimanale
-        // è troppo basso per essere un vincolo sensato sul lungo.
-        switch distance {
-        case .fiveK, .tenK:
-            target = min(target, weeklyKm * 0.25, absoluteMax)
-        case .halfMarathon, .marathon:
-            target = min(target, absoluteMax)
+        // Applica i cap in base a fase e distanza
+        if phase == .taper || phase == .race {
+            // Taper: volume ridotto → cap 40% del settimanale per evitare
+            // che il lungo consumi quasi tutto il volume disponibile.
+            target = min(target, weeklyKm * 0.40, maxKmByTime, absoluteMax)
+        } else {
+            switch distance {
+            case .tenK:
+                // Distanze brevi: il lungo non deve dominare il volume.
+                target = min(target, weeklyKm * 0.25, maxKmByTime, absoluteMax)
+            case .halfMarathon, .marathon:
+                // Distanze lunghe: cap temporale + cap assoluto.
+                // Il volume settimanale non è usato come vincolo per HM/maratona.
+                target = min(target, maxKmByTime, absoluteMax)
+            default:
+                target = min(target, weeklyKm * 0.25, maxKmByTime, absoluteMax)
+            }
         }
 
-        // Minimo: non scendere sotto l'80% del target minimo della fase.
-        // Evita lunghi ridicolmente corti nelle prime settimane.
-        let floor = lo * vdotFactor * 0.80
-        return roundKm(max(target, floor))
+        // Floor: non scendere sotto l'80% del minimo della fase.
+        // Il cap temporale prevale sempre, anche sul floor.
+        let floor = low * 0.80
+        return roundKm(min(max(target, floor), maxKmByTime))
     }
 
-    /// Restituisce la fraction di avanzamento [0,1] all'interno della fase corrente,
-    /// stimata dalla posizione globale nel piano e dalla distribuzione delle fasi.
+    /// Restituisce la fraction di avanzamento [0,1] all'interno della fase corrente.
+    /// Usa il weekIndex reale passato dal generatore per un calcolo preciso.
+    /// [FIX] Aggiunto clamp [0,1] per evitare frazioni negative o >1 che
+    /// producevano target del lungo errati (es. W15 peak con frac=0.09 invece di 0.3+).
     private func phaseProgressionFraction(
         phase: TrainingPhase,
         weekIndex: Int,
         totalWeeks: Int
     ) -> Double {
-        // Stima la durata della fase dal piano corrente usando le stesse proporzioni
-        // di buildPhaseStructure — senza ricostruire l'intero array.
-        // Per semplicità usiamo il weekIndex normalizzato sul range della fase.
-        // Questo è un'approssimazione: la precisione millimetrica non è necessaria
-        // per la curva del lungo.
-        let totalActive = max(1, totalWeeks - 1)  // escludi settimana gara
+        let totalActive = max(1, totalWeeks - 1)
         let normalized = Double(weekIndex) / Double(totalActive)
 
+        // Le soglie riflettono le proporzioni medie dei piani per tutte le distanze.
+        // Usando i valori mediani tra le distanze (marathon 0.38, fiveK 0.25 → ~0.31 per base).
+        // Il clamp finale garantisce sempre un valore in [0,1].
+        let raw: Double
         switch phase {
         case .base:
-            // Base occupa i primi ~25-38% del piano
-            return normalized / 0.35
+            // Base: primi ~30% del piano (media tra 0.25 fiveK e 0.38 marathon)
+            raw = normalized / 0.30
         case .build:
-            // Build occupa ~35-72% del piano
-            return (normalized - 0.35) / 0.37
+            // Build: ~30-68% del piano
+            raw = (normalized - 0.30) / 0.38
         case .peak:
-            // Peak occupa ~72-90% del piano
-            return (normalized - 0.72) / 0.18
+            // Peak: ~68-88% del piano
+            raw = (normalized - 0.68) / 0.20
         case .taper, .race:
-            return 0.5   // taper: usa valore medio del range
+            return 0.5
         }
+        // [FIX] Clamp essenziale: senza questo, le prime settimane di una fase
+        // producevano frazioni negative (target = lo + negativo × range < lo).
+        return max(0.0, min(1.0, raw))
     }
     
     /// Range (min, max) km del lungo per fase e distanza gara.
     /// Fonte: Daniels [1] tavole piani cap. 15-16, Pfitzinger [2] cap. 3.
-    private func longRunPhaseRange(
+    private func longRunPhaseRange( // swiftlint:disable:this cyclomatic_complexity
         phase: TrainingPhase,
         distance: RaceDistance
     ) -> (Double, Double) {
@@ -736,16 +813,12 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
         case (.halfMarathon, .peak):   return (18, 22)
         case (.halfMarathon, .taper):  return (10, 14)
         // 10K
-        case (.tenK, .base):   return (8,  13)
+        case (.tenK, .base):   return (8, 13)
         case (.tenK, .build):  return (12, 16)
         case (.tenK, .peak):   return (15, 18)
-        case (.tenK, .taper):  return (8,  12)
+        case (.tenK, .taper):  return (8, 12)
         // 5K
-        case (.fiveK, .base):   return (6,  10)
-        case (.fiveK, .build):  return (8,  12)
-        case (.fiveK, .peak):   return (11, 14)
-        case (.fiveK, .taper):  return (6,  9)
-        // Race week
+        // Race week / fallback
         default: return (6, 8)
         }
     }
@@ -1002,7 +1075,7 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
             return buildRaceWorkout(
                 date: date,
                 raceName: "Gara",
-                distance: .fiveK,
+                distance: .tenK,  // .fiveK rimossa come distanza target
                 targetPaceSecsPerKm: paces.thresholdPaceSecsPerKm,
                 vdotGap: 0,
                 week: week, day: day
@@ -1020,14 +1093,14 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
         // Recupero attivo (jog): circa uguale al lavoro.
         // Fonte: [1] cap. 4, [3] Billat.
         switch distance {
-        case .fiveK:
-            return "2 km risc. + 6×600m a \(paces.intervalFormatted) (rec. 2' jog) + 1 km def."
         case .tenK:
             return "2 km risc. + 5×1000m a \(paces.intervalFormatted) (rec. 2'30\" jog) + 1 km def."
         case .halfMarathon:
             return "2 km risc. + 4×1200m a \(paces.intervalFormatted) (rec. 3' jog) + 1 km def."
         case .marathon:
             return "2 km risc. + 4×1600m a \(paces.intervalFormatted) (rec. 3' jog) + 2 km def."
+        case .fiveK:  // non distanza target, ma richiesto per exhaustiveness
+            return "2 km risc. + 6×600m a \(paces.intervalFormatted) (rec. 2' jog) + 1 km def."
         }
     }
 
@@ -1042,10 +1115,6 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
         paces: TrainingPaces
     ) -> String {
         switch distance {
-        case .fiveK:
-            // 5K: 200m e 400m R con recupero completo.
-            return "2 km risc. E + 4×200m R a \(paces.repetitionFormatted) " +
-                   "(rec. 200m jog) + 4×400m R (rec. 400m jog) + 1 km def. E"
         case .tenK:
             return "2 km risc. E + 3×200m R a \(paces.repetitionFormatted) " +
                    "(rec. 200m jog) + 5×400m R (rec. 400m jog) + 1 km def. E"
@@ -1056,6 +1125,9 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
         case .marathon:
             return "2 km risc. E + 8×200m R a \(paces.repetitionFormatted) " +
                    "(rec. 200m jog) + 2 km def. E"
+        case .fiveK:  // non distanza target, ma richiesto per exhaustiveness
+            return "2 km risc. E + 4×200m R a \(paces.repetitionFormatted) " +
+                   "(rec. 200m jog) + 4×400m R (rec. 400m jog) + 1 km def. E"
         }
     }
 

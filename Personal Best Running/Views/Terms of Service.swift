@@ -94,7 +94,7 @@ struct TermsOfServiceView: View {
                             .font(.headline)
                             .fontWeight(.semibold)
                         
-                        Text("Personal Best Running viene fornita \"così com'è\" senza garanzie di alcun tipo. **Lo sviluppatore è esonerato da qualsiasi responsabilità per danni, infortuni, lesioni fisiche o problemi di salute derivanti direttamente o indirettamente dall'esecuzione dei piani di allenamento** ottenuti tramite l'applicazione.")
+                        Text("Personal Best Running viene fornita \"così com'è\" senza garanzie di alcun tipo. **Lo sviluppatore è esonerato da qualsiasi responsabilità per danni, infortuni, lesioni fisiche o problemi di salute derivanti direttamente o indirettamente dall'esecuzione dei piani di allenamento** ottenuti tramite l'applicazione.") // swiftlint:disable:this line_length
                             .fontWeight(.medium)
                     }
                     
@@ -104,7 +104,7 @@ struct TermsOfServiceView: View {
                             .font(.headline)
                             .fontWeight(.semibold)
                         
-                        Text("Ci riserviamo il diritto di modificare i presenti Termini in qualsiasi momento. L'uso continuato dell'app dopo le modifiche costituisce l'accettazione dei nuovi Termini. Potremmo aggiornare l'app per migliorare le funzionalità, correggere bug o conformarci ai requisiti del sistema operativo.")
+                        Text("Ci riserviamo il diritto di modificare i presenti Termini in qualsiasi momento. L'uso continuato dell'app dopo le modifiche costituisce l'accettazione dei nuovi Termini. Potremmo aggiornare l'app per migliorare le funzionalità, correggere bug o conformarci ai requisiti del sistema operativo.") // swiftlint:disable:this line_length
                     }
                     
                     // 7. Risoluzione

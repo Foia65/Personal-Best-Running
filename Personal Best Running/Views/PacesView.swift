@@ -178,23 +178,6 @@ struct NoteRow: View {
         .padding(.vertical, 4)
     }
 }
-//struct NoteRow: View {
-//    let symbol: String
-//    let title: String
-//    let text: String
-//
-//    var body: some View {
-//        VStack(alignment: .leading, spacing: 4) {
-//            Label(title, systemImage: symbol)
-//                .font(.footnote.bold())
-//                .foregroundStyle(.secondary)
-//            Text(text)
-//                .font(.caption)
-//                .foregroundStyle(.secondary)
-//        }
-//        .padding(.vertical, 4)
-//    }
-//}
 
 #Preview  {
     let sampleInput = TrainingPlanInput(

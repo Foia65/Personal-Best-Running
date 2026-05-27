@@ -57,7 +57,7 @@ struct AthleteProfileView: View {
                 .padding(.vertical, 4)
             } header: {
                 Text("Profilo Atleta")
-                    .padding(.top , 20)
+                    .padding(.top, 20)
             }
 
             // MARK: Previsioni Multi-Distanza

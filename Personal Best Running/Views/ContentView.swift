@@ -248,8 +248,9 @@ struct PlanInputView: View {
         ScrollViewReader { proxy in
             Form {
                 Section {
+                    // La 5K è esclusa come distanza target:
                     Picker("Distanza", selection: $raceDistance) {
-                        ForEach(RaceDistance.allCases) { dist in
+                        ForEach(RaceDistance.targetDistances) { dist in
                             Text(dist.rawValue).tag(dist)
                         }
                     }

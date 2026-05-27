@@ -230,6 +230,14 @@ enum RaceDistance: String, CaseIterable, Identifiable {
     case halfMarathon = "Mezza Maratona"
     case marathon = "Maratona"
     
+    // La 5K è esclusa dalle distanze target perché:
+    // - Richiede una struttura di piano diversa (più R e I, meno volume)
+    // - Il generatore è ottimizzato per distanze da resistenza prolungata
+    // - Rimane disponibile come distanza di riferimento per il VDOT
+    static var targetDistances: [RaceDistance] {
+        [.tenK, .halfMarathon, .marathon]
+    }
+
     var id: String { rawValue }
     
     var meters: Double {
@@ -827,4 +835,4 @@ enum TrainingPhase: String {
             case .race:  return .sources
             }
         }
-}
+}     // swiftlint:disable:this file_length

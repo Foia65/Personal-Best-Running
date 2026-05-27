@@ -149,15 +149,21 @@ struct MethodologyView: View {
                     è uno degli errori più comuni — e più rischiosi. \
                     Daniels è esplicito: "Train at the level you are, \
                     not at the level you hope to be."
-                    
-                    I ritmi del piano riflettono la tua forma di oggi. \
+
+                    I ritmi del piano — Easy, M, T, I, R — riflettono \
+                    la tua forma di oggi, non l'obiettivo. \
                     Man mano che il VDOT cresce durante il piano, \
                     le sessioni diventano progressivamente più impegnative \
                     alla stessa intensità relativa.
+
+                    Nota sul lungo: anche la distanza del lungo dipende \
+                    dall'E-pace attuale, tramite il cap di 150 minuti. \
+                    Un runner più lento farà meno km per la stessa durata — \
+                    ed è corretto: lo stimolo fisiologico è equivalente.
                     """,
                 isInitiallyExpanded: false // non ha un link diretto
             )
-            
+
             MethodologyCard(
                 symbol: "person.2",
                 color: .secondary,
@@ -312,12 +318,12 @@ struct MethodologyView: View {
                 corpo: """
                     Obiettivo: massima qualità, picco di forma, simulazione gara.
                     
-                    Contenuto: T + I + M (o R per 5K/10K) + L run. \
+                    Contenuto: T + I + M (o I per 10K) + L run. \
                     La settimana più impegnativa del piano.
                     
                     Per maratona e mezza: le sessioni M-pace sono centrali \
                     perché adattano al ritmo specifico di gara.
-                    Per 5K/10K: le sessioni I a VO2max sono determinanti.
+                    Per 10K: le sessioni I a VO2max sono determinanti.
                     
                     Fonte: Daniels [1] Phase III (TQ) e IV (FQ), Pfitzinger [2].
                     """,
@@ -382,13 +388,12 @@ struct MethodologyView: View {
                     Il volume di partenza del piano dipende sia dalla \
                     distanza obiettivo che dal livello del runner (VDOT).
 
-                    Un beginner che prepara un 5K (VDOT < 35) parte da \
-                    ~11-18 km/settimana con sessioni da 3-5 km. \
-                    Lo stesso runner su maratona parte da ~25-45 km/settimana.
+                    Un beginner che prepara una 10K (VDOT < 35) parte da \
+                    ~18-25 km/settimana con sessioni da 4-6 km. \
+                    Lo stesso runner su maratona parte da ~30-45 km/settimana.
 
                     Soglie orientative settimanali per livello:
 
-                    5K:  beginner ~18 km · recreational ~32 km · intermedio ~50 km
                     10K: beginner ~25 km · recreational ~42 km · intermedio ~60 km
                     HM:  beginner ~35 km · recreational ~55 km · intermedio ~70 km
                     Mar: beginner ~45 km · recreational ~65 km · intermedio ~85 km
@@ -413,22 +418,15 @@ struct MethodologyView: View {
                             to no more than 25 percent of weekly mileage." \
                             Secondo vincolo: max 150 minuti (2h30') per sessione.
 
-                            Range orientativi per distanza:
+                            Range orientativi per distanza (picco):
 
-                            Maratona: 16 km (base) → 27-32 km (peak)
-                            Mezza: 10 km (base) → 18-22 km (peak)
-                            10K: 8 km (base) → 15-18 km (peak)
-                            5K: 6 km (base) → 11-14 km (peak)
+                            Maratona: 16 km (base) → fino a 32 km (peak, VDOT alto)
+                            Mezza:    10 km (base) → fino a 22 km (peak)
+                            10K:       8 km (base) → fino a 18 km (peak)
 
-                            Il target scala anche con il VDOT: runner più lenti \
-                            fanno lunghi proporzionalmente più brevi, perché la \
-                            stessa distanza richiede più tempo e il vincolo di \
-                            150 minuti produce km assoluti minori.
-
-                            Per maratona e mezza il target è phase-driven (non \
-                            cappato dal volume settimanale). Per 5K e 10K si applica \
-                            anche il cap 25% del volume, perché il lungo non deve \
-                            dominare il volume su distanze brevi.
+                            Per maratona e mezza il target è phase-driven (cap \
+                            temporale 150 min). Per la 10K si applica anche il \
+                            cap 25% del volume settimanale.
 
                             Fonte: Daniels [1] cap. 4 e 15-16, Pfitzinger [2] cap. 3.
                             """
@@ -441,15 +439,15 @@ struct MethodologyView: View {
 //                title: "Il Lungo: 25% e 150 minuti",
 //                corpo: """
 //                    Il lungo non supera il 25% del volume settimanale.
-//                    
+//
 //                    Daniels [1] cap. 4: "I like to limit any single L run \
 //                    to no more than 25 percent of weekly mileage."
-//                    
+//
 //                    Secondo vincolo: max 150 minuti (2h30') anche per \
 //                    la preparazione maratona. Questo vincolo temporale è \
 //                    fondamentale: runner più lenti non devono fare lunghi \
 //                    sproporzionati solo perché il piano prevede 30 km.
-//                    
+//
 //                    Il piano applica entrambi i vincoli, prendendo il minore.
 //                    """,
 //                isInitiallyExpanded: scrollTo == .volumeLong
@@ -487,15 +485,21 @@ struct MethodologyView: View {
                     Daniels definisce limiti precisi per ogni zona \
                     in una singola sessione:
                     
-                    T (Tempo): max 10% del volume settimanale
-                    M (Marathon Pace): max 20% del volume settimanale
-                    I (Interval): max il minore tra 10 km e 8% del volume settimanale
+                    T (Tempo):      max 10% del volume settimanale
+                    M (Marathon):   max 20% del volume settimanale
+                    I (Interval):   max il minore tra 10 km e 8% settimanale
                     R (Repetition): max 5% del volume settimanale
-                    L (Long Run): max 25% del volume settimanale
-                    
+                    L (Long Run):   max 25% del volume settimanale
+                                    E max 150 minuti a E-pace (vincolo primario)
+
+                    Il vincolo temporale (150 min) prevale sul 25% del \
+                    volume quando i due entrano in conflitto. \
+                    Per HM e maratona è sempre il cap temporale \
+                    a determinare i km effettivi del lungo.
+
                     Questi limiti prevengono il sovraccarico e garantiscono \
                     un recupero adeguato tra le sessioni.
-                    
+
                     Fonte: Daniels [1] cap. 4.
                     """,
                 isInitiallyExpanded: scrollTo == .volumeLimits
@@ -601,55 +605,6 @@ struct MethodologyCard: View {
     var body: some View { bodyContent }
 }
 
-//struct MethodologyCard: View {
-//    let symbol: String
-//    let color: Color
-//    let title: LocalizedStringKey
-//    let corpo: LocalizedStringKey
-//
-//    @State private var expanded = false
-//
-//    var bodyView: some View {
-//        VStack(alignment: .leading, spacing: 0) {
-//            Button {
-//                withAnimation(.easeInOut(duration: 0.2)) { expanded.toggle() }
-//            } label: {
-//                HStack(spacing: 12) {
-//                    ZStack {
-//                        Circle()
-//                            .fill(color.opacity(0.12))
-//                            .frame(width: 34, height: 34)
-//                        Image(systemName: symbol)
-//                            .font(.system(size: 14, weight: .semibold))
-//                            .foregroundStyle(color)
-//                    }
-//                    Text(title)
-//                        .font(.subheadline.weight(.medium))
-//                        .foregroundStyle(.primary)
-//                    Spacer()
-//                    Image(systemName: expanded ? "chevron.up" : "chevron.down")
-//                        .font(.caption2)
-//                        .foregroundStyle(.tertiary)
-//                }
-//            }
-//            .buttonStyle(.plain)
-//
-//            if expanded {
-//                Text(corpo)
-//                    .font(.footnote)
-//                    .foregroundStyle(.secondary)
-//                    .padding(.top, 10)
-//                    .padding(.leading, 46)   // allineato con il testo del titolo
-//                    .fixedSize(horizontal: false, vertical: true)
-//            }
-//        }
-//        .padding(.vertical, 4)
-//    }
-//
-//    var bodyContent: some View { bodyView }
-//    var body: some View { bodyContent }
-//}
-
 // MARK: - ZoneRow
 //
 // Riga espandibile per le zone di Daniels.
@@ -712,50 +667,6 @@ struct ZoneRow: View {
         .padding(.vertical, 4)
     }
 }
-//struct ZoneRow: View {
-//    let type: WorkoutType
-//    let title: String
-//    let intensity: String
-//    let workBout: String
-//    let recovery: String
-//    let purpose: String
-//    let source: String
-//
-//    @State private var expanded = false
-//
-//    var body: some View {
-//        VStack(alignment: .leading, spacing: 0) {
-//            Button {
-//                withAnimation(.easeInOut(duration: 0.2)) { expanded.toggle() }
-//            } label: {
-//                HStack(spacing: 12) {
-//                    WorkoutBadge(type: type, size: 34)
-//                    Text(title)
-//                        .font(.subheadline.weight(.medium))
-//                        .foregroundStyle(.primary)
-//                    Spacer()
-//                    Image(systemName: expanded ? "chevron.up" : "chevron.down")
-//                        .font(.caption2)
-//                        .foregroundStyle(.tertiary)
-//                }
-//            }
-//            .buttonStyle(.plain)
-//
-//            if expanded {
-//                VStack(alignment: .leading, spacing: 8) {
-//                    ZoneDetailRow(label: "Intensità", value: intensity)
-//                    ZoneDetailRow(label: "Work bout", value: workBout)
-//                    ZoneDetailRow(label: "Recupero", value: recovery)
-//                    ZoneDetailRow(label: "Scopo", value: purpose)
-//                    ZoneDetailRow(label: "Fonte", value: source)
-//                }
-//                .padding(.top, 10)
-//                .padding(.leading, 46)
-//            }
-//        }
-//        .padding(.vertical, 4)
-//    }
-//}
 
 // MARK: - ZoneDetailRow
 

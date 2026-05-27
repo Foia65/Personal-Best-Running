@@ -1,11 +1,34 @@
 import SwiftUI
+import Combine
+
+class LanguageManager: ObservableObject {
+    // Salva l'identificatore della lingua (es. "it", "en") in UserDefaults
+    @AppStorage("selected_language") var selectedLanguage: String = "it" {
+        didSet {
+            // Notifica i cambiamenti alle viste
+            objectWillChange.send()
+        }
+    }
+    
+    // Converte la stringa in un oggetto Locale utilizzabile da SwiftUI
+    var currentLocale: Locale {
+        Locale(identifier: selectedLanguage)
+    }
+}
 
 struct SettingsView: View {
     @AppStorage("runnerSex") private var runnerSex: RunnerSex = .male
     @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
     @EnvironmentObject private var themeManager: ThemeManager
     @State private var showSexInfo = false
-
+    @EnvironmentObject var languageManager: LanguageManager
+    
+    // Lingue supportate
+    let languages = [
+        ("Italiano", "it"),
+        ("English", "en")
+    ]
+    
     var body: some View {
         List {
             Section(header: HStack { Text("Informazioni e supporto").font(.title3) }.padding(.top, 20)) {
@@ -27,14 +50,14 @@ struct SettingsView: View {
                     Label {
                         Text("Aiuto")
                             .foregroundColor(.primary)
-
+                        
                     } icon: {
                         Image(systemName: "questionmark.circle")
                             .foregroundColor(.secondary)
                             .font(.footnote)
                     }
                 }
-            
+                
                 // 3 - supporto
                 Button {
                     if let url = URL(string: "mailto:info.foiasoft@gmail.com") {
@@ -68,7 +91,7 @@ struct SettingsView: View {
                     
                 }
             }
-
+            
             Section(header: Text("Preferenze").font(.title3)) {
                 
                 // 1 - Sesso runner
@@ -83,7 +106,7 @@ struct SettingsView: View {
                             .font(.footnote)
                             .foregroundColor(.secondary)
                     }
-
+                    
                     Button {
                         showSexInfo = true
                     } label: {
@@ -92,9 +115,9 @@ struct SettingsView: View {
                             .foregroundStyle(.secondary)
                     }
                     .buttonStyle(.plain)
-
+                    
                     Spacer()
-
+                    
                     Picker("", selection: $runnerSex) {
                         ForEach(RunnerSex.allCases) { sex in
                             Text(sex.label).tag(sex)
@@ -111,7 +134,7 @@ struct SettingsView: View {
                         ScrollView {
                             Text("""
                             Il sesso NON influisce sul calcolo del VDOT.
-
+                            
                             Viene utilizzato esclusivamente per contestualizzare \
                             la valutazione del livello del runner \
                             (principiante, intermedio o avanzato).
@@ -180,19 +203,28 @@ struct SettingsView: View {
                 }
                 
                 // 4 - Lingua
-                NavigationLink(destination: Segnalibro()) {
+                HStack {
                     Label {
                         Text("Lingua")
                             .foregroundStyle(.primary)
+                            .lineLimit(1)
+                            .layoutPriority(1)
                     } icon: {
                         Image(systemName: "globe")
                             .foregroundColor(.secondary)
                             .font(.footnote)
                     }
+                    Spacer()
+                    Picker("", selection: $languageManager.selectedLanguage) {
+                        ForEach(languages, id: \.1) { name, code in
+                            Text(name).tag(code)
+                        }
+                    }
+                    .font(.system(.subheadline, design: .rounded, weight: .regular))
+                    .pickerStyle(.navigationLink) 
                 }
-                
-                }
-           
+            }
+            
             Section(header: Text("Privacy e Sicurezza").font(.title3)) {
                 
                 NavigationLink(destination: PrivacyPolicyView()) {
@@ -219,7 +251,7 @@ struct SettingsView: View {
         }
         .font(.system(.subheadline, design: .default, weight: .semibold))
         .environment(\.defaultMinListRowHeight, 28)
-
+        
     }
 }
 
@@ -238,5 +270,6 @@ extension Bundle {
     NavigationStack {
         SettingsView()
             .environmentObject(ThemeManager())
+            .environmentObject(LanguageManager())
     }
 }

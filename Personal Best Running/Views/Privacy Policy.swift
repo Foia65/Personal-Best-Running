@@ -256,7 +256,7 @@ struct PrivacyPolicyView: View {
                             .font(.headline)
                             .fontWeight(.semibold)
                         
-                        Text("Per gli utenti nell'Unione Europea, operiamo in conformità con il Regolamento Generale sulla Protezione dei Dati (GDPR). Poiché non raccogliamo dati personali, la maggior parte dei diritti GDPR (come l'accesso ai server o la portabilità) non si applica. Mantieni comunque il pieno controllo eliminando l'app o pulendo i dati sul telefono.")
+                        Text("Per gli utenti nell'Unione Europea, operiamo in conformità con il Regolamento Generale sulla Protezione dei Dati (GDPR). Poiché non raccogliamo dati personali, la maggior parte dei diritti GDPR (come l'accesso ai server o la portabilità) non si applica. Mantieni comunque il pieno controllo eliminando l'app o pulendo i dati sul telefono.") // swiftlint:disable:this line_length
                     }
                     
                     // 12. Diritti della Privacy in California
