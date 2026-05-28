@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		E4029A9E2FA77E9600DB1597 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = E4029A9D2FA77E9600DB1597 /* .swiftlint.yml */; };
+		E47FED782FC84D1B00759E95 /* splash_iphone.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E47FED772FC84D1B00759E95 /* splash_iphone.mp4 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E4029A622FA777CD00DB1597 /* Personal Best Running.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Personal Best Running.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4029A9D2FA77E9600DB1597 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		E47FED772FC84D1B00759E95 /* splash_iphone.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = splash_iphone.mp4; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -40,6 +42,7 @@
 				E4029A9D2FA77E9600DB1597 /* .swiftlint.yml */,
 				E4029A642FA777CD00DB1597 /* Personal Best Running */,
 				E4029A632FA777CD00DB1597 /* Products */,
+				E47FED772FC84D1B00759E95 /* splash_iphone.mp4 */,
 			);
 			sourceTree = "<group>";
 		};
@@ -117,6 +120,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E47FED782FC84D1B00759E95 /* splash_iphone.mp4 in Resources */,
 				E4029A9E2FA77E9600DB1597 /* .swiftlint.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

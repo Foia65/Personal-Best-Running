@@ -2,9 +2,9 @@ import SwiftUI
 import Combine
 
 enum AppTheme: String, CaseIterable {
-    case system = "System"
-    case light = "Light"
-    case dark = "Dark"
+    case system = "Sistema"
+    case light = "Chiaro"
+    case dark = "Scuro"
 }
 
 class ThemeManager: ObservableObject {

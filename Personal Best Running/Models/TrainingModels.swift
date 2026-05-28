@@ -268,6 +268,31 @@ enum RaceDistance: String, CaseIterable, Identifiable {
         case .marathon: return 0.9090
         }
     }
+    
+    var performanceBounds: PerformanceBounds {
+        switch self {
+        case .fiveK:
+            return PerformanceBounds(
+                minSeconds: 13 * 60,          // 13:00 (élite mondiale ~12:35)
+                maxSeconds: 60 * 60           // 1:00:00 (12:00 /km)
+            )
+        case .tenK:
+            return PerformanceBounds(
+                minSeconds: 27 * 60,          // 27:00 (élite mondiale ~26:17)
+                maxSeconds: 2 * 3600          // 2:00:00 (12:00 /km)
+            )
+        case .halfMarathon:
+            return PerformanceBounds(
+                minSeconds: 58 * 60,          // 58:00 (élite mondiale ~57:31)
+                maxSeconds: 4 * 3600          // 4:00:00 (~11:22 /km)
+            )
+        case .marathon:
+            return PerformanceBounds(
+                minSeconds: 2 * 3600,         // 2:00:00 (élite mondiale)
+                maxSeconds: 8 * 3600          // 8:00:00 (~11:22 /km)
+            )
+        }
+    }
 }
 
 // MARK: - WorkoutType
@@ -309,7 +334,7 @@ enum WorkoutType: String, CaseIterable {
     // Scopo: velocità, economia di corsa, potenza anaerobica.
     // Distinto dall'Interval per: work bout più breve (max 2 min),
     // recupero completo (non attivo), intensità più alta (~105-120% VDOT).
-    case repetition  = "Repetition Training"
+    case repetition  = "Ripetute"
 
     // ── Tipi supplementari ───────────────────────────────────────────────────
     case progression = "Corsa Progressiva"

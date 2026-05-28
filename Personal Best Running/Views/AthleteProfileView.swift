@@ -240,7 +240,7 @@ struct RunnerLevelDescriptionView: View {
         switch level {
         case .beginner:     return sogliaLivello.recreational
         case .recreational: return sogliaLivello.intermediate
-        case .intermediate: return sogliaLivello.advanced
+        case .intermediate:  return sogliaLivello.advanced
         case .advanced:     return sogliaLivello.elite
         case .elite:        return nil
         }

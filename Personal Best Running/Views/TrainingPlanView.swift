@@ -139,7 +139,7 @@ struct TrainingPlanView: View {
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets())
                     
-                    // NUOVO BOTTONE CSV
+#if DEBUG  // bottone CSV export per testing
                     Button(action: exportCSV) {
                         HStack {
                             Spacer()
@@ -155,7 +155,7 @@ struct TrainingPlanView: View {
                     .tint(.teal)
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets())
-                                    
+#endif
                     Button(action: exportCalendar) {
                         HStack {
                             Spacer()
@@ -280,16 +280,16 @@ struct TrainingPlanView: View {
     }
     
     func formatTimeForFilename(_ seconds: Double) -> String {
-            guard seconds > 0 else { return "" }
-            let hour = Int(seconds) / 3600
-            let minute = (Int(seconds) % 3600) / 60
-            let second = Int(seconds) % 60
-            
-            if hour > 0 {
-                return String(format: "%dh%02dm%02ds", hour, minute, second)
-            }
-            return String(format: "%dm%02ds", minute, second)
+        guard seconds > 0 else { return "" }
+        let hour = Int(seconds) / 3600
+        let minute = (Int(seconds) % 3600) / 60
+        let second = Int(seconds) % 60
+        
+        if hour > 0 {
+            return String(format: "%dh%02dm%02ds", hour, minute, second)
         }
+        return String(format: "%dm%02ds", minute, second)
+    }
     
     // MARK: - Export CSV Logic
     private func exportCSV() {
@@ -325,7 +325,7 @@ struct TrainingPlanView: View {
                 } else {
                     distanceStr = "" // Lascia la cella vuota se non c'è distanza (es. Riposo)
                 }
-                                
+                
                 // Formattazione passo basata su unitSystem
                 let paceStr: String
                 if let secsPerKm = workout.paceTargetSecsPerKm, workout.type != .rest {
@@ -341,36 +341,36 @@ struct TrainingPlanView: View {
         }
         
         // 3. Preparazione e scrittura del file temporaneo .csv (Nome file base originale)
-    //    let fileName = "\(plan.input.raceName.replacingOccurrences(of: " ", with: "_"))_piano.csv"
-      
+        //    let fileName = "\(plan.input.raceName.replacingOccurrences(of: " ", with: "_"))_piano.csv"
+        
         // --- DINAMIC FILENAME GENERATION ---
-                // Sanitizzazione del nome della gara
-                let baseRaceName = plan.input.raceName.replacingOccurrences(of: " ", with: "_")
-                
-                // Formattiamo i tempi in stringhe leggibili per i file (es. 1h45m00s o 55m00s)
-                let targetTimeStr = formatTimeForFilename(Double(plan.input.targetTime))
-                let currentTimeStr = formatTimeForFilename(Double(plan.input.currentPerformance.time))
-                
-                // Costruiamo il suffisso basato sulla presenza dei dati richiesti
-                let metricsSuffix: String
-                if !targetTimeStr.isEmpty && !currentTimeStr.isEmpty {
-                    metricsSuffix = "_Target_\(targetTimeStr)_Current_\(currentTimeStr)"
-                } else {
-                    // Fallback nel caso in cui i tempi siano vuoti o zero (puoi adattarlo se calcoli i ritmi/passi altrove)
-                    metricsSuffix = ""
-                }
-                
-                let fileName = "\(baseRaceName)\(metricsSuffix).csv"
+        // Sanitizzazione del nome della gara
+        let baseRaceName = plan.input.raceName.replacingOccurrences(of: " ", with: "_")
+        
+        // Formattiamo i tempi in stringhe leggibili per i file (es. 1h45m00s o 55m00s)
+        let targetTimeStr = formatTimeForFilename(Double(plan.input.targetTime))
+        let currentTimeStr = formatTimeForFilename(Double(plan.input.currentPerformance.time))
+        
+        // Costruiamo il suffisso basato sulla presenza dei dati richiesti
+        let metricsSuffix: String
+        if !targetTimeStr.isEmpty && !currentTimeStr.isEmpty {
+            metricsSuffix = "_Target_\(targetTimeStr)_Current_\(currentTimeStr)"
+        } else {
+            // Fallback nel caso in cui i tempi siano vuoti o zero (puoi adattarlo se calcoli i ritmi/passi altrove)
+            metricsSuffix = ""
+        }
+        
+        let fileName = "\(baseRaceName)\(metricsSuffix).csv"
         
         let tmpURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
         
         do {
             
             //  Se il file esiste già in 'tmp', lo eliminiamo
-                        if FileManager.default.fileExists(atPath: tmpURL.path) {
-                            try FileManager.default.removeItem(at: tmpURL)
-                            print("Vecchio file CSV rimosso con successo.")
-                        }
+            if FileManager.default.fileExists(atPath: tmpURL.path) {
+                try FileManager.default.removeItem(at: tmpURL)
+                print("Vecchio file CSV rimosso con successo.")
+            }
             // Scrittura in UTF-8
             try csvString.write(to: tmpURL, atomically: true, encoding: .utf8)
             print("CSV salvato in: \(tmpURL.path)")

@@ -76,11 +76,7 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
             distanceMeters: input.currentPerformance.distance.meters
         )
 
-        /// Il VDOT è già sex-neutral per definizione di Daniels [1] cap. 5.
-        /// runner con VDOT 50 si allena agli stessi ritmi indipendentemente dal sesso.
-        /// Il VDOT riflette già la performance individuale reale.
-        /// Fonte: "The higher VDOT value is associated with the better runner,
-        /// regardless of age or sex" — Daniels [1] cap. 5.
+        // VDOT è sex-neutral per definizione [1] cap. 5: nessuna correzione necessaria.
         let normalizedVDOT = currentVDOT
 
         // Calcola ritmi di allenamento dal VDOT corrente (senza correzione sesso)
@@ -91,9 +87,8 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
             vdot: normalizedVDOT,
             distance: input.raceDistance
         )
-        // [FIX] targetPaceSecsPerKm usa il tempo TARGET dichiarato dall'utente,
-        // non la stima dalla forma attuale. Il bug originale passava estimatedPaceSecsPerKm
-        // che mostrava il passo stimato (es. 5:52/km) invece del target (es. 5:19/km).
+        // Usa il tempo TARGET dichiarato, non la stima dalla forma attuale:
+        // il passo gara mostrato deve riflettere l'obiettivo del runner.
         let targetPaceSecsPerKm = input.targetTime / input.raceDistance.meters * 1000
 
         // VDOT richiesto per il tempo target
@@ -115,17 +110,15 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
         ).weekOfYear ?? 12
         let totalWeeks = min(input.raceDistance.maxPlanWeeks, max(12, rawWeeks))
 
-        // Calcola la data di inizio piano e agganciala al lunedì.
-        // Senza questo fix, planStartDate cade nello stesso giorno della settimana
-        // della gara (es. mercoledì), rendendo l'indice 6 un martedì invece di domenica.
-        // Agganciando al lunedì, l'indice 0=lun e l'indice 6=dom in ogni settimana.
+        // Aggancia planStartDate al lunedì della sua settimana.
+        // Senza questo, l'indice 0 non corrisponde sempre a lunedì
+        // (es. se rawStartDate cade a mercoledì, dayOfWeek 0 sarebbe mercoledì).
         let rawStartDate = calendar.date(
             byAdding: .weekOfYear, value: -totalWeeks, to: input.raceDate
         )! // swiftlint:disable:this force_unwrapping
 
-        // Trova il lunedì della settimana di rawStartDate.
-        // calendar.firstWeekday = 2 (lunedì), quindi:
-        // .weekday component: 1=lun, 2=mar, ..., 7=dom (con firstWeekday=2)
+        // Con firstWeekday=2 (lunedì), .weekday restituisce 1=lun…7=dom.
+        // daysFromMonday è lo shift da sottrarre per tornare al lunedì.
         let weekdayComponent = calendar.component(.weekday, from: rawStartDate)
         let daysFromMonday = (weekdayComponent - calendar.firstWeekday + 7) % 7
         let planStartDate = calendar.date(
@@ -199,7 +192,7 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
 
     // MARK: - Phase Structure
 
-    /// La struttura delle fasi ora rispecchia la logica di Daniels [1] cap. 10:
+    /// La struttura delle fasi  rispecchia la logica di Daniels [1] cap. 10:
     ///
     ///  Phase I  (Base)  → E running + strides + hillRepeat leggere + progressioni.
     ///                     "Mostly E running" – nessun lavoro I pesante.
@@ -255,11 +248,9 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
         distance: RaceDistance
     ) -> Double {
 
-        // Km per sessione base, per fascia VDOT.
-        // [FIX] Valori aumentati per riflettere il volume reale nei piani Daniels/Pfitzinger.
-        // Un runner VDOT 40 che prepara la maratona dovrebbe fare 55-70 km/settimana
-        // in picco — con 4 giorni di allenamento servono ~13-15 km/sessione media.
-        // Fonte: Daniels [1] tavole piani cap. 15-16, Pfitzinger [2] cap. 2-3.
+        // Km per sessione base per fascia VDOT — valori calibrati sui piani
+        // Daniels [1] cap. 15-16 e Pfitzinger [2] cap. 2-3.
+        // Il volume di picco sarà base × 1.42 (v. computeWeeklyVolume).
         let kmPerSession: Double
         switch vdot {
         case ..<35: kmPerSession = 6.0    // beginner: sessioni brevi, adattamento graduale
@@ -280,17 +271,8 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
 
         let computed = Double(daysPerWeek) * kmPerSession * distanceFactor
 
-        /// Cap assoluto per combinazione distanza/livello VDOT.
-        /// Impedisce volumi sproporzionati per runner alle prime armi.
-        /// Un beginner 5K non ha bisogno (né può reggere) 20+ km/settimana
-        /// nelle prime settimane. Fonte: Daniels [1] cap. 2 — progressione
-        /// conservativa per livelli bassi; Pfitzinger [2] — volume iniziale.
-        ///
-        /// Soglie basate su: distribuzione di popolazione (RunRepeat 2023),
-        /// letteratura su prevenzione infortuni nei runner ricreativi.
-        // Cap assoluto: questo è il volume BASE di partenza (settimana 1).
-        // Il picco sarà base * 1.42 (moltiplicatore in computeWeeklyVolume).
-        // Fonte: Daniels [1] tavole, Pfitzinger [2], letteratura infortuni.
+        // Cap assoluto per combinazione distanza/livello: limita il volume di partenza
+        // per i runner meno allenati e garantisce un picco realistico (base × 1.42).
         let absoluteCap: Double
         switch (distance, vdot) {
         // 5K
@@ -331,10 +313,8 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
 
         switch phase {
         case .base:
-            /// Progressione con regola del 10% [1][8].
-            /// Daniels suggerisce di restare allo stesso carico 3-4 settimane
-            /// prima di aumentare; qui ogni 4a settimana è di scarico (-20%)
-            /// come compromesso tra la regola del 10% e questo principio.
+            /// Ogni 4ª settimana: scarico (-20%) per supercompensazione.
+            /// Nelle altre: aumento max 10% (regola del 10% [1][8]).
             if weekNum % 4 == 0 {
                 kms = prevKm * 0.80
                 note = "Settimana di scarico (↓20%): supercompensazione e adattamento. " +
@@ -346,11 +326,8 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
             }
 
         case .build:
-            /// In questa fase si introduce prima R (velocità pura, basso stress
-            /// aerobico), poi T (soglia). L'I arriverà nella fase Peak.
-            /// Daniels [1] cap. 10: "going from E running to R workouts is adding
-            /// only a speed stress, with little being asked of the aerobic or
-            /// lactate-clearance systems."
+            // Build: ogni 3ª settimana micro-scarico (-15%).
+            // R aggiunge solo stimolo velocità senza stress aerobico aggiuntivo [1].
             if weekNum % 3 == 0 {
                 kms = prevKm * 0.85
                 note = "Micro-scarico nel blocco Build: volume -15%, qualità R+T mantenuta. " +
@@ -368,8 +345,9 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
                    "Fonte: [1] Phase III (TQ), [2] Pfitzinger."
 
         case .taper:
-            /// Taper: -40-60% volume, intensità invariata. Fonte: [6] Mujika.
-            /// "Supercompensation is expected to peak during taper."
+            /// Taper: -40-60% volume, intensità invariata [6].
+            /// taperProgress decresce verso 0 man mano che ci si avvicina alla gara,
+            /// portando taperFactor verso 0.40 (massima riduzione nell'ultima settimana).
             let taperProgress = Double(totalWeeks - weekIndex) / Double(totalWeeks)
             let taperFactor = 0.60 - (0.20 * taperProgress)
             kms = baseKm * max(0.40, taperFactor)
@@ -414,15 +392,11 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
             daysPerWeek: daysPerWeek,
             distance: distance,
             vdotGap: vdotGap,
-            vdot: paces.vdot   // [FIX-C] passa il VDOT per adattare la struttura al livello
+            vdot: paces.vdot   // adatta la struttura al livello del runner (es. includeHills)
         )
 
-        // [FIX] computeLongRunKm ora è phase-aware: calcola il target
-        // del lungo in base alla fase e alla progressione interna, non solo
-        // dal volume settimanale. Questo garantisce una curva di progressione
-        // reale verso le distanze tipiche di gara.
-        // [FIX-DANIELS] Il lungo è cappato a 150 min a E-pace reale del runner.
-        // Fonte: Daniels [1] cap. 4 — il lungo si misura in tempo, non in km.
+        // Il lungo è phase-driven: la progressione segue la curva attesa per distanza,
+        // poi viene cappato dal limite temporale di Daniels (150 min a E-pace) [1] cap. 4.
         let longRunKm = computeLongRunKm(
             weeklyKm: weeklyKm,
             distance: distance,
@@ -434,11 +408,9 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
         )
         let remainingKm = weeklyKm - longRunKm
         let otherSessionsCount = max(1, daysPerWeek - 1)
-        // [FIX] Cap: le sessioni non-lungo non superano mai il lungo.
-        // Senza questo, quando il lungo è vincolato dal cap 150 min (runner lenti),
-        // il budget rimanente produce sessioni più lunghe del lungo stesso
-        // (es. un progressivo da 12 km con un lungo da 10 km).
-        // L'85% lascia un margine visibile tra le sessioni e il lungo.
+        // Se il cap temporale (150 min) tiene basso il lungo, il budget residuo
+        // potrebbe produrre sessioni più lunghe del lungo stesso.
+        // L'85% mantiene le altre sessioni sempre inferiori al lungo.
         let rawAvgOtherKm = remainingKm / Double(otherSessionsCount)
         let avgOtherKm = min(rawAvgOtherKm, longRunKm * 0.85)
 
@@ -506,9 +478,9 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
             workouts.append(rest)
         }
 
-        // Nell'ultima settimana, i giorni dopo la gara diventano riposo extra.
-        // Questo gestisce gare che cadono prima di domenica (es. sabato mattina):
-        // i giorni da raceDay+1 a domenica sono tutti riposo post-gara.
+        // Nell'ultima settimana, i giorni successivi alla gara diventano riposo.
+        // Se la gara cade sabato (offset 5), domenica diventa riposo post-gara.
+        // Il controllo su raceDayOffset < 6 evita un range invalido 7..<7.
         if weekIndex == totalWeeks - 1 {
             let raceDayOffset = calendar.dateComponents(
                 [.day], from: weekStartDate, to: raceDate
@@ -593,12 +565,9 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
         vdot: Double        // [FIX-C] aggiunto per adattare la struttura al livello
     ) -> [WorkoutType] {
 
-        // [FIX-C] I runner con VDOT < 35 (beginner) nella fase Base non fanno
-        // hillRepeat: sostituiti con .easy o .progression per ridurre il rischio
-        // infortuni e rispettare il principio di progressione graduale.
-        // Daniels [1] cap. 10 Phase I: "mostly E running" — le colline sono
-        // stimoli supplementari appropriati solo quando c'è già una base solida.
-        // Soglia 35: corrisponde a ~30 min su 5K, livello recreational.
+        // VDOT < 35 (beginner): hillRepeat sostituito con .easy o .progression.
+        // Daniels [1] Phase I: "mostly E running" — le colline sono stimolo
+        // supplementare adatto solo dopo una base aerobica consolidata.
         let includeHills = vdot >= 35
 
         switch phase {
@@ -620,11 +589,9 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
             }
 
         case .build:
-            // [FIX-3] Fase Build: R (velocità) + T (soglia) + lungo.
-            // Daniels [1] cap. 10: "going from E running to R workouts is adding
-            // only a speed stress" → R arriva PRIMA di T+I, non dopo.
-            // T viene introdotto come secondo stimolo qualitativo.
-            // Nessuna sessione I ancora: quella arriverà in Peak.
+            // R (velocità) arriva prima di T+I: aggiunge solo stress velocità,
+            // senza appesantire il sistema aerobico/lattato [1] cap. 10.
+            // T introdotto come secondo stimolo. Nessun I ancora.
             switch daysPerWeek {
             case 3: return [.repetition, .tempo, .longRun]
             case 4: return [.easy, .repetition, .tempo, .longRun]
@@ -641,7 +608,8 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
             let specificWork: WorkoutType = (distance == .marathon || distance == .halfMarathon)
                 ? .marPace
                 : .interval
-            // Se il gap VDOT è grande (>3), aggiungiamo più stimolo qualitativo.
+            // Se il gap VDOT è ampio (>3 punti), si privilegia un secondo stimolo I
+            // per massimizzare l'adattamento VO2max; altrimenti T è sufficiente.
             let secondQuality: WorkoutType = vdotGap > 3 ? .interval : .tempo
             switch daysPerWeek {
             case 3: return [.tempo, specificWork, .longRun]
@@ -670,37 +638,20 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
     
     // MARK: - Long Run Computation
 
-    // Il lungo è ora calcolato in base alla fase e alla progressione interna,
-    // non solo dal volume settimanale. Questo garantisce una curva realistica:
-    //   Maratona:  16 km (base inizio) → 28-32 km (peak fine)
-    //   HM:        10 km (base inizio) → 19-22 km (peak fine)
-    //   10K:        8 km (base inizio) → 15-18 km (peak fine)
-    //   5K:         6 km (base inizio) → 11-14 km (peak fine)
+    // Il lungo è calcolato in base alla fase (non al volume settimanale), seguendo
+    // la progressione attesa per distanza:
+    //   Maratona: 16 km (base) → 32 km (peak)
+    //   HM:       10 km (base) → 22 km (peak)
+    //   10K:       8 km (base) → 18 km (peak)
     //
-    // Per HM e maratona il target è phase-driven (non cappato dal volume
-    // settimanale, che è troppo basso per vincolare il lungo in modo sensato).
-    // Per 5K e 10K si applica anche il cap 25% del volume settimanale
-    // perché il lungo non deve dominare il volume su distanze brevi.
+    // Daniels [1] cap. 4: il lungo si misura in TEMPO, non in km.
+    // Cap: 150 min a E-pace reale — produce naturalmente km minori per runner lenti:
+    //   VDOT 60 (E ~4:24/km) → ~34 km (cappato a 32)
+    //   VDOT 35 (E ~6:47/km) → ~22 km
     //
-    // Il fattore VDOT scala il target: runner più lenti fanno lunghi
-    // proporzionalmente più brevi (stessa intensità relativa, meno km assoluti).
-    //
-    // Fonte: Daniels [1] cap. 4 (25% weekly, 150 min cap),
-    //        Pfitzinger [2] cap. 3 (progressione lungo in piani maratona).
-    // [FIX-DANIELS] Il lungo si misura in TEMPO, non in km.
-    // Daniels [1] cap. 4: "The purpose of the long run is to spend time on
-    // your feet, not to cover a specific distance."
-    // "I also suggest that your longest steady run be no more than 2.5 hours
-    // (150 minutes), even if preparing for a marathon."
-    //
-    // Il vdotFactor precedente era sbagliato: Daniels prescrive 150 min per TUTTI.
-    // Il cap temporale produce naturalmente km minori per runner più lenti:
-    //   VDOT 60 (E-pace ~4:24/km): 150 min → ~34 km (cappato a 32)
-    //   VDOT 45 (E-pace ~5:33/km): 150 min → ~27 km
-    //   VDOT 35 (E-pace ~6:47/km): 150 min → ~22 km
-    //   VDOT 28 (E-pace ~8:03/km): 150 min → ~19 km
-    //
-    // Fonte: Daniels [1] cap. 4, Pfitzinger [2] cap. 3.
+    // Per HM/maratona il volume settimanale non vincola il lungo (sarebbe troppo basso).
+    // Per 5K/10K si applica anche il cap al 25% settimanale (il lungo non deve dominare).
+    // Fonte: [1] cap. 4, [2] cap. 3.
     private func computeLongRunKm(
         weeklyKm: Double,
         distance: RaceDistance,
@@ -711,7 +662,7 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
         easyPaceSecsPerKm: Double   // E-pace reale del runner per il cap temporale
     ) -> Double {
 
-        _ = vdot   // scartato esplicitamente per evitare il warning swiftlint
+        _ = vdot   // rimosso vdotFactor: il cap temporale (150 min) gestisce già le differenze tra runner
         
         let phaseFraction = phaseProgressionFraction(
             phase: phase, weekIndex: weekIndex, totalWeeks: totalWeeks
@@ -738,8 +689,8 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
 
         // Applica i cap in base a fase e distanza
         if phase == .taper || phase == .race {
-            // Taper: volume ridotto → cap 40% del settimanale per evitare
-            // che il lungo consumi quasi tutto il volume disponibile.
+            // Taper: cap al 40% del settimanale (già ridotto) per evitare
+            // che il lungo assorba quasi tutto il volume disponibile.
             target = min(target, weeklyKm * 0.40, maxKmByTime, absoluteMax)
         } else {
             switch distance {
@@ -761,10 +712,9 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
         return roundKm(min(max(target, floor), maxKmByTime))
     }
 
-    /// Restituisce la fraction di avanzamento [0,1] all'interno della fase corrente.
-    /// Usa il weekIndex reale passato dal generatore per un calcolo preciso.
-    /// [FIX] Aggiunto clamp [0,1] per evitare frazioni negative o >1 che
-    /// producevano target del lungo errati (es. W15 peak con frac=0.09 invece di 0.3+).
+    /// Fraction [0,1] di avanzamento all'interno della fase corrente,
+    /// normalizzata sulle soglie medie tra le distanze supportate.
+    /// Il clamp finale evita valori negativi o >1 nei boundary di fase.
     private func phaseProgressionFraction(
         phase: TrainingPhase,
         weekIndex: Int,
@@ -848,10 +798,8 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
                 paceTarget: paces.easyFormatted,
                 paceTargetSecsPerKm: paces.easyPaceSecsPerKm,
                 structuredSets: nil,
-                // [FIX-6] Non esistono zone di "recovery pace" separate in Daniels.
-                // L'E-pace copre tutto il range di bassa intensità (59-74% VO2max).
-                // Fonte: [1] cap. 4: "E is typically an intensity about 59 to 74
-                // percent of O2max or about 65 to 79 percent of maximum heart rate."
+                // E-pace copre tutto il range bassa intensità in Daniels (59-74% VO2max);
+                // non esiste una recovery zone separata. Fonte: [1] cap. 4, [4] Seiler.
                 scientificRationale: "L'E running sviluppa la base aerobica, " +
                     "vascolarizzazione e resistenza all'infortunio. ~80% del volume " +
                     "settimanale a questa intensità. Fonte: [1] cap. 4, [4] Seiler.",
@@ -872,7 +820,7 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
                 paceTarget: paces.easyFormatted,
                 paceTargetSecsPerKm: paces.easyPaceSecsPerKm,
                 structuredSets: nil,
-                // [FIX-1] Cap al 25% del volume settimanale, max 150 min (cap Daniels).
+                // Cap 25% settimanale e max 150 min a E-pace (Daniels [1] cap. 4).
                 scientificRationale: "Il lungo stimola adattamenti aerobici e riserve " +
                     "di glicogeno. Limitato al 25% del volume settimanale (non 30-33%) " +
                     "e max 150 min per sessione. Fonte: [1] cap. 4.",
@@ -881,9 +829,7 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
             )
 
         case .tempo:
-            // T-pace: 20 min continuati (Tempo Run) o cruise intervals.
-            // Limite: max 10% del volume settimanale in una sessione [1].
-            // [FIX-5] Intensità corretta: 85-88% VO2max / 88-92% FCmax (non 80-90%).
+            // T-pace: 85-88% VO2max. Max 10% del volume settimanale per sessione [1].
             let maxTempoKm = min(
                 kms * 0.55,
                 weeklyKm * TrainingPlanGenerator.maxThresholdFractionOfWeekly,
@@ -904,8 +850,7 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
                 paceTargetSecsPerKm: paces.thresholdPaceSecsPerKm,
                 structuredSets: "2 km risc. E + \(Int(mainKm)) km a \(paces.thresholdFormatted) " +
                                 "+ 2 km def. E",
-                // [FIX-5] Intensità corretta: 85-88% VO2max / 88-92% FCmax.
-                // La versione precedente indicava 80-90% FCmax (troppo basso).
+                // Intensità corretta: 85-88% VO2max / 88-92% FCmax. Fonte: [1] cap. 4.
                 scientificRationale: "T-pace (85-88% VO2max / 88-92% FCmax) migliora " +
                     "la clearance del lattato e la soglia anaerobica. " +
                     "Max 10% volume settimanale per sessione. " +
@@ -942,20 +887,15 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
             )
 
         case .repetition:
-            // [FIX-2] NUOVO TIPO: R (Repetition) pace.
-            // Daniels [1] cap. 4: "The primary purpose of R training is to improve
-            // anaerobic power, speed, and economy of running."
-            // Caratteristiche chiave:
-            //   - Work bout MAX 2 minuti per singola ripetizione
-            //   - Recupero COMPLETO (uguale o maggiore del lavoro, non attivo)
-            //   - Volume sessione: max 5% del volume settimanale
-            //   - Fase di introduzione: Build (prima delle I, aggiunge solo velocità)
+            // R-pace: velocità pura, basso stress aerobico.
+            // Work bout max 2 min, recupero COMPLETO (jog uguale al lavoro).
+            // Introdotto in Build prima delle I: aggiunge solo stimolo velocità [1] cap. 4.
             let maxRKm = weeklyKm * TrainingPlanGenerator.maxRepetitionFractionOfWeekly
             let sessionKm = min(kms * 0.70, maxRKm)
             let rStructure = buildRepetitionStructure(distance: distance, paces: paces)
             return Workout(
                 date: date, type: .repetition, week: week, dayOfWeek: day,
-                title: "Repetition Training",
+                title: "Ripetute",
                 description: "Ripetute brevi a ritmo R (105-120% VDOT). " +
                              "Recupero completo tra le ripetizioni: non iniziare " +
                              "la prossima finché non sei pronto a correre con buona meccanica.",
@@ -964,9 +904,8 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
                 paceTarget: paces.repetitionFormatted,
                 paceTargetSecsPerKm: paces.repetitionPaceSecsPerKm,
                 structuredSets: rStructure,
-                // [FIX-2] Il recupero COMPLETO è fondamentale per le R:
-                // Daniels: "In order to run fast, you have to be recovered enough
-                // to run fast and with good technique."
+                // Il recupero completo è fondamentale: la prossima ripetuta
+                // si inizia solo quando la meccanica di corsa è di nuovo buona [1].
                 scientificRationale: "R-pace (105-120% VDOT) migliora velocità, " +
                     "economia di corsa e potenza anaerobica. Work bout max 2 min, " +
                     "recupero completo (jog uguale al lavoro). Max 5% volume settimanale. " +
@@ -977,10 +916,9 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
             )
 
         case .recovery:
-            // [FIX-6] Il tipo .recovery viene mantenuto per compatibilità con il
-            // resto del codebase, ma è ora mappato su E-pace (non su una zona
-            // di ritmo fittizia più lenta). Daniels non definisce una "recovery zone"
-            // separata: usa semplicemente E-pace per tutto il range bassa intensità.
+            // Daniels non definisce una recovery zone separata: E-pace copre
+            // tutto il range bassa intensità. Questo tipo usa il limite inferiore
+            // dell'E-pace per segnalare un'uscita di recupero senza creare una zona fittizia.
             return Workout(
                 date: date, type: .recovery, week: week, dayOfWeek: day,
                 title: "Corsa Facile (Recupero)",
@@ -988,8 +926,7 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
                              "Obiettivo: promuovere il recupero, non costruire fitness.",
                 distanceKm: roundKm(max(4, kms * 0.65)),
                 durationMinutes: nil,
-                // [FIX-6] Usa easyPace (limite inferiore del range) invece di
-                // un fantomatico recoveryPace non presente in Daniels.
+                // Usa il limite inferiore dell'E-pace (non un ritmo fittizio più lento).
                 paceTarget: paces.easyFormatted + " (limite inf.)",
                 paceTargetSecsPerKm: paces.easyPaceSecsPerKm,
                 structuredSets: nil,
@@ -1021,10 +958,7 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
         case .hillRepeat:
             let reps = (distance == .marathon || distance == .halfMarathon) ? "8-10" : "6-8"
             let hillLen = distance == .marathon ? "200m" : "150m"
-            // [FIX-B] Rimosso max(6, ...) hardcoded che forzava 6 km indipendentemente
-            // dal livello del runner. Il minimo di 4 km garantisce solo lo spazio
-            // minimo per riscaldamento (2 km) + almeno 1-2 ripetute + defaticamento.
-            // Fonte: struttura sessione colline in Pfitzinger [2].
+            // Minimo 4 km: garantisce spazio per 2 km riscaldamento + ripetute + defaticamento.
             let hillSessionKm = roundKm(max(4, kms * 0.9))
             return Workout(
                 date: date, type: .hillRepeat, week: week, dayOfWeek: day,

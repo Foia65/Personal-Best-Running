@@ -8,33 +8,6 @@ struct PerformanceBounds {
     let maxSeconds: Double  // tempo massimo accettabile (runner lento ma reale)
 }
 
-extension RaceDistance {
-    var performanceBounds: PerformanceBounds {
-        switch self {
-        case .fiveK:
-            return PerformanceBounds(
-                minSeconds: 13 * 60,          // 13:00 (élite mondiale ~12:35)
-                maxSeconds: 60 * 60           // 1:00:00 (12:00 /km)
-            )
-        case .tenK:
-            return PerformanceBounds(
-                minSeconds: 27 * 60,          // 27:00 (élite mondiale ~26:17)
-                maxSeconds: 2 * 3600          // 2:00:00 (12:00 /km)
-            )
-        case .halfMarathon:
-            return PerformanceBounds(
-                minSeconds: 58 * 60,          // 58:00 (élite mondiale ~57:31)
-                maxSeconds: 4 * 3600          // 4:00:00 (~11:22 /km)
-            )
-        case .marathon:
-            return PerformanceBounds(
-                minSeconds: 2 * 3600,         // 2:00:00 (élite mondiale)
-                maxSeconds: 8 * 3600          // 8:00:00 (~11:22 /km)
-            )
-        }
-    }
-}
-
 // MARK: - Content View
 
 struct ContentView: View {
@@ -495,4 +468,5 @@ struct PlanInputView: View {
 #Preview {
     ContentView()
         .environmentObject(ThemeManager())
+        .environmentObject(LanguageManager())
 }

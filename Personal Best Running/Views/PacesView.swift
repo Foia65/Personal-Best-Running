@@ -19,7 +19,7 @@ struct PacesView: View {
              "5-6", "E-pace prolungato · max 25% vol. sett. · max 150 min"),
 
             (.marPace, piano.mpFormatted(unitSystem: unitSystem),
-             "6-7", "75-84% VO2max · 80-89% FCmax"),
+             "7", "75-84% VO2max · 80-89% FCmax"),
 
             (.tempo, piano.thresholdFormatted(unitSystem: unitSystem),
              "7-8", "85-88% VO2max · 88-92% FCmax · max 10% vol. sett."),
@@ -28,7 +28,7 @@ struct PacesView: View {
              "8-9", "95-100% VO2max · rec. attivo (jog) · max 8% vol. sett."),
 
             (.repetition, piano.repetitionFormatted(unitSystem: unitSystem),
-             "9+", "105-120% VDOT · max 2 min/rep · rec. completo · max 5% vol. sett.")
+             "8-9", "105-120% VDOT · max 2 min/rep · rec. completo · max 5% vol. sett.")
         ]
     }
 
