@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var plan: TrainingPlan?
     @State private var showingPlan = false
     @State private var selectedTab = 0
+    @StateObject private var languageManager = LanguageManager()
     @AppStorage("runnerSex") private var runnerSex: RunnerSex = .male
     @StateObject private var calendarManager = CalendarManager()
 
@@ -64,6 +65,7 @@ struct ContentView: View {
                             EmptyStateView(icon: "calendar.badge.plus", title: "Nessun piano attivo")
                         }
                     }
+                    .environmentObject(languageManager)
                     .tabItem {
                         Image(systemName: "calendar")
                         Text("Piano")
@@ -78,6 +80,7 @@ struct ContentView: View {
                             EmptyStateView(icon: "figure.run", title: "Nessun piano attivo")
                         }
                     }
+                    .environmentObject(languageManager)
                     .tabItem {
                         Image(systemName: "figure.run")
                         Text("Ritmi")
@@ -91,7 +94,9 @@ struct ContentView: View {
                         } else {
                             EmptyStateView(icon: "calendar.badge.plus", title: "Nessun piano attivo")
                         }
-                    }                        .tabItem {
+                    }
+                    .environmentObject(languageManager)
+                    .tabItem {
                             Image(systemName: "person")
                             Text("Profilo")
                         }
@@ -99,6 +104,7 @@ struct ContentView: View {
 
                     // Tab 5: preferenze
                     SettingsView()
+                        .environmentObject(languageManager)
                         .tabItem {
                             Image(systemName: "gearshape")
                             Text("Impostazioni")
@@ -224,7 +230,7 @@ struct PlanInputView: View {
                     // La 5K è esclusa come distanza target:
                     Picker("Distanza", selection: $raceDistance) {
                         ForEach(RaceDistance.targetDistances) { dist in
-                            Text(dist.rawValue).tag(dist)
+                            Text(dist.localizedName).tag(dist)
                         }
                     }
                     .tint(.primary) // senza questo non è visibile in dark mode
@@ -308,7 +314,7 @@ struct PlanInputView: View {
                     if isTargetTimeOutOfBounds && targetTime > 0 {
                         let bounds = raceDistance.performanceBounds
                         Label {
-                            Text("Tempo non realistico per \(raceDistance.rawValue). Range accettato: \(formatSeconds(bounds.minSeconds)) – \(formatSeconds(bounds.maxSeconds))")
+                            Text("Tempo non realistico per \(raceDistance.localizedName). Range accettato: \(formatSeconds(bounds.minSeconds)) – \(formatSeconds(bounds.maxSeconds))")
                         } icon: {
                             Image(systemName: "exclamationmark.triangle.fill")
                         }
@@ -322,7 +328,7 @@ struct PlanInputView: View {
                 Section("Performance Attuale") {
                     Picker("Distanza di riferimento", selection: $currentDistance) {
                         ForEach(RaceDistance.allCases) { dist in
-                            Text(dist.rawValue).tag(dist)
+                            Text(dist.localizedName).tag(dist)
                         }
                     }
                     .tint(.primary) // senza questo non è visibile in dark mode
@@ -356,7 +362,7 @@ struct PlanInputView: View {
                     if isCurrentTimeOutOfBounds && currentTime > 0 {
                         let bounds = currentDistance.performanceBounds
                         Label {
-                            Text("Tempo non realistico per \(currentDistance.rawValue). Range accettato: \(formatSeconds(bounds.minSeconds)) – \(formatSeconds(bounds.maxSeconds))")
+                            Text("Tempo non realistico per \(currentDistance.localizedName). Range accettato: \(formatSeconds(bounds.minSeconds)) – \(formatSeconds(bounds.maxSeconds))")
                         } icon: {
                             Image(systemName: "exclamationmark.triangle.fill")
                         }
@@ -368,7 +374,7 @@ struct PlanInputView: View {
                 .listRowInsets(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
 
                 Section("Giorni di Allenamento") {
-                    Stepper("Giorni/settimana: \(trainingDays)", value: $trainingDays, in: 3...6)
+                    Stepper("Giorni alla settimana: \(trainingDays)", value: $trainingDays, in: 3...6)
                 }
                 .listRowBackground(Color.indigo.opacity(0.05))
                 .listRowInsets(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
@@ -469,4 +475,5 @@ struct PlanInputView: View {
     ContentView()
         .environmentObject(ThemeManager())
         .environmentObject(LanguageManager())
+        .environment(\.locale, .init(identifier: "en"))
 }

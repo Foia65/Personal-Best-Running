@@ -8,7 +8,7 @@ struct TermsOfServiceView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     
-                    Text("Termini di Servizio")
+                    Text("Termini di Utilizzo")
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .padding(.bottom, 10)

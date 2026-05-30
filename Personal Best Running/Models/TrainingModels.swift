@@ -9,14 +9,14 @@ enum GoalFeasibility {
     ///   - È la stessa unità usata in tutto il sistema Daniels [1]
     ///   - diffSecs dipende dalla distanza (22' su maratona ≠ 22' su 5K
     /// Fonte: Daniels [1] cap. 5 — VDOT come misura universale della fitness.
-
+    
     case conservative    // vdotGap < -5  (target più lento della forma attuale)
     case prudent        // vdotGap -5..<-2
     case realistic      // vdotGap -2..<2  (allineato alla forma attuale)
     case ambitious      // vdotGap  2..<5
     case challenging    // vdotGap  5..<10
     case extreme        // vdotGap >= 10
-
+    
     // Calcolo dalla differenza VDOT. Entry point unico usato dal generatore.
     static func from(vdotGap: Double) -> GoalFeasibility {
         switch vdotGap {
@@ -28,22 +28,22 @@ enum GoalFeasibility {
         default:       return .extreme
         }
     }
-
+    
     // MARK: Label breve (usata in PlanHeaderView / fitnessGap)
-
+    
     // Testo breve senza emoji — la segnalazione visiva è affidata a
     // sfSymbol e color, più coerenti con l'estetica iOS di SF Symbols.
-    var label: String {
-        switch self {
-        case .conservative: return "Obiettivo conservativo"
-        case .prudent:      return "Obiettivo prudente"
-        case .realistic:    return "Obiettivo realistico"
-        case .ambitious:    return "Obiettivo ambizioso"
-        case .challenging:  return "Obiettivo sfidante"
-        case .extreme:      return "Obiettivo estremo"
+        var label: String {
+            switch self {
+            case .conservative: return "Obiettivo conservativo"
+            case .prudent:      return "Obiettivo prudente"
+            case .realistic:    return "Obiettivo realistico"
+            case .ambitious:    return "Obiettivo ambizioso"
+            case .challenging:  return "Obiettivo sfidante"
+            case .extreme:      return "Obiettivo estremo"
+            }
         }
-    }
-
+    
     // SF Symbol abbinati al livello di fattibilità.
     var sfSymbol: String {
         switch self {
@@ -55,39 +55,27 @@ enum GoalFeasibility {
         case .extreme:      return "exclamationmark.triangle.fill"
         }
     }
-
+    
     // MARK: Descrizione estesa (usata in WorkoutRowView / scheda GARA)
     // Contestualizzata per il giorno di gara: tono motivazionale e consigli pratici.
-
+    
     var raceDescription: String {
         switch self {
         case .conservative:
-            return "Giorno di gara! Il tuo obiettivo è molto conservativo rispetto " +
-                   "alla forma attuale: potresti fare molto meglio. " +
-                   "Parti controllato e valuta in corsa se aumentare il ritmo."
+            return "Giorno di gara! Il tuo obiettivo è molto conservativo rispetto alla forma attuale: potresti fare molto meglio. Parti controllato e valuta in corsa se aumentare il ritmo."
         case .prudent:
-            return "Giorno di gara! Obiettivo prudente rispetto alla forma attuale. " +
-                   "Ottima base per un risultato solido senza rischi. " +
-                   "Corri con fiducia."
+            return "Giorno di gara! Obiettivo prudente rispetto alla forma attuale. Ottima base per un risultato solido senza rischi. Corri con fiducia."
         case .realistic:
-            return "Giorno di gara! Obiettivo allineato alla tua forma attuale. " +
-                   "Esegui il piano di gara: il lavoro fatto lo supporta. " +
-                   "Parti cauto nei primi km."
+            return "Giorno di gara! Obiettivo allineato alla tua forma attuale. Esegui il piano di gara: il lavoro fatto lo supporta. Parti cauto nei primi km."
         case .ambitious:
-            return "Giorno di gara! Obiettivo ambizioso rispetto alla forma di partenza. " +
-                   "Se il piano è andato bene, puoi farcela. " +
-                   "Fondamentale partire cauto nei primi km."
+            return "Giorno di gara! Obiettivo ambizioso rispetto alla forma di partenza. Se il piano è andato bene, puoi farcela. Fondamentale partire cauto nei primi km."
         case .challenging:
-            return "Giorno di gara! Obiettivo molto sfidante rispetto alla forma di partenza. " +
-                   "Corri al meglio della tua condizione attuale e usa questa gara " +
-                   "come tappa di avvicinamento."
+            return "Giorno di gara! Obiettivo molto sfidante rispetto alla forma di partenza. Corri al meglio della tua condizione attuale e usa questa gara come tappa di avvicinamento."
         case .extreme:
-            return "Giorno di gara! L'obiettivo dichiarato era molto oltre la forma di partenza. " +
-                   "Corri al tuo ritmo stimato: usa questa gara come esperienza " +
-                   "e rivaluta l'obiettivo per il prossimo ciclo."
+            return "Giorno di gara! L'obiettivo dichiarato era molto oltre la forma di partenza. Corri al tuo ritmo stimato: usa questa gara come esperienza e rivaluta l'obiettivo per il prossimo ciclo."
         }
     }
-
+    
     // MARK: Colore SwiftUI (coerente tra PlanHeaderView e WorkoutRowView)
     var color: Color {
         switch self {
@@ -119,6 +107,16 @@ enum RunnerSex: String, CaseIterable, Identifiable, Codable {
         case .female: return "Donna"
         }
     }
+
+    var localizedGender: LocalizedStringResource {
+        switch self {
+        case .male:
+            return LocalizedStringResource("gender.label.male", defaultValue: "Uomo")
+        case .female:
+            return LocalizedStringResource("gender.label.female", defaultValue: "Donna")
+        }
+    }
+        
     
     var icon: String {
         switch self {
@@ -135,7 +133,7 @@ enum RunnerSex: String, CaseIterable, Identifiable, Codable {
     /// Uomo:   mediana maratona ~4:30 → VDOT ~37
     /// Donna:  mediana maratona ~4:55 → VDOT ~33
     /// Il "corridore medio" ha VDOT diverso per sesso → le soglie si spostano.
-
+    
     // swiftlint:disable:next large_tuple
     var levelThresholds: (recreational: Double, intermediate: Double, advanced: Double, elite: Double) {
         switch self {
@@ -173,9 +171,16 @@ enum UnitSystem: String, CaseIterable, Identifiable, Codable {
         case .imperial: return "Imperiale (mi)"
         }
     }
+    var localizedUnitSystem: LocalizedStringResource {
+        switch self {
+        case .metric:
+            return LocalizedStringResource("UnitSystem.label.metric", defaultValue: "Metrico")
+        case .imperial:
+            return LocalizedStringResource("UnitSystem.label.imperial", defaultValue: "Imperiale")
+        }
+    }
     
     // MARK: Conversions
-    
     /// Converte km → unità visualizzata
     func displayDistance(_ kms: Double) -> Double {
         switch self {
@@ -230,6 +235,16 @@ enum RaceDistance: String, CaseIterable, Identifiable {
     case halfMarathon = "Mezza Maratona"
     case marathon = "Maratona"
     
+    // Questo dice a Xcode di mettere queste stringhe e mettile nel file .xcstrings!"
+    var localizedName: LocalizedStringResource {
+        switch self {
+        case .fiveK: return "5 km"
+        case .tenK: return "10 km"
+        case .halfMarathon: return "Mezza Maratona"
+        case .marathon: return "Maratona"
+        }
+    }
+    
     // La 5K è esclusa dalle distanze target perché:
     // - Richiede una struttura di piano diversa (più R e I, meno volume)
     // - Il generatore è ottimizzato per distanze da resistenza prolungata
@@ -237,7 +252,7 @@ enum RaceDistance: String, CaseIterable, Identifiable {
     static var targetDistances: [RaceDistance] {
         [.tenK, .halfMarathon, .marathon]
     }
-
+    
     var id: String { rawValue }
     
     var meters: Double {
@@ -322,29 +337,29 @@ enum WorkoutType: String, CaseIterable {
     ///   Daniels non definisce una zona "recovery" separata: usa E-pace (59-74% VO2max)
     ///   per tutto il continuum di bassa intensità. L'intensityDescription ora
     ///   rispecchia questo, usando il limite inferiore dell'E-pace.
-
+    
     // ── Daniels core training types ─────────────────────────────────────────
     case easy        = "Corsa Facile"
     case longRun     = "Lungo"
     case marPace     = "Ritmo Maratona"
     case tempo       = "Tempo Run"
     case interval    = "Interval Training"
-
+    
     // [FIX-2] Nuovo caso: R (Repetition) pace di Daniels [1] cap. 4.
     // Scopo: velocità, economia di corsa, potenza anaerobica.
     // Distinto dall'Interval per: work bout più breve (max 2 min),
     // recupero completo (non attivo), intensità più alta (~105-120% VDOT).
     case repetition  = "Ripetute"
-
+    
     // ── Tipi supplementari ───────────────────────────────────────────────────
     case progression = "Corsa Progressiva"
     case hillRepeat  = "Ripetute in Salita"
-
+    
     // ── Speciali ─────────────────────────────────────────────────────────────
     case recovery    = "Recupero Attivo"
     case race        = "GARA"
     case rest        = "Riposo"
-
+    
     // MARK: - Palette colori / zona / emoji
     //
     /// Fonte unica di verità per colore, etichetta zona, codice Daniels ed emoji.
@@ -365,60 +380,60 @@ enum WorkoutType: String, CaseIterable {
     /// - interval e repetition avevano lo stesso colore purple → ora distinti (red/purple)
     /// - recovery era blue suggerendo una zona separata → ora green (limite inf. E-pace)
     /// - tempo era red come interval → ora orange (un gradino sotto in intensità)
-
+    
     var color: Color {
         switch self {
         case .rest:
             // Nessuno sforzo — neutro.
             return .gray
-
+            
         case .recovery:
             // Limite inferiore dell'E-pace (59% VO2max). Daniels non definisce
             // una zona separata: è semplicemente E-pace molto leggero.
             // Stesso colore di .easy per coerenza concettuale.
             return .green
-
+            
         case .easy, .longRun:
             // E-pace / L run: Z2, aerobico base. Fonte: Daniels [1] cap. 4.
             return .green
-
+            
         case .progression:
             // La progressiva inizia a E-pace (Z2) e sale verso T-pace (Z4),
             // ma la maggior parte del volume è nella metà inferiore del range.
             // .yellow (Z3/M-pace) riflette l'intensità media onesta della sessione.
             // Precedentemente .teal: non comunicava intensità, solo "tipo diverso".
             return .yellow
-
+            
         case .marPace:
             // M-pace: Z3, 75-84% VO2max. Fonte: Daniels [1] cap. 4.
             return .yellow
-
+            
         case .hillRepeat:
             // Intensità media Z4: sforzo ~90-95% in salita, recupero passivo
             // in discesa. Sessione impegnativa quanto il Tempo Run → stesso colore.
             // Precedentemente .teal: sottostimava lo sforzo richiesto.
             return .orange
-
+            
         case .tempo:
             // T-pace: Z4, soglia anaerobica, 85-88% VO2max. Fonte: Daniels [1] cap. 4.
             return .orange
-
+            
         case .interval:
             // I-pace: Z5, 95-100% VO2max. Fonte: Daniels [1] cap. 4.
             return .red
-
+            
         case .repetition:
             // R-pace: Z5+, >100% VO2max, velocità pura. Distinto da .interval
             // per work bout più breve e recupero completo. Fonte: Daniels [1] cap. 4.
             return .purple
-
+            
         case .race:
             // Gara: sforzo massimo pianificato. Colore distinto da tutti i tipi
             // di allenamento per segnalare l'unicità dell'evento nel calendario.
             return .indigo
         }
     }
-
+    
     /// Etichetta zona numerica (es. "Z2", "Z4", "Z5+").
     var zoneLabel: String {
         switch self {
@@ -435,7 +450,7 @@ enum WorkoutType: String, CaseIterable {
         case .race:        return "—"
         }
     }
-
+    
     /// Lettera ufficiale Daniels (E/M/T/I/R). Vuota per i tipi non-Daniels.
     var danielsCode: String {
         switch self {
@@ -445,10 +460,10 @@ enum WorkoutType: String, CaseIterable {
         case .interval:                  return "I"
         case .repetition:                return "R"
         case .progression, .hillRepeat,
-             .rest, .race:               return ""
+                .rest, .race:               return ""
         }
     }
-
+    
     /// SF Symbol coerente con `color` e `zoneLabel`.
     /// Sostituisce le emoji: più coerenti con l'estetica iOS/SwiftUI,
     /// supportano tinting automatico, dark mode e Dynamic Type.
@@ -478,47 +493,47 @@ enum WorkoutType: String, CaseIterable {
         case .race:        return "trophy"
         }
     }
-
+    
     // MARK: - Descrizione intensità fisiologica
-
+    
     // Le percentuali di FCmax e VO2max seguono Daniels [1] cap. 4 (figura 4.1).
     var intensityDescription: String {
         switch self {
         case .rest:
             return "Riposo completo o attività leggera"
-
+            
         case .recovery:
             // [FIX-6] Daniels non definisce una zona recovery distinta dall'Easy.
             // Usa il limite inferiore del range E-pace (59% VO2max / 65% FCmax).
             // Fonte: [1] cap. 4 – E pace range 59-74% VO2max.
             return "59-65% VO2max / 65-70% FCmax – limite inferiore E-pace (Daniels)"
-
+            
         case .easy:
             // Fonte: [1] cap. 4: "E is typically about 59 to 74 percent of O2max
             // or about 65 to 79 percent of maximum heart rate."
             return "59-74% VO2max / 65-79% FCmax – Easy pace (Daniels E)"
-
+            
         case .longRun:
             // Il lungo è sempre a E-pace. Fonte: [1] cap. 4.
             return "59-74% VO2max / 65-79% FCmax – E-pace (L run = E run prolungato)"
-
+            
         case .marPace:
             // Fonte: [1] cap. 4 figura 4.1: M = 75-84% VO2max / 80-89% FCmax.
             return "75-84% VO2max / 80-89% FCmax – Marathon pace (Daniels M)"
-
+            
         case .tempo:
             // [FIX-5] Corretto: Daniels [1] cap. 4: "T-pace at about 85 to 88 percent
             // of O2max (88 to 92 percent of maximum heart rate) for well-trained athletes."
             // La versione precedente indicava 80-90% FCmax — il limite inferiore era
             // troppo basso, coincideva con M-pace anziché con la soglia lattato.
             return "85-88% VO2max / 88-92% FCmax – Threshold/Tempo pace (Daniels T)"
-
+            
         case .interval:
             // Fonte: [1] cap. 4: I-pace = ~95-100% VO2max (vVO2max).
             // Work bout 3-5 min. Recupero attivo (jog) uguale o leggermente inferiore
             // al tempo di lavoro.
             return "95-100% VO2max / ~98% FCmax – Interval pace (Daniels I)"
-
+            
         case .repetition:
             // [FIX-2] Nuovo. Fonte: [1] cap. 4 – Repetition training section.
             // "The primary purpose of R training is to improve anaerobic power,
@@ -527,23 +542,23 @@ enum WorkoutType: String, CaseIterable {
             // "Daniels' 6-second rule": R pace è ~6 sec/400m più veloce di I pace.
             // Work bout MAX 2 minuti. Recupero COMPLETO (jog = distanza corsa).
             return "105-120% VDOT (>100% VO2max) – Repetition pace (Daniels R) – max 2 min/rep"
-
+            
         case .progression:
             // Da E-pace a T-pace progressivamente. Fonte: [2] Pfitzinger.
             return "Da 59% a 88% VO2max – E→M→T progressivo (Z2→Z4)"
-
+            
         case .hillRepeat:
             // Collinare: stimolo forza-velocità a impatto articolare ridotto.
             // Compatibile con Phase I/II di Daniels. Fonte: [2] Pfitzinger.
             return "~90-95% sforzo in salita – forza specifica (Z4-5, impatto ridotto)"
-
+            
         case .race:
             return "Sforzo massimo pianificato – ritmo gara specifico"
         }
     }
-
+    
     // MARK: - Fase consigliata (Daniels [1] cap. 10)
-
+    
     // Indica in quale fase del piano Daniels introduce preferibilmente questo tipo.
     // Utile per validazione e UI.
     // [FIX-3] La sequenza corretta è: E (Base) → R (Build) → T+I (Peak).
@@ -579,9 +594,9 @@ enum WorkoutType: String, CaseIterable {
             return [.race]
         }
     }
-
+    
     // MARK: - Massimo volume per sessione (% del volume settimanale)
-
+    
     // Limiti definiti da Daniels [1] cap. 4.
     // Utile per validazione dei workout generati.
     var maxSessionFractionOfWeeklyVolume: Double? {
@@ -607,7 +622,7 @@ enum WorkoutType: String, CaseIterable {
             // Limite conservativo: 5% del volume settimanale.
             return 0.05
         case .easy, .recovery, .progression,
-             .hillRepeat, .rest, .race:
+                .hillRepeat, .rest, .race:
             return nil  // nessun limite percentuale rigido per questi tipi
         }
     }
@@ -760,7 +775,7 @@ struct TrainingPaces {
     
     func repetitionFormatted(unitSystem: UnitSystem) -> String {
         formattedPace(repetitionPaceSecsPerKm, unitSystem: unitSystem)
-    } 
+    }
 }
 
 // MARK: - Workout
@@ -852,12 +867,13 @@ enum TrainingPhase: String {
     }
     
     var methodologySection: MethodologySection {
-            switch self {
-            case .base:  return .phaseBase
-            case .build: return .phaseBuild
-            case .peak:  return .phasePeak
-            case .taper: return .taper
-            case .race:  return .sources
-            }
+        switch self {
+        case .base:  return .phaseBase
+        case .build: return .phaseBuild
+        case .peak:  return .phasePeak
+        case .taper: return .taper
+        case .race:  return .sources
         }
+    }
 }     // swiftlint:disable:this file_length
+

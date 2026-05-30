@@ -8,7 +8,6 @@ struct SplashVideoView: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> AVPlayerViewController {
         let controller = AVPlayerViewController()
-        
         // Trova il file video nel bundle
         guard let path = Bundle.main.path(forResource: videoName, ofType: videoType) else {
             print("Video non trovato")

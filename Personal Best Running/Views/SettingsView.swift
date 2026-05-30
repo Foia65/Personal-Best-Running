@@ -97,7 +97,7 @@ struct SettingsView: View {
                 // 1 - Sesso runner
                 HStack {
                     Label {
-                        Text("Sesso")
+                        Text("Genere")
                             .foregroundStyle(.primary)
                             .lineLimit(1)
                             .layoutPriority(1)
@@ -120,7 +120,7 @@ struct SettingsView: View {
                     
                     Picker("", selection: $runnerSex) {
                         ForEach(RunnerSex.allCases) { sex in
-                            Text(sex.label).tag(sex)
+                            Text(sex.localizedGender).tag(sex)
                         }
                     }
                     .font(.system(.subheadline, design: .rounded, weight: .regular))
@@ -133,7 +133,7 @@ struct SettingsView: View {
                     NavigationStack {
                         ScrollView {
                             Text("""
-                            Il sesso NON influisce sul calcolo del VDOT.
+                            Il sesso biologico NON influisce sul calcolo del VDOT.
                             
                             Viene utilizzato esclusivamente per contestualizzare \
                             la valutazione del livello del runner \
@@ -165,7 +165,7 @@ struct SettingsView: View {
                     
                     Picker("", selection: $unitSystem) {
                         ForEach(UnitSystem.allCases, id: \.self) { system in
-                            Text(system.label).tag(system)
+                            Text(system.localizedUnitSystem).tag(system)
                         }
                     }
                     .font(.system(.subheadline, design: .rounded, weight: .regular))

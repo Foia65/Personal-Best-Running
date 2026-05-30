@@ -41,7 +41,7 @@ struct TrainingPlanView: View {
                 VStack(alignment: .leading) {
                     Text(plan.input.raceName)
                         .font(.headline)
-                    Text(plan.input.raceDistance.rawValue)
+                    Text(plan.input.raceDistance.localizedName)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
@@ -522,5 +522,6 @@ struct WorkoutBadge: View {
         TrainingPlanView(plan: samplePlan) {
             print("Reset tapped")
         }
+        .environment(\.locale, .init(identifier: "it"))
     }
 }
