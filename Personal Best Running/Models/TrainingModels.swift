@@ -30,19 +30,79 @@ enum GoalFeasibility {
     }
     
     // MARK: Label breve (usata in PlanHeaderView / fitnessGap)
-    
+
     // Testo breve senza emoji — la segnalazione visiva è affidata a
     // sfSymbol e color, più coerenti con l'estetica iOS di SF Symbols.
-        var label: String {
-            switch self {
-            case .conservative: return "Obiettivo conservativo"
-            case .prudent:      return "Obiettivo prudente"
-            case .realistic:    return "Obiettivo realistico"
-            case .ambitious:    return "Obiettivo ambizioso"
-            case .challenging:  return "Obiettivo sfidante"
-            case .extreme:      return "Obiettivo estremo"
-            }
+    var localizedLabel: LocalizedStringResource {
+        switch self {
+        case .conservative:
+            return LocalizedStringResource("goalFeasibility.label.conservative", defaultValue: "Obiettivo conservativo")
+        case .prudent:
+            return LocalizedStringResource("goalFeasibility.label.prudent", defaultValue: "Obiettivo prudente")
+        case .realistic:
+            return LocalizedStringResource("goalFeasibility.label.realistic", defaultValue: "Obiettivo realistico")
+        case .ambitious:
+            return LocalizedStringResource("goalFeasibility.label.ambitious", defaultValue: "Obiettivo ambizioso")
+        case .challenging:
+            return LocalizedStringResource("goalFeasibility.label.challenging", defaultValue: "Obiettivo sfidante")
+        case .extreme:
+            return LocalizedStringResource("goalFeasibility.label.extreme", defaultValue: "Obiettivo estremo")
         }
+    }
+
+    var localizedRaceDescription: LocalizedStringResource {
+        switch self {
+        case .conservative:
+            return LocalizedStringResource(
+                "goalFeasibility.raceDescription.conservative",
+                defaultValue: """
+                Giorno di gara! Il tuo obiettivo è molto conservativo rispetto alla forma attuale: \
+                potresti fare molto meglio. Parti controllato e valuta in corsa se aumentare il ritmo.
+                """
+            )
+        case .prudent:
+            return LocalizedStringResource(
+                "goalFeasibility.raceDescription.prudent",
+                defaultValue: """
+                Giorno di gara! Obiettivo prudente rispetto alla forma attuale. \
+                Ottima base per un risultato solido senza rischi. Corri con fiducia.
+                """
+            )
+        case .realistic:
+            return LocalizedStringResource(
+                "goalFeasibility.raceDescription.realistic",
+                defaultValue: """
+                Giorno di gara! Obiettivo allineato alla tua forma attuale. \
+                Esegui il piano di gara: il lavoro fatto lo supporta. Parti cauto nei primi km.
+                """
+            )
+        case .ambitious:
+            return LocalizedStringResource(
+                "goalFeasibility.raceDescription.ambitious",
+                defaultValue: """
+                Giorno di gara! Obiettivo ambizioso rispetto alla forma di partenza. \
+                Se il piano è andato bene, puoi farcela. Fondamentale partire cauto nei primi km.
+                """
+            )
+        case .challenging:
+            return LocalizedStringResource(
+                "goalFeasibility.raceDescription.challenging",
+                defaultValue: """
+                Giorno di gara! Obiettivo molto sfidante rispetto alla forma di partenza. \
+                Corri al meglio della tua condizione attuale e usa questa gara come tappa di avvicinamento.
+                """
+            )
+        case .extreme:
+            return LocalizedStringResource(
+                "goalFeasibility.raceDescription.extreme",
+                defaultValue: """
+                Giorno di gara! L'obiettivo dichiarato era molto oltre la forma di partenza. \
+                Corri al tuo ritmo stimato: usa questa gara come esperienza e rivaluta l'obiettivo \
+                per il prossimo ciclo.
+                """
+            )
+        }
+    }
     
     // SF Symbol abbinati al livello di fattibilità.
     var sfSymbol: String {
@@ -117,7 +177,6 @@ enum RunnerSex: String, CaseIterable, Identifiable, Codable {
         }
     }
         
-    
     var icon: String {
         switch self {
         case .male:   return "figure.stand"
@@ -493,6 +552,93 @@ enum WorkoutType: String, CaseIterable {
         case .race:        return "trophy"
         }
     }
+
+    var localizedName: LocalizedStringResource {
+        switch self {
+        case .easy:
+            return LocalizedStringResource("workoutType.easy", defaultValue: "Corsa Facile")
+        case .longRun:
+            return LocalizedStringResource("workoutType.longRun", defaultValue: "Lungo")
+        case .marPace:
+            return LocalizedStringResource("workoutType.marPace", defaultValue: "Ritmo Maratona")
+        case .tempo:
+            return LocalizedStringResource("workoutType.tempo", defaultValue: "Tempo Run")
+        case .interval:
+            return LocalizedStringResource("workoutType.interval", defaultValue: "Interval Training")
+        case .repetition:
+            return LocalizedStringResource("workoutType.repetition", defaultValue: "Ripetute")
+        case .progression:
+            return LocalizedStringResource("workoutType.progression", defaultValue: "Corsa Progressiva")
+        case .hillRepeat:
+            return LocalizedStringResource("workoutType.hillRepeat", defaultValue: "Ripetute in Salita")
+        case .recovery:
+            return LocalizedStringResource("workoutType.recovery", defaultValue: "Recupero Attivo")
+        case .race:
+            return LocalizedStringResource("workoutType.race", defaultValue: "GARA")
+        case .rest:
+            return LocalizedStringResource("workoutType.rest", defaultValue: "Riposo")
+        }
+    }
+
+    var localizedIntensityDescription: LocalizedStringResource {
+        switch self {
+        case .rest:
+            return LocalizedStringResource(
+                "workoutType.intensity.rest",
+                defaultValue: "Riposo completo o attività leggera"
+            )
+        case .recovery:
+            return LocalizedStringResource(
+                "workoutType.intensity.recovery",
+                defaultValue: "59-65% VO2max / 65-70% FCmax – limite inferiore E-pace (Daniels)"
+            )
+        case .easy:
+            return LocalizedStringResource(
+                "workoutType.intensity.easy",
+                defaultValue: "59-74% VO2max / 65-79% FCmax – Easy pace (Daniels E)"
+            )
+        case .longRun:
+            return LocalizedStringResource(
+                "workoutType.intensity.longRun",
+                defaultValue: "59-74% VO2max / 65-79% FCmax – E-pace (L run = E run prolungato)"
+            )
+        case .marPace:
+            return LocalizedStringResource(
+                "workoutType.intensity.marPace",
+                defaultValue: "75-84% VO2max / 80-89% FCmax – Marathon pace (Daniels M)"
+            )
+        case .tempo:
+            return LocalizedStringResource(
+                "workoutType.intensity.tempo",
+                defaultValue: "85-88% VO2max / 88-92% FCmax – Threshold/Tempo pace (Daniels T)"
+            )
+        case .interval:
+            return LocalizedStringResource(
+                "workoutType.intensity.interval",
+                defaultValue: "95-100% VO2max / ~98% FCmax – Interval pace (Daniels I)"
+            )
+        case .repetition:
+            return LocalizedStringResource(
+                "workoutType.intensity.repetition",
+                defaultValue: "105-120% VDOT (>100% VO2max) – Repetition pace (Daniels R) – max 2 min/rep"
+            )
+        case .progression:
+            return LocalizedStringResource(
+                "workoutType.intensity.progression",
+                defaultValue: "Da 59% a 88% VO2max – E→M→T progressivo (Z2→Z4)"
+            )
+        case .hillRepeat:
+            return LocalizedStringResource(
+                "workoutType.intensity.hillRepeat",
+                defaultValue: "~90-95% sforzo in salita – forza specifica (Z4-5, impatto ridotto)"
+            )
+        case .race:
+            return LocalizedStringResource(
+                "workoutType.intensity.race",
+                defaultValue: "Sforzo massimo pianificato – ritmo gara specifico"
+            )
+        }
+    }
     
     // MARK: - Descrizione intensità fisiologica
     
@@ -787,14 +933,33 @@ struct Workout: Identifiable {
     let dayOfWeek: Int
     let title: String
     let description: String
+    let titleKind: WorkoutTitleKind
+    let descriptionKind: WorkoutDescriptionKind
     let distanceKm: Double?
     let durationMinutes: Int?
     let paceTarget: String?
     let paceTargetSecsPerKm: Double?   // raw value, formatted at display time
     let structuredSets: String?
+    let structuredSetsKind: StructuredSetsKind?
     let scientificRationale: String
     let rpe: String  // Rate of Perceived Exertion 1-10
     let tss: Double  // Training Stress Score (approssimativo)
+
+    func localizedTitle(locale: Locale) -> String {
+        titleKind.localizedText(locale: locale)
+    }
+
+    func localizedDescription(locale: Locale) -> String {
+        descriptionKind.localizedText(locale: locale)
+    }
+
+    func localizedIntensityDescription(locale: Locale) -> String {
+        AppLocalizedString.resolve(type.localizedIntensityDescription, locale: locale)
+    }
+
+    func localizedStructuredSets(locale: Locale) -> String? {
+        structuredSetsKind?.localizedText(locale: locale)
+    }
 }
 
 // MARK: - Training Plan Input
@@ -822,8 +987,66 @@ struct TrainingPlan: Identifiable {
     let weeks: [TrainingWeek]
     let scientificSources: [String]
     let estimatedRaceTime: Double
-    let fitnessGap: String  // differenza tra performance attuale e target
+    let vdotCurrent: Double
+    let vdotTarget: Double
     let feasibility: GoalFeasibility   // seve per sfSymbol e color
+
+    /// Testo localizzato al momento della presentazione.
+    /// `String(localized:)` da solo usa la lingua di sistema; passando `locale` da `@Environment(\.locale)`
+    /// si allinea al language picker in-app (come fanno già le `Text` statiche).
+    func localizedFitnessGap(locale: Locale) -> String {
+        let diffSeconds = input.targetTime - estimatedRaceTime
+        let direction = diffSeconds > 0
+            ? LocalizedStringResource(
+                "trainingPlan.fitnessGap.direction.slower",
+                defaultValue: "più lento",
+                locale: locale
+            )
+            : LocalizedStringResource(
+                "trainingPlan.fitnessGap.direction.faster",
+                defaultValue: "più veloce",
+                locale: locale
+            )
+
+        let absDiff = abs(Int(diffSeconds))
+        let diffText = String(format: "%d:%02d", absDiff / 60, absDiff % 60)
+        let format = String(
+            localized: LocalizedStringResource(
+                "trainingPlan.fitnessGap",
+                defaultValue: """
+                VDOT attuale: %1$@ → VDOT richiesto: %2$@. Tempo stimato attuale: %3$@. \
+                Il target è %4$@ %5$@.
+                %6$@
+                """,
+                locale: locale
+            )
+        )
+
+        return String(
+            format: format,
+            locale: locale,
+            String(format: "%.1f", vdotCurrent),
+            String(format: "%.1f", vdotTarget),
+            Self.formatRaceTime(estimatedRaceTime),
+            diffText,
+            String(localized: direction),
+            String(localized: Self.localizedLabel(for: feasibility, locale: locale))
+        )
+    }
+
+    private static func localizedLabel(for feasibility: GoalFeasibility, locale: Locale) -> LocalizedStringResource {
+        var resource = feasibility.localizedLabel
+        resource.locale = locale
+        return resource
+    }
+
+    private static func formatRaceTime(_ seconds: Double) -> String {
+        let hrs = Int(seconds) / 3600
+        let min = (Int(seconds) % 3600) / 60
+        let sec = Int(seconds) % 60
+        if hrs > 0 { return String(format: "%d:%02d:%02d", hrs, min, sec) }
+        return String(format: "%d:%02d", min, sec)
+    }
 }
 
 // MARK: Training Week
@@ -833,10 +1056,26 @@ struct TrainingWeek: Identifiable {
     let phase: TrainingPhase
     let workouts: [Workout]
     let weeklyNote: String
-    
+    let weeklyNoteKind: WeeklyNoteKind
+
     // Somma le distanze reali dei workout
     var totalKm: Double {
         workouts.compactMap(\.distanceKm).reduce(0, +)
+    }
+
+    func localizedWeeklyNote(locale: Locale) -> String {
+        weeklyNoteKind.localizedText(locale: locale)
+    }
+
+    func localizedHeader(locale: Locale) -> String {
+        AppLocalizedString.formatted(
+            LocalizedStringResource(
+                "Settimana %lld – %@",
+                defaultValue: "Settimana %1$lld – %2$@"
+            ),
+            locale: locale,
+            arguments: [weekNumber, AppLocalizedString.resolve(phase.localizedName, locale: locale)]
+        )
     }
 }
 
@@ -855,6 +1094,21 @@ enum TrainingPhase: String {
     case peak = "Fase di Picco"
     case taper = "Scarico"
     case race = "Gara"
+
+    var localizedName: LocalizedStringResource {
+        switch self {
+        case .base:
+            return LocalizedStringResource("trainingPhase.base", defaultValue: "Fase Base")
+        case .build:
+            return LocalizedStringResource("trainingPhase.build", defaultValue: "Fase di Sviluppo")
+        case .peak:
+            return LocalizedStringResource("trainingPhase.peak", defaultValue: "Fase di Picco")
+        case .taper:
+            return LocalizedStringResource("trainingPhase.taper", defaultValue: "Scarico")
+        case .race:
+            return LocalizedStringResource("trainingPhase.race", defaultValue: "Gara")
+        }
+    }
     
     var description: String {
         switch self {
@@ -876,4 +1130,3 @@ enum TrainingPhase: String {
         }
     }
 }     // swiftlint:disable:this file_length
-

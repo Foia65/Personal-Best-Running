@@ -9,14 +9,12 @@
 /* Begin PBXBuildFile section */
 		E4029A9E2FA77E9600DB1597 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = E4029A9D2FA77E9600DB1597 /* .swiftlint.yml */; };
 		E47FED782FC84D1B00759E95 /* splash_iphone.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E47FED772FC84D1B00759E95 /* splash_iphone.mp4 */; };
-		E47FED7C2FC8A13900759E95 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E47FED7B2FC8A13900759E95 /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E4029A622FA777CD00DB1597 /* Personal Best Running.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Personal Best Running.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4029A9D2FA77E9600DB1597 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		E47FED772FC84D1B00759E95 /* splash_iphone.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = splash_iphone.mp4; sourceTree = "<group>"; };
-		E47FED7B2FC8A13900759E95 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -41,7 +39,6 @@
 		E4029A592FA777CD00DB1597 = {
 			isa = PBXGroup;
 			children = (
-				E47FED7B2FC8A13900759E95 /* Localizable.xcstrings */,
 				E4029A9D2FA77E9600DB1597 /* .swiftlint.yml */,
 				E4029A642FA777CD00DB1597 /* Personal Best Running */,
 				E4029A632FA777CD00DB1597 /* Products */,
@@ -123,7 +120,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E47FED7C2FC8A13900759E95 /* Localizable.xcstrings in Resources */,
 				E47FED782FC84D1B00759E95 /* splash_iphone.mp4 in Resources */,
 				E4029A9E2FA77E9600DB1597 /* .swiftlint.yml in Resources */,
 			);
@@ -313,7 +309,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 386;
+				CURRENT_PROJECT_VERSION = 405;
 				DEVELOPMENT_TEAM = TY6W6JY45R;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -353,7 +349,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 386;
+				CURRENT_PROJECT_VERSION = 405;
 				DEVELOPMENT_TEAM = TY6W6JY45R;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;

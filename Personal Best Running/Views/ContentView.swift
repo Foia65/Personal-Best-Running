@@ -113,6 +113,7 @@ struct ContentView: View {
                 }
             }
         }
+        .environment(\.locale, languageManager.currentLocale)
     }
 }
 

@@ -16,6 +16,7 @@ struct TrainingPlanView: View {
     @State private var pdfItem: PDFDocumentItem?
     @State private var csvItem: DocumentItem? // Stato per il foglio di condivisione CSV
     @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
+    @Environment(\.locale) private var locale
     @StateObject private var calendarManager = CalendarManager()
     private var goalFeasibility: GoalFeasibility { plan.feasibility }
     
@@ -63,7 +64,7 @@ struct TrainingPlanView: View {
                     .foregroundStyle(plan.feasibility.color)
                     .padding(.top, 1)
                 
-                Text(plan.fitnessGap)
+                Text(plan.localizedFitnessGap(locale: locale))
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -91,12 +92,12 @@ struct TrainingPlanView: View {
             ForEach(plan.weeks) { week in
                 Section {
                     // Header settimana
-                    WeekHeaderView(week: week)
+                    WeekHeaderView(week: week, locale: locale)
                     
                     // Workout della settimana
                     if expandedWeek == week.weekNumber {
                         ForEach(week.workouts) { workout in
-                            WorkoutRowView(workout: workout)
+                            WorkoutRowView(workout: workout, locale: locale)
                         }
                     }
                 } header: {
@@ -106,7 +107,7 @@ struct TrainingPlanView: View {
                         }
                     } label: {
                         HStack {
-                            Text("Settimana \(week.weekNumber) – \(week.phase.rawValue)")
+                            Text(week.localizedHeader(locale: locale))
                                 .font(.caption.bold())
                                 .foregroundStyle(.blue)
                             // Link contestuale → sezione fase corrispondente in MethodologyView
@@ -188,7 +189,16 @@ struct TrainingPlanView: View {
         .alert("Calendario Aggiornato", isPresented: $calendarManager.showConfirmation) {
             Button("Ottimo", role: .cancel) { }
         } message: {
-            Text("Ho aggiunto correttamente \(calendarManager.lastEventCount) eventi al tuo calendario 'PB Running'.")
+            Text(
+                AppLocalizedString.formatted(
+                    LocalizedStringResource(
+                        "Ho aggiunto correttamente %lld eventi al tuo calendario 'PB Running'.",
+                        defaultValue: "Ho aggiunto correttamente %1$lld eventi al tuo calendario 'PB Running'."
+                    ),
+                    locale: locale,
+                    arguments: [calendarManager.lastEventCount]
+                )
+            )
         }
     }
     
@@ -208,7 +218,7 @@ struct TrainingPlanView: View {
         for week in plan.weeks {
             for workout in week.workouts {
                 // Escludiamo il riposo
-                guard workout.title != "Riposo" else { continue }
+                guard workout.type != .rest else { continue }
                 
                 // 1. Gestione Passo (Pace) usando UnitSystem
                 var paceString = ""
@@ -221,17 +231,27 @@ struct TrainingPlanView: View {
                 if let kms = workout.distanceKm {
                     distanceString = unitSystem.formatDistance(kms)
                 } else {
-                    distanceString = "N/A"
+                    distanceString = AppLocalizedString.resolve(
+                        LocalizedStringResource("export.notAvailable", defaultValue: "N/A"),
+                        locale: locale
+                    )
                 }
                 
                 // 3. Creazione delle note dell'evento
-                let structuredDetails = (workout.structuredSets?.isEmpty == false) ? "📋 \(workout.structuredSets!)" : ""
-                let notes = "\(workout.description)\n\n\(structuredDetails)\n\n❤️ RPE: \(workout.rpe)\n\(workout.type.intensityDescription)"
+                let structuredDetails = workout.localizedStructuredSets(locale: locale).map { "📋 \($0)" } ?? ""
+                let notes = """
+                \(workout.localizedDescription(locale: locale))
+
+                \(structuredDetails)
+
+                ❤️ RPE: \(workout.rpe)
+                \(workout.localizedIntensityDescription(locale: locale))
+                """
                 
                 // 4. Creazione dell'oggetto EventData
                 let newEvent = EventData(
                     date: workout.date,
-                    title: "W\(week.weekNumber) \(workout.title) - \(distanceString) \(paceString) ",
+                    title: "W\(week.weekNumber) \(workout.localizedTitle(locale: locale)) - \(distanceString) \(paceString) ",
                     // notes: workout.description
                     notes: notes
                 )
@@ -296,11 +316,17 @@ struct TrainingPlanView: View {
         print("Exporting CSV...")
         
         // 1. Aggiungiamo il BOM UTF-8 (\u{FEFF}) come prefisso e usiamo ";" come separatore
-        var csvString = "\u{FEFF}Settimana;Data;Nome Workout;Distanza;Passo\n"
+        var csvString = "\u{FEFF}" + AppLocalizedString.resolve(
+            LocalizedStringResource(
+                "export.csvHeader",
+                defaultValue: "Settimana;Data;Nome Workout;Distanza;Passo\n"
+            ),
+            locale: locale
+        )
         
         // Formattatore di data comprensivo del giorno della settimana
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale.current
+        dateFormatter.locale = locale
         dateFormatter.setLocalizedDateFormatFromTemplate("EEEEddMMMM")
         
         // 2. Iterazione di settimane e workout
@@ -310,7 +336,8 @@ struct TrainingPlanView: View {
                 let dateStr = dateFormatter.string(from: workout.date)
                 
                 // Sanitizziamo il titolo se contiene il separatore ";"
-                let title = workout.title.contains(";") ? "\"\(workout.title)\"" : workout.title
+                let localizedTitle = workout.localizedTitle(locale: locale)
+                let title = localizedTitle.contains(";") ? "\"\(localizedTitle)\"" : localizedTitle
                 
                 // Formattazione distanza pulita senza unità di misura e con la virgola per i decimali
                 let distanceStr: String
@@ -386,12 +413,13 @@ struct TrainingPlanView: View {
 // MARK: - Week Header View
 struct WeekHeaderView: View {
     let week: TrainingWeek
+    let locale: Locale
     @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
     
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
-                Text(week.weeklyNote)
+                Text(week.localizedWeeklyNote(locale: locale))
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -412,6 +440,7 @@ struct WeekHeaderView: View {
 // MARK: - Workout Row View
 struct WorkoutRowView: View {
     let workout: Workout
+    let locale: Locale
     @State private var expanded = false
     @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
     
@@ -427,7 +456,7 @@ struct WorkoutRowView: View {
                         Text(workout.date.formatted(.dateTime.weekday().day().month()))
                             .font(.caption)
                             .foregroundStyle(.secondary)
-                        Text(workout.title)
+                        Text(workout.localizedTitle(locale: locale))
                             .font(.subheadline.bold())
                             .foregroundStyle(.primary)
                         if let kms = workout.distanceKm {
@@ -454,19 +483,23 @@ struct WorkoutRowView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Divider()
                     
-                    Text(workout.description)
+                    Text(workout.localizedDescription(locale: locale))
                         .font(.footnote)
                     
-                    if let sets = workout.structuredSets {
+                    if let sets = workout.localizedStructuredSets(locale: locale) {
                         Label(sets, systemImage: "list.bullet.clipboard")
                             .font(.footnote)
                             .foregroundStyle(.primary)
                     }
                     
                     HStack {
-                        Label("RPE: \(workout.rpe)", systemImage: "heart.fill")
+                        Label {
+                            Text("RPE: \(workout.rpe)")
+                        } icon: {
+                            Image(systemName: "heart.fill")
+                        }
                         Spacer()
-                        Text(workout.type.intensityDescription)
+                        Text(workout.localizedIntensityDescription(locale: locale))
                     }
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -522,6 +555,6 @@ struct WorkoutBadge: View {
         TrainingPlanView(plan: samplePlan) {
             print("Reset tapped")
         }
-        .environment(\.locale, .init(identifier: "it"))
+        .environment(\.locale, .init(identifier: "en"))
     }
 }

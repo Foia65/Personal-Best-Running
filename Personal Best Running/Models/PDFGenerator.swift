@@ -204,9 +204,9 @@ class TrainingPlanPDFGenerator {
         "VDOT ATTUALE".draw(at: CGPoint(x: margin, y: currentY), withAttributes: labelAttr)
         String(format: "%.1f", plan.paces.vdot).draw(at: CGPoint(x: margin, y: currentY + 11), withAttributes: valueAttr)
         
-        "VALUTAZIONE GAP DI FITNESS".draw(at: CGPoint(x: margin + 110, y: currentY), withAttributes: labelAttr)
-        let gapRect = CGRect(x: margin + 110, y: currentY + 11, width: pageWidth - margin * 2 - 110, height: 28)
-        plan.fitnessGap.draw(in: gapRect, withAttributes: [.font: UIFont.systemFont(ofSize: 9.5), .foregroundColor: UIColor.label])
+//        "VALUTAZIONE GAP DI FITNESS".draw(at: CGPoint(x: margin + 110, y: currentY), withAttributes: labelAttr)
+//        let gapRect = CGRect(x: margin + 110, y: currentY + 11, width: pageWidth - margin * 2 - 110, height: 28)
+//        plan.fitnessGap.draw(in: gapRect, withAttributes: [.font: UIFont.systemFont(ofSize: 9.5), .foregroundColor: UIColor.label])
         
         currentY += 42
     }

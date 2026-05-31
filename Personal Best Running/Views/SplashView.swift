@@ -10,6 +10,7 @@ struct SplashView: View {
         // In Debug: salta completamente lo splash (anche l'animazione)
         ContentView()
             .environmentObject(languageManager)
+            .environment(\.locale, languageManager.currentLocale)
         #else
         ZStack {
             if isSplashActive {
@@ -44,6 +45,7 @@ struct SplashView: View {
                 ContentView()
                     .transition(.opacity)
                     .environmentObject(languageManager)
+                    .environment(\.locale, languageManager.currentLocale)
             }
         }
         #endif
