@@ -5,6 +5,18 @@ enum AppTheme: String, CaseIterable {
     case system = "Sistema"
     case light = "Chiaro"
     case dark = "Scuro"
+ 
+    var localizedAppTheme: LocalizedStringResource {
+        switch self {
+        case .system:
+            return LocalizedStringResource("AppTheme.label.system", defaultValue: "Sistema")
+        case .light:
+            return LocalizedStringResource("AppTheme.label.light", defaultValue: "Chiaro")
+        case .dark:
+            return LocalizedStringResource("AppTheme.label.dark", defaultValue: "Scuro")
+        }
+    }
+    
 }
 
 class ThemeManager: ObservableObject {

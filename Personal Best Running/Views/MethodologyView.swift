@@ -23,25 +23,43 @@ enum MethodologySection: String, CaseIterable {
     case volumeLong   = "volume-lungo"
     case volume8020   = "volume-8020"
     case volumeLimits = "volume-limiti"
+    case rpe          = "rpe"
     case sources      = "fonti"
     
-    var sectionTitle: String {
+    var localizedSectionTitle: LocalizedStringResource {
         switch self {
-        case .vdot:         return "Il Sistema VDOT"
-        case .zoneE:        return "E — Easy"
-        case .zoneM:        return "M — Marathon Pace"
-        case .zoneT:        return "T — Threshold / Tempo"
-        case .zoneI:        return "I — Interval"
-        case .zoneR:        return "R — Repetition"
-        case .phaseBase:    return "Fase Base (Phase I)"
-        case .phaseBuild:   return "Fase di Sviluppo (Phase II)"
-        case .phasePeak:    return "Fase di Picco (Phase III/IV)"
-        case .taper:        return "Scarico"
-        case .volume10:     return "Regola del 10%"
-        case .volumeLong:   return "Il Lungo: 25% e 150 min"
-        case .volume8020:   return "Distribuzione 80/20"
-        case .volumeLimits: return "Limiti per Zona"
-        case .sources:      return "Fonti Scientifiche"
+        case .vdot:
+            return LocalizedStringResource("methodology.section.vdot", defaultValue: "Il Sistema VDOT")
+        case .zoneE:
+            return LocalizedStringResource("methodology.section.zoneE", defaultValue: "E — Easy")
+        case .zoneM:
+            return LocalizedStringResource("methodology.section.zoneM", defaultValue: "M — Marathon Pace")
+        case .zoneT:
+            return LocalizedStringResource("methodology.section.zoneT", defaultValue: "T — Threshold / Tempo")
+        case .zoneI:
+            return LocalizedStringResource("methodology.section.zoneI", defaultValue: "I — Interval")
+        case .zoneR:
+            return LocalizedStringResource("methodology.section.zoneR", defaultValue: "R — Repetition")
+        case .phaseBase:
+            return LocalizedStringResource("methodology.section.phaseBase", defaultValue: "Fase Base (Phase I)")
+        case .phaseBuild:
+            return LocalizedStringResource("methodology.section.phaseBuild", defaultValue: "Fase di Sviluppo (Phase II)")
+        case .phasePeak:
+            return LocalizedStringResource("methodology.section.phasePeak", defaultValue: "Fase di Picco (Phase III/IV)")
+        case .taper:
+            return LocalizedStringResource("methodology.section.taper", defaultValue: "Scarico")
+        case .volume10:
+            return LocalizedStringResource("methodology.section.volume10", defaultValue: "Regola del 10%")
+        case .volumeLong:
+            return LocalizedStringResource("methodology.section.volumeLong", defaultValue: "Il Lungo: progressione per fase")
+        case .volume8020:
+            return LocalizedStringResource("methodology.section.volume8020", defaultValue: "Distribuzione 80/20")
+        case .volumeLimits:
+            return LocalizedStringResource("methodology.section.volumeLimits", defaultValue: "Limiti di Volume per Zona")
+        case .rpe:
+            return LocalizedStringResource("methodology.section.rpe", defaultValue: "RPE — Rate of Perceived Exertion")
+        case .sources:
+            return LocalizedStringResource("methodology.section.sources", defaultValue: "Fonti Scientifiche")
         }
     }
 }
@@ -64,18 +82,20 @@ struct MethodologyView: View {
     // Sezione su cui fare scroll all'apertura.
     // nil = nessuno scroll automatico (apertura da Settings).
     var scrollTo: MethodologySection? = nil
-    
+
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.locale) private var locale
     
     var body: some View {
         NavigationStack {
             ScrollViewReader { proxy in
                 List {
-                    vdotSection
-                    zonesSection
-                    phasesSection
-                    volumeSection
-                    sourcesSection
+                     vdotSection
+                     zonesSection
+                     rpeSection
+                     phasesSection
+                     volumeSection
+                     sourcesSection
                 }
                 .listStyle(.insetGrouped)
                 // .navigationTitle("Metodologia")
@@ -167,7 +187,7 @@ struct MethodologyView: View {
             MethodologyCard(
                 symbol: "person.2",
                 color: .secondary,
-                title: "VDOT e sesso",
+                title: "VDOT e sesso biologico",
                 corpo: """
                     Il VDOT è sex-neutral per definizione: misura la performance \
                     individuale reale, già "incorporando" le differenze fisiologiche. \
@@ -184,81 +204,160 @@ struct MethodologyView: View {
                 isInitiallyExpanded: false // non ha un link diretto
             )
         } header: {
-            Text("Il Sistema VDOT")
+            Text(String(localized: MethodologySection.vdot.localizedSectionTitle))
         }
         .id(MethodologySection.vdot.rawValue)
     }
-    
+
     // MARK: - Sezione Zone
-    
+
     private var zonesSection: some View {
         Section {
             ZoneRow(
                 type: .easy,
-                title: "E — Easy",
-                intensity: "59-74% VO2max · 65-79% FCmax · RPE 4-5",
-                workBout: "Qualsiasi durata",
-                recovery: "Non applicabile",
-                purpose: "Sviluppo aerobico di base, recupero attivo, adattamento muscolo-scheletrico. ~80% del volume settimanale totale.",
-                source: "Daniels [1] cap. 4",
+                title: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.title.E", defaultValue: "E — Easy"), locale: locale),
+                intensity: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.intensity.E", defaultValue: "59-74% VO2max · 65-79% FCmax · RPE 4-5"), locale: locale),
+                workBout: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.workBout.E", defaultValue: "Qualsiasi durata"), locale: locale),
+                recovery: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.recovery.E", defaultValue: "Non applicabile"), locale: locale),
+                purpose: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.purpose.E", defaultValue: "Sviluppo aerobico di base, recupero attivo, adattamento muscolo-tendineo. ~80% del volume settimanale totale."), locale: locale),
+                source: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.source.E", defaultValue: "Daniels [1] cap. 4"), locale: locale),
                 isInitiallyExpanded: scrollTo == .zoneE
             )
             .id(MethodologySection.zoneE.rawValue)
-            
+
             ZoneRow(
                 type: .marPace,
-                title: "M — Marathon Pace",
-                intensity: "75-84% VO2max · 80-89% FCmax · RPE 6-7",
-                workBout: "Sezione principale 10-28 km",
-                recovery: "Non applicabile (ritmo continuo)",
-                purpose: "Adattamento specifico al ritmo gara maratona. Ottimizza l'economia di corsa e la gestione del passo.",
-                source: "Daniels [1] cap. 4, Pfitzinger [2]",
+                title: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.title.M", defaultValue: "M — Marathon Pace"), locale: locale),
+                intensity: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.intensity.M", defaultValue: "75-84% VO2max · 80-89% FCmax · RPE 6-7"), locale: locale),
+                workBout: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.workBout.M", defaultValue: "Sezione principale 10-28 km"), locale: locale),
+                recovery: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.recovery.M", defaultValue: "Non applicabile (ritmo continuo)"), locale: locale),
+                purpose: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.purpose.M", defaultValue: "Adattamento specifico al ritmo gara maratona. Ottimizza l'economia di corsa e la gestione del ritmo."), locale: locale),
+                source: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.source.M", defaultValue: "Daniels [1] cap. 4, Pfitzinger [2]"), locale: locale),
                 isInitiallyExpanded: scrollTo == .zoneM
             )
             .id(MethodologySection.zoneM.rawValue)
-            
+
             ZoneRow(
                 type: .tempo,
-                title: "T — Threshold / Tempo",
-                intensity: "85-88% VO2max · 88-92% FCmax · RPE 7-8",
-                workBout: "20 min continuati (Tempo Run) o cruise intervals 3-15 min",
-                recovery: "1 min tra cruise intervals",
-                purpose: "Migliora la soglia anaerobica e la capacità di eliminazione del lattato. Max 10% del volume settimanale per sessione.",
-                source: "Daniels [1] cap. 4",
+                title: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.title.T", defaultValue: "T — Threshold / Tempo"), locale: locale),
+                intensity: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.intensity.T", defaultValue: "85-88% VO2max · 88-92% FCmax · RPE 7-8"), locale: locale),
+                workBout: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.workBout.T", defaultValue: "20 min continui (Tempo Run) o intervalli cruise 3-15 min"), locale: locale),
+                recovery: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.recovery.T", defaultValue: "1 min tra gli intervalli cruise"), locale: locale),
+                purpose: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.purpose.T", defaultValue: "Migliora la soglia anaerobica e la capacità di clearance del lattato. Max 10% del volume settimanale per sessione."), locale: locale),
+                source: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.source.T", defaultValue: "Daniels [1] cap. 4"), locale: locale),
                 isInitiallyExpanded: scrollTo == .zoneT
             )
             .id(MethodologySection.zoneT.rawValue)
-            
+
             ZoneRow(
                 type: .interval,
-                title: "I — Interval",
-                intensity: "95-100% VO2max · ~98% FCmax · RPE 8-9",
-                workBout: "3-5 minuti per ripetizione",
-                recovery: "Jog attivo uguale al tempo di lavoro",
-                purpose: "Massimizza il tempo a VO2max. Stimola gittata cardiaca, capillarizzazione e densità mitocondriale. Max minore tra 10K e 8% del volume settimanale.",
-                source: "Daniels [1] cap. 4, Billat [3], Laursen & Jenkins [5]",
+                title: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.title.I", defaultValue: "I — Interval"), locale: locale),
+                intensity: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.intensity.I", defaultValue: "95-100% VO2max · ~98% FCmax · RPE 8-9"), locale: locale),
+                workBout: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.workBout.I", defaultValue: "3-5 minuti per ripetizione"), locale: locale),
+                recovery: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.recovery.I", defaultValue: "Recupero attivo (jog) uguale al tempo di lavoro"), locale: locale),
+                purpose: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.purpose.I", defaultValue: "Massimizza il tempo a VO2max. Stimola la portata cardiaca, la densità capillare e la densità mitocondriale. Max 10 km o 8% del volume settimanale, il minore dei due."), locale: locale),
+                source: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.source.I", defaultValue: "Daniels [1] cap. 4, Billat [3], Laursen & Jenkins [5]"), locale: locale),
                 isInitiallyExpanded: scrollTo == .zoneI
             )
             .id(MethodologySection.zoneI.rawValue)
-            
+
             ZoneRow(
                 type: .repetition,
-                title: "R — Repetition",
-                intensity: "105-120% VDOT · >100% VO2max · RPE 9+",
-                workBout: "MAX 2 minuti per ripetizione (200-400m tipici)",
-                recovery: "COMPLETO: jog uguale o maggiore della distanza corsa",
-                purpose: "Migliora velocità, economia di corsa e potenza anaerobica. Introdotto prima delle I (aggiunge solo stimolo velocità). Max 5% del volume settimanale.",
-                source: "Daniels [1] cap. 4",
+                title: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.title.R", defaultValue: "R — Repetition"), locale: locale),
+                intensity: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.intensity.R", defaultValue: "105-120% VDOT · >100% VO2max · RPE 9+"), locale: locale),
+                workBout: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.workBout.R", defaultValue: "MAX 2 minuti per ripetizione (tipico 200-400m)"), locale: locale),
+                recovery: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.recovery.R", defaultValue: "COMPLETO: jog uguale o superiore alla distanza percorsa"), locale: locale),
+                purpose: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.purpose.R", defaultValue: "Migliora velocità, economia di corsa e potenza anaerobica. Introdotto prima di I (aggiunge solo stimolo di velocità). Max 5% del volume settimanale."), locale: locale),
+                source: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.source.R", defaultValue: "Daniels [1] cap. 4"), locale: locale),
                 isInitiallyExpanded: scrollTo == .zoneR
             )
             .id(MethodologySection.zoneR.rawValue)
-        } header: {
-            Text("Le 5 Zone di Daniels")
+        }         header: {
+            Text(AppLocalizedString.resolve(LocalizedStringResource("methodology.section.zones", defaultValue: "5 Zone di Daniels"), locale: locale))
         }
     }
-    
+
+    // MARK: - Sezione RPE
+
+    private var rpeSection: some View {
+        Section {
+            MethodologyCard(
+                symbol: "questionmark.circle",
+                color: .secondary,
+                title: "Cos'è l'RPE",
+                corpo: """
+                    L'RPE (Rate of Perceived Exertion) è una scala soggettiva \
+                    dell'intensità dello sforzo percepito durante l'allenamento. \
+                    Utilizza una scala da 1 a 10, dove 1 è uno sforzo minimo \
+                    (riposo) e 10 è lo sforzo massimo assoluto.
+
+                    A differenza della frequenza cardiaca o del VO2max, l'RPE \
+                    incorpora fattori soggettivi come il sonno, lo stress, \
+                    l'ambiente e la fatica accumulata — ed è per questo che \
+                    Daniels lo considera un indicatore complementare essenziale.
+
+                    L'RPE target per zona è calcolato sull'RPE medio \
+                    dell'intera sessione, non dei singoli intervalli.
+                    """,
+                isInitiallyExpanded: scrollTo == .rpe
+            )
+
+            MethodologyCard(
+                symbol: "slider.horizontal.3",
+                color: .secondary,
+                title: "Scala RPE",
+                corpo: """
+                    1 — Riposo completo. Nessuno sforzo percepito.
+
+                    2 — Attività leggera. Respiro normale, conversazione illimitata.
+
+                    3 — Facile. Si può mantenere a lungo senza difficoltà.
+
+                    4 — Moderato facile. Respiro profondo ma confortevole. Conversazione fluida. Corrisponde all'inizio dell'E-pace.
+
+                    5 — Moderato. Conversazione ancora possibile con qualche pausa. Meta-alta dell'E-pace.
+
+                    6 — Moderato sostenuto. Conversazione breve. Corrisponde all'M-pace.
+
+                    7 — Sostenuto impegnativo. "Comfortably hard". Frasi brevi. Corrisponde al T-pace.
+
+                    8 — Impegnativo. Conversazione difficile. Poche parole per volta. Corrisponde all'I-pace.
+
+                    9 — Molto intenso. Conversazione impossibile per più di una parola. Corrisponde all'R-pace. Non sostenibile a lungo.
+
+                    10 — Sforzo massimo assoluto. Sprint terminale, tutto quello che rimane.
+                    """,
+                isInitiallyExpanded: scrollTo == .rpe
+            )
+
+            MethodologyCard(
+                symbol: "lightbulb",
+                color: .secondary,
+                title: "Come usarlo in allenamento",
+                corpo: """
+                    Ogni allenamento nel piano indica l'RPE target. \
+                    È un riferimento — non una prescrizione rigida. \
+                    Se il tuo RPE è più alto del previsto in un giorno, \
+                    rallenta o accorcia la sessione.
+
+                    L'RPE tende ad aumentare durante sessioni lunghe: \
+                    se la prima parte è lenta, la seconda potrebbe \
+                    sentiresi più dura del previsto
+
+                    Daniels consiglia di usare l'RPE insieme al passo: \
+                    se il passo giusto corrisponde all'RPE giusto, \
+                    l'intensità è corretta.
+                    """,
+                isInitiallyExpanded: scrollTo == .rpe
+            )
+        } header: {
+            Text(AppLocalizedString.resolve(LocalizedStringResource("methodology.section.rpe", defaultValue: "RPE — Rate of Perceived Exertion"), locale: locale))
+        }
+        .id(MethodologySection.rpe.rawValue)
+    }
+
     // MARK: - Sezione Fasi
-    
+
     private var phasesSection: some View {
         Section {
             MethodologyCard(
@@ -352,12 +451,12 @@ struct MethodologyView: View {
             )
             .id(MethodologySection.taper.rawValue)
         } header: {
-            Text("Struttura del Piano")
+            Text(AppLocalizedString.resolve(LocalizedStringResource("methodology.section.phases", defaultValue: "Struttura del Piano"), locale: locale))
         }
     }
-    
+
     // MARK: - Sezione Volume
-    
+
     private var volumeSection: some View {
         Section {
             MethodologyCard(
@@ -433,27 +532,6 @@ struct MethodologyView: View {
                     )
                     .id(MethodologySection.volumeLong.rawValue)
             
-//            MethodologyCard(
-//                symbol: "ruler",
-//                color: .indigo,
-//                title: "Il Lungo: 25% e 150 minuti",
-//                corpo: """
-//                    Il lungo non supera il 25% del volume settimanale.
-//
-//                    Daniels [1] cap. 4: "I like to limit any single L run \
-//                    to no more than 25 percent of weekly mileage."
-//
-//                    Secondo vincolo: max 150 minuti (2h30') anche per \
-//                    la preparazione maratona. Questo vincolo temporale è \
-//                    fondamentale: runner più lenti non devono fare lunghi \
-//                    sproporzionati solo perché il piano prevede 30 km.
-//
-//                    Il piano applica entrambi i vincoli, prendendo il minore.
-//                    """,
-//                isInitiallyExpanded: scrollTo == .volumeLong
-//            )
-//            .id(MethodologySection.volumeLong.rawValue)
-            
             MethodologyCard(
                 symbol: "chart.pie",
                 color: .indigo,
@@ -504,14 +582,14 @@ struct MethodologyView: View {
                     """,
                 isInitiallyExpanded: scrollTo == .volumeLimits
             )
-            .id(MethodologySection.volumeLimits.rawValue)
+             .id(MethodologySection.volumeLimits.rawValue)
         } header: {
-            Text("Regole di Volume")
+            Text(AppLocalizedString.resolve(LocalizedStringResource("methodology.section.volume", defaultValue: "Regole di Volume"), locale: locale))
         }
     }
-    
+
     // MARK: - Sezione Fonti
-    
+
     private var sourcesSection: some View {
         Section {
             VStack(alignment: .leading, spacing: 10) {
@@ -531,10 +609,10 @@ struct MethodologyView: View {
                 }
             }
             .padding(.vertical, 4)
-        } header: {
-            Text("Fonti Scientifiche")
-        }
-        .id(MethodologySection.sources.rawValue)
+         } header: {
+             Text(AppLocalizedString.resolve(LocalizedStringResource("methodology.section.sources", defaultValue: "Fonti Scientifiche"), locale: locale))
+         }
+         .id(MethodologySection.sources.rawValue)
     }
 }
 
@@ -619,6 +697,8 @@ struct ZoneRow: View {
     let recovery: String
     let purpose: String
     let source: String
+
+    @Environment(\.locale) private var locale
     
     // Cambiato per supportare l'espansione programmata dall'init
     @State private var expanded: Bool
@@ -654,11 +734,11 @@ struct ZoneRow: View {
             
             if expanded {
                 VStack(alignment: .leading, spacing: 8) {
-                    ZoneDetailRow(label: "Intensità", value: intensity)
-                    ZoneDetailRow(label: "Work bout", value: workBout)
-                    ZoneDetailRow(label: "Recupero", value: recovery)
-                    ZoneDetailRow(label: "Scopo", value: purpose)
-                    ZoneDetailRow(label: "Fonte", value: source)
+                    ZoneDetailRow(label: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.label.intensity", defaultValue: "Intensità"), locale: locale), value: intensity)
+                    ZoneDetailRow(label: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.label.workBout", defaultValue: "Work bout"), locale: locale), value: workBout)
+                    ZoneDetailRow(label: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.label.recovery", defaultValue: "Recupero"), locale: locale), value: recovery)
+                    ZoneDetailRow(label: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.label.purpose", defaultValue: "Scopo"), locale: locale), value: purpose)
+                    ZoneDetailRow(label: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.label.source", defaultValue: "Fonte"), locale: locale), value: source)
                 }
                 .padding(.top, 10)
                 .padding(.leading, 46)
@@ -673,7 +753,7 @@ struct ZoneRow: View {
 struct ZoneDetailRow: View {
     let label: String
     let value: String
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(label.uppercased())

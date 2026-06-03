@@ -48,7 +48,7 @@ struct SettingsView: View {
                 // 2 - Aiuto
                 NavigationLink(destination: HelpView()) {
                     Label {
-                        Text("Aiuto")
+                        Text("Guida")
                             .foregroundColor(.primary)
                         
                     } icon: {
@@ -192,7 +192,7 @@ struct SettingsView: View {
                     
                     Picker("", selection: $themeManager.selectedTheme) {
                         ForEach(AppTheme.allCases, id: \.self) { theme in
-                            Text(theme.rawValue).tag(theme)
+                            Text(theme.localizedAppTheme).tag(theme)
                         }
                     }
                     .font(.system(.subheadline, design: .rounded, weight: .regular))

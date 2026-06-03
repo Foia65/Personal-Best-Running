@@ -258,7 +258,8 @@ struct TrainingPlanView: View {
                 allEvents.append(newEvent)
             }
         }
-        
+
+#if DEBUG
         // --- STAMPA NELLA CONSOLE ---
         
         print("\n--- ELENCO EVENTI DA SCRIVERE (\(allEvents.count)) ---")
@@ -269,6 +270,7 @@ struct TrainingPlanView: View {
             print("📝 Note: \(event.notes)")
             print("------------------------------------------\n")
         }
+#endif
         
         // scrivo sul calendario
         calendarManager.addEventsBatch(allEvents)
@@ -278,7 +280,7 @@ struct TrainingPlanView: View {
         print("Exporting PDF...")
         
         // 1. Generate the data
-        let data = TrainingPlanPDFGenerator().generatePDF(plan: plan, unitSystem: unitSystem)
+        let data = TrainingPlanPDFGenerator().generatePDF(plan: plan, unitSystem: unitSystem, locale: locale)
         
         // 2. Setup the temporary file path
         let fileName = "\(plan.input.raceName.replacingOccurrences(of: " ", with: "_"))_piano.pdf"
@@ -316,13 +318,14 @@ struct TrainingPlanView: View {
         print("Exporting CSV...")
         
         // 1. Aggiungiamo il BOM UTF-8 (\u{FEFF}) come prefisso e usiamo ";" come separatore
-        var csvString = "\u{FEFF}" + AppLocalizedString.resolve(
+        let header = AppLocalizedString.resolve(
             LocalizedStringResource(
                 "export.csvHeader",
-                defaultValue: "Settimana;Data;Nome Workout;Distanza;Passo\n"
+                defaultValue: "Settimana;Data;Nome Workout;Distanza;Passo"
             ),
             locale: locale
         )
+        var csvString = "\u{FEFF}" + header + "\n"
         
         // Formattatore di data comprensivo del giorno della settimana
         let dateFormatter = DateFormatter()

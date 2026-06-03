@@ -32,7 +32,7 @@ struct AthleteProfileView: View {
                         timeColumn(
                             label: "Stima Attuale",
                             value: formatTime(plan.estimatedRaceTime),
-                            subtitle: plan.input.raceDistance.rawValue,
+                            subtitle: plan.input.raceDistance.localizedName,
                             valueColor: .primary
                         )
                         Spacer()
@@ -41,7 +41,7 @@ struct AthleteProfileView: View {
                         timeColumn(
                             label: "Target",
                             value: formatTime(plan.input.targetTime),
-                            subtitle: plan.input.raceDistance.rawValue,
+                            subtitle: plan.input.raceDistance.localizedName,
                             valueColor: targetColor
                         )
                     }
@@ -107,24 +107,11 @@ struct AthleteProfileView: View {
                 .foregroundStyle(.tertiary)
         }
     }
-//    private var vdotBadge: some View {
-//        VStack(alignment: .leading, spacing: 2) {
-//            Text("VDOT")
-//                .font(.caption)
-//                .foregroundStyle(.secondary)
-//            Text(String(format: "%.1f", vdot))
-//                .font(.title2.bold())
-//                .foregroundStyle(.indigo)
-//            Text("forma attuale")
-//                .font(.caption2)
-//                .foregroundStyle(.tertiary)
-//        }
-//    }
 
     private func timeColumn(
-        label: String,
+        label: LocalizedStringKey,
         value: String,
-        subtitle: String,
+        subtitle: LocalizedStringResource,
         valueColor: Color
     ) -> some View {
         VStack(alignment: .trailing, spacing: 2) {
@@ -174,7 +161,7 @@ struct MultiDistancePredictionRow: View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {
-                    Text(distance.rawValue)
+                    Text(distance.localizedName)
                         .font(.subheadline.weight(.medium))
                     if isTarget {
                         Text("obiettivo")
@@ -220,7 +207,7 @@ struct RunnerLevelDescriptionView: View {
     let vdot: Double
     let sex: RunnerSex
 
-    private var levelDescription: String {
+    private var levelDescription: LocalizedStringKey {
         switch level {
         case .beginner:
             return "Stai costruendo le fondamenta. L'obiettivo principale è la continuità: completare le sessioni con regolarità è più importante del ritmo."
@@ -246,12 +233,12 @@ struct RunnerLevelDescriptionView: View {
         }
     }
 
-    private var nextLevelName: String? {
+    private var nextLevelName: LocalizedStringResource? {
         switch level {
-        case .beginner:     return RunnerLevel.recreational.rawValue
-        case .recreational: return RunnerLevel.intermediate.rawValue
-        case .intermediate: return RunnerLevel.advanced.rawValue
-        case .advanced:     return RunnerLevel.elite.rawValue
+        case .beginner:     return RunnerLevel.recreational.localizedRunnerLevel
+        case .recreational: return RunnerLevel.intermediate.localizedRunnerLevel
+        case .intermediate: return RunnerLevel.advanced.localizedRunnerLevel
+        case .advanced:     return RunnerLevel.elite.localizedRunnerLevel
         case .elite:        return nil
         }
     }
@@ -363,16 +350,12 @@ struct RunnerLevelBar: View {
     let level: RunnerLevel
     let sex: RunnerSex
 
-    private let levels: [RunnerLevel] = [
-        .beginner, .recreational, .intermediate, .advanced, .elite
-    ]
-
     private var levelIndex: Int {
-        levels.firstIndex(of: level) ?? 0
+        RunnerLevel.allCases.firstIndex(of: level) ?? 0
     }
 
     private var fillFraction: Double {
-        Double(levelIndex) / Double(levels.count - 1)
+        Double(levelIndex) / Double(RunnerLevel.allCases.count - 1)
     }
 
     var body: some View {
@@ -382,7 +365,7 @@ struct RunnerLevelBar: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 Spacer()
-                Text(level.rawValue)
+                Text(level.localizedRunnerLevel)
                     .font(.caption.bold())
                     .foregroundStyle(.blue)
                     .padding(.horizontal, 10)
@@ -391,7 +374,7 @@ struct RunnerLevelBar: View {
             }
 
             GeometryReader { geo in
-                let dotCount = levels.count
+                let dotCount = RunnerLevel.allCases.count
                 let spacing = geo.size.width / CGFloat(dotCount - 1)
                 ZStack(alignment: .leading) {
                     Capsule()
@@ -415,17 +398,26 @@ struct RunnerLevelBar: View {
             }
             .frame(height: 8)
 
-            HStack(spacing: 0) {
-                ForEach(0..<levels.count, id: \.self) { i in
-                    let isActive = i == levelIndex
-                    Text(levels[i].rawValue)
-                        .font(.system(size: 10))
-                        .fontWeight(isActive ? .bold : .regular)
-                        .foregroundStyle(isActive ? Color.blue : Color.secondary)
-                        .frame(maxWidth: .infinity)
-                        .multilineTextAlignment(.center)
+            // usato un altro Geometry reader dentro una ZStack
+            // per allineare i livelli testuali ai dots
+            GeometryReader { geo in
+                let dotCount = RunnerLevel.allCases.count
+                let spacing = geo.size.width / CGFloat(dotCount - 1)
+                ZStack(alignment: .topLeading) {
+                    ForEach(Array(RunnerLevel.allCases.enumerated()), id: \.offset) { i, lvl in
+                        let isActive = lvl == level
+                        let xPos = CGFloat(i) * spacing
+                        Text(lvl.localizedRunnerLevel)
+                            .font(.system(size: 10))
+                            .fontWeight(isActive ? .bold : .regular)
+                            .foregroundStyle(isActive ? Color.blue : Color.secondary)
+                            .multilineTextAlignment(i == dotCount - 1 ? .trailing : .leading)
+                            .frame(width: spacing, alignment: i == dotCount - 1 ? .trailing : .leading)
+                            .offset(x: i == dotCount - 1 ? geo.size.width - spacing : xPos)
+                    }
                 }
             }
+            .frame(height: 20)
         }
     }
 }

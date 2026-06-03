@@ -147,12 +147,23 @@ enum GoalFeasibility {
 }
 
 // MARK: Runner Level
-enum RunnerLevel: String, Equatable {
+enum RunnerLevel: String, Equatable, CaseIterable {
     case beginner = "Principiante"
     case recreational = "Amatore"
     case intermediate = "Intermedio"
     case advanced = "Avanzato"
     case elite = "Elite"
+    
+    // Questo dice a Xcode di mettere queste stringhe e mettile nel file .xcstrings!"
+    var localizedRunnerLevel: LocalizedStringResource {
+        switch self {
+        case .beginner: return "Principiante"
+        case .recreational: return "Amatore"
+        case .intermediate: return "Intermedio"
+        case .advanced: return "Avanzato"
+        case .elite: return "Elite"
+        }
+    }
 }
 
 // MARK: - Runner Sex

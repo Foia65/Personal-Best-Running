@@ -1,0 +1,789 @@
+# Italian Localizations Added to Localizable.xcstrings
+# Total: 262 keys
+
+Key:     \nSotto il piano, trovi due bottoni per esportarlo in formato PDF o per scriverlo direttamente sul tuo calendario.
+Italian: \nSotto il piano, trovi due bottoni per esportarlo in formato PDF o per scriverlo direttamente sul tuo calendario.
+------------------------------------------------------------
+Key:     %lld settimane
+Italian: %lld settimane
+------------------------------------------------------------
+Key:     %lldh
+Italian: %lldh
+------------------------------------------------------------
+Key:     **Calcolo del VDOT:** Visualizza il tuo punteggio VDOT corrente, calcolato  incrociando la tua distanza di riferimento con il tuo ultimo tempo cronometrato.
+Italian: **Calcolo del VDOT:** Visualizza il tuo punteggio VDOT corrente, calcolato  incrociando la tua distanza di riferimento con il tuo ultimo tempo cronometrato.
+------------------------------------------------------------
+Key:     **Il tuo livello** attuale basato su VDOT, sesso biologico,distribuzione percentile dei finishing time nelle maratone di massa (RunRepeat Global Report 2023) e sulle tabelle age-grading di WMA (World Masters Athletics)
+Italian: **Il tuo livello** attuale basato su VDOT, sesso biologico,distribuzione percentile dei finishing time nelle maratone di massa (RunRepeat Global Report 2023) e sulle tabelle age-grading di WMA (World Masters Athletics)
+------------------------------------------------------------
+Key:     **Si raccomanda vivamente di consultare un medico professionista o uno specialista prima di iniziare qualsiasi piano di allenamento**, di modificare le proprie abitudini di esercizio fisico o se si hanno dubbi sulle proprie condizioni di salute generali. 
+Italian: **Si raccomanda vivamente di consultare un medico professionista o uno specialista prima di iniziare qualsiasi piano di allenamento**, di modificare le proprie abitudini di esercizio fisico o se si hanno dubbi sulle proprie condizioni di salute generali. 
+------------------------------------------------------------
+Key:     **Trend VDOT:** Monitora la tua progressione atletica e scopri quanto manca per raggiungere il livello successivo.
+Italian: **Trend VDOT:** Monitora la tua progressione atletica e scopri quanto manca per raggiungere il livello successivo.
+------------------------------------------------------------
+Key:     1. Configura il tuo Obiettivo
+Italian: 1. Configura il tuo Obiettivo
+------------------------------------------------------------
+Key:     1. Introduzione
+Italian: 1. Introduzione
+------------------------------------------------------------
+Key:     10. Contatti
+Italian: 10. Contatti
+------------------------------------------------------------
+Key:     11. Conformità GDPR
+Italian: 11. Conformità GDPR
+------------------------------------------------------------
+Key:     12. Diritti della Privacy in California (CCPA)
+Italian: 12. Diritti della Privacy in California (CCPA)
+------------------------------------------------------------
+Key:     2. Descrizione dell'App
+Italian: 2. Descrizione dell'App
+------------------------------------------------------------
+Key:     2. Il tuo Piano di Allenamento
+Italian: 2. Il tuo Piano di Allenamento
+------------------------------------------------------------
+Key:     2. Informazioni che Raccogliamo
+Italian: 2. Informazioni che Raccogliamo
+------------------------------------------------------------
+Key:     3. Disclaimer Medico Importante
+Italian: 3. Disclaimer Medico Importante
+------------------------------------------------------------
+Key:     3. I tuoi Ritmi Personalizzati
+Italian: 3. I tuoi Ritmi Personalizzati
+------------------------------------------------------------
+Key:     3. Servizi di Terze Parti
+Italian: 3. Servizi di Terze Parti
+------------------------------------------------------------
+Key:     4. Come Utilizziamo le Informazioni
+Italian: 4. Come Utilizziamo le Informazioni
+------------------------------------------------------------
+Key:     4. Profilo Atleta
+Italian: 4. Profilo Atleta
+------------------------------------------------------------
+Key:     4. Responsabilità dell'Utente
+Italian: 4. Responsabilità dell'Utente
+------------------------------------------------------------
+Key:     5. Limitazione di Responsabilità
+Italian: 5. Limitazione di Responsabilità
+------------------------------------------------------------
+Key:     5. Sicurezza dei Dati
+Italian: 5. Sicurezza dei Dati
+------------------------------------------------------------
+Key:     6. Aggiornamenti e Modifiche
+Italian: 6. Aggiornamenti e Modifiche
+------------------------------------------------------------
+Key:     6. I Tuoi Diritti sulla Privacy
+Italian: 6. I Tuoi Diritti sulla Privacy
+------------------------------------------------------------
+Key:     7. Privacy dei Minori
+Italian: 7. Privacy dei Minori
+------------------------------------------------------------
+Key:     7. Risoluzione
+Italian: 7. Risoluzione
+------------------------------------------------------------
+Key:     8. Contatti
+Italian: 8. Contatti
+------------------------------------------------------------
+Key:     8. Utenti Internazionali
+Italian: 8. Utenti Internazionali
+------------------------------------------------------------
+Key:     9. Legge Applicabile
+Italian: 9. Legge Applicabile
+------------------------------------------------------------
+Key:     9. Modifiche a questa Informativa sulla Privacy
+Italian: 9. Modifiche a questa Informativa sulla Privacy
+------------------------------------------------------------
+Key:     Accesso alla galleria fotografica o ai contatti
+Italian: Accesso alla galleria fotografica o ai contatti
+------------------------------------------------------------
+Key:     Aiuto e Supporto
+Italian: Aiuto e Supporto
+------------------------------------------------------------
+Key:     Allenarsi al ritmo target (futuro) anziché al VDOT attuale è uno degli errori più comuni — e più rischiosi. Daniels è esplicito: "Train at the level you are, not at the level you hope to be."\n\nI ritmi del piano — Easy, M, T, I, R — riflettono la tua forma di oggi, non l'obiettivo. Man mano che il VDOT cresce durante il piano, le sessioni diventano progressivamente più impegnative alla stessa intensità relativa.\n\nNota sul lungo: anche la distanza del lungo dipende dall'E-pace attuale, tramite il cap di 150 minuti. Un runner più lento farà meno km per la stessa durata — ed è corretto: lo stimolo fisiologico è equivalente.
+Italian: Allenarsi al ritmo target (futuro) anziché al VDOT attuale è uno degli errori più comuni — e più rischiosi. Daniels è esplicito: "Train at the level you are, not at the level you hope to be."\n\nI ritmi del piano — Easy, M, T, I, R — riflettono la tua forma di oggi, non l'obiettivo. Man mano che il VDOT cresce durante il piano, le sessioni diventano progressivamente più impegnative alla stessa intensità relativa.\n\nNota sul lungo: anche la distanza del lungo dipende dall'E-pace attuale, tramite il cap di 150 minuti. Un runner più lento farà meno km per la stessa durata — ed è corretto: lo stimolo fisiologico è equivalente.
+------------------------------------------------------------
+Key:     Analisi sull'utilizzo o dati comportamentali
+Italian: Analisi sull'utilizzo o dati comportamentali
+------------------------------------------------------------
+Key:     App Store:
+Italian: App Store:
+------------------------------------------------------------
+Key:     AppTheme.label.dark
+Italian: Scuro
+------------------------------------------------------------
+Key:     AppTheme.label.light
+Italian: Chiaro
+------------------------------------------------------------
+Key:     AppTheme.label.system
+Italian: Sistema
+------------------------------------------------------------
+Key:     Ascoltare il proprio corpo e interrompere immediatamente l'allenamento in caso di dolore, vertigini o malessere
+Italian: Ascoltare il proprio corpo e interrompere immediatamente l'allenamento in caso di dolore, vertigini o malessere
+------------------------------------------------------------
+Key:     Aspetto dell'App
+Italian: Aspetto dell'App
+------------------------------------------------------------
+Key:     Benvenuto in **Personal Best Running**. I presenti Termini di Servizio ("Termini") disciplinano l'utilizzo della nostra applicazione. Scaricando, installando o utilizzando Personal Best Running, l'utente accetta di essere vincolato dai presenti Termini.
+Italian: Benvenuto in **Personal Best Running**. I presenti Termini di Servizio ("Termini") disciplinano l'utilizzo della nostra applicazione. Scaricando, installando o utilizzando Personal Best Running, l'utente accetta di essere vincolato dai presenti Termini.
+------------------------------------------------------------
+Key:     Benvenuto in Personal Best Running! Questa applicazione ti aiuta a generare un piano di allenamento personalizzato basato sul metodo VDOT di Jack Daniels.
+Italian: Benvenuto in Personal Best Running! Questa applicazione ti aiuta a generare un piano di allenamento personalizzato basato sul metodo VDOT di Jack Daniels.
+------------------------------------------------------------
+Key:     Calendario Aggiornato
+Italian: Calendario Aggiornato
+------------------------------------------------------------
+Key:     Calendario Allenamenti
+Italian: Calendario Allenamenti
+------------------------------------------------------------
+Key:     Chiudi
+Italian: Chiudi
+------------------------------------------------------------
+Key:     Ci riserviamo il diritto di modificare i presenti Termini in qualsiasi momento. L'uso continuato dell'app dopo le modifiche costituisce l'accettazione dei nuovi Termini. Potremmo aggiornare l'app per migliorare le funzionalità, correggere bug o conformarci ai requisiti del sistema operativo.
+Italian: Ci riserviamo il diritto di modificare i presenti Termini in qualsiasi momento. L'uso continuato dell'app dopo le modifiche costituisce l'accettazione dei nuovi Termini. Potremmo aggiornare l'app per migliorare le funzionalità, correggere bug o conformarci ai requisiti del sistema operativo.
+------------------------------------------------------------
+Key:     Come viene calcolato
+Italian: Come viene calcolato
+------------------------------------------------------------
+Key:     Con un piano di 16-20 settimane è realistico guadagnare 3-5 punti VDOT.
+Italian: Con un piano di 16-20 settimane è realistico guadagnare 3-5 punti VDOT.
+------------------------------------------------------------
+Key:     Condivisione
+Italian: Condivisione
+------------------------------------------------------------
+Key:     Contatta il supporto
+Italian: Contatta il supporto
+------------------------------------------------------------
+Key:     Cos'è il VDOT
+Italian: Cos'è il VDOT
+------------------------------------------------------------
+Key:     Crea un piano nella scheda Obiettivo
+Italian: Crea un piano nella scheda Obiettivo
+------------------------------------------------------------
+Key:     Dal tempo e dalla distanza di una performance recente, il sistema calcola la velocità di corsa e la percentuale di VO2max utilizzata a quella durata. La formula è:\n\nVO2 richiesto = −4.60 + 0.182258·v + 0.000104·v²\n%VO2max = 0.8 + 0.1894·e^(−0.01278·t) + 0.2990·e^(−0.1933·t)\nVDOT = VO2 / %VO2max\n\ndove v = velocità in m/min, t = tempo in minuti.\nFonte: Daniels & Gilbert (1979), adattato da Daniels (2022).
+Italian: Dal tempo e dalla distanza di una performance recente, il sistema calcola la velocità di corsa e la percentuale di VO2max utilizzata a quella durata. La formula è:\n\nVO2 richiesto = −4.60 + 0.182258·v + 0.000104·v²\n%VO2max = 0.8 + 0.1894·e^(−0.01278·t) + 0.2990·e^(−0.1933·t)\nVDOT = VO2 / %VO2max\n\ndove v = velocità in m/min, t = tempo in minuti.\nFonte: Daniels & Gilbert (1979), adattato da Daniels (2022).
+------------------------------------------------------------
+Key:     Daniels definisce limiti precisi per ogni zona in una singola sessione:\n\nT (Tempo):      max 10% del volume settimanale\nM (Marathon):   max 20% del volume settimanale\nI (Interval):   max il minore tra 10 km e 8% settimanale\nR (Repetition): max 5% del volume settimanale\nL (Long Run):   max 25% del volume settimanale\n                E max 150 minuti a E-pace (vincolo primario)\n\nIl vincolo temporale (150 min) prevale sul 25% del volume quando i due entrano in conflitto. Per HM e maratona è sempre il cap temporale a determinare i km effettivi del lungo.\n\nQuesti limiti prevengono il sovraccarico e garantiscono un recupero adeguato tra le sessioni.\n\nFonte: Daniels [1] cap. 4.
+Italian: Daniels definisce limiti precisi per ogni zona in una singola sessione:\n\nT (Tempo):      max 10% del volume settimanale\nM (Marathon):   max 20% del volume settimanale\nI (Interval):   max il minore tra 10 km e 8% settimanale\nR (Repetition): max 5% del volume settimanale\nL (Long Run):   max 25% del volume settimanale\n                E max 150 minuti a E-pace (vincolo primario)\n\nIl vincolo temporale (150 min) prevale sul 25% del volume quando i due entrano in conflitto. Per HM e maratona è sempre il cap temporale a determinare i km effettivi del lungo.\n\nQuesti limiti prevengono il sovraccarico e garantiscono un recupero adeguato tra le sessioni.\n\nFonte: Daniels [1] cap. 4.
+------------------------------------------------------------
+Key:     Data gara
+Italian: Data gara
+------------------------------------------------------------
+Key:     Dati di localizzazione o coordinate GPS sui nostri server
+Italian: Dati di localizzazione o coordinate GPS sui nostri server
+------------------------------------------------------------
+Key:     Dato che non raccogliamo dati personali, utilizziamo le informazioni memorizzate localmente solo per:
+Italian: Dato che non raccogliamo dati personali, utilizziamo le informazioni memorizzate localmente solo per:
+------------------------------------------------------------
+Key:     Distanza
+Italian: Distanza
+------------------------------------------------------------
+Key:     Distanza di riferimento
+Italian: Distanza di riferimento
+------------------------------------------------------------
+Key:     Distribuzione 80/20
+Italian: Distribuzione 80/20
+------------------------------------------------------------
+Key:     Dovrai inserire la distanza della gara, la data dell'evento, il tuo tempo obiettivo e un tempo recente di riferimento per permettere all'algoritmo di calcolare accuratamente il tuo VDOT iniziale.
+Italian: Dovrai inserire la distanza della gara, la data dell'evento, il tuo tempo obiettivo e un tempo recente di riferimento per permettere all'algoritmo di calcolare accuratamente il tuo VDOT iniziale.
+------------------------------------------------------------
+Key:     Esporta Piano in PDF
+Italian: Esporta Piano in PDF
+------------------------------------------------------------
+Key:     Esporta nel Calendario
+Italian: Esporta nel Calendario
+------------------------------------------------------------
+Key:     Evento:
+Italian: Evento:
+------------------------------------------------------------
+Key:     Fase Base (Phase I)
+Italian: Fase Base (Phase I)
+------------------------------------------------------------
+Key:     Fase di Sviluppo (Phase II)
+Italian: Fase di Sviluppo (Phase II)
+------------------------------------------------------------
+Key:     Fase di picco (Phase III/IV)
+Italian: Fase di picco (Phase III/IV)
+------------------------------------------------------------
+Key:     Fine
+Italian: Fine
+------------------------------------------------------------
+Key:     Fornire un'esperienza utente fluida e personalizzata
+Italian: Fornire un'esperienza utente fluida e personalizzata
+------------------------------------------------------------
+Key:     Gara Target
+Italian: Gara Target
+------------------------------------------------------------
+Key:     Genera Piano
+Italian: Genera Piano
+------------------------------------------------------------
+Key:     Genere
+Italian: Genere
+------------------------------------------------------------
+Key:     Giorni alla settimana: %lld
+Italian: Giorni alla settimana: %lld
+------------------------------------------------------------
+Key:     Giorni di Allenamento
+Italian: Giorni di Allenamento
+------------------------------------------------------------
+Key:     Guida
+Italian: Guida
+------------------------------------------------------------
+Key:     Hai raggiunto il livello massimo della scala.
+Italian: Hai raggiunto il livello massimo della scala.
+------------------------------------------------------------
+Key:     I dati sono protetti tramite la crittografia nativa di iOS
+Italian: I dati sono protetti tramite la crittografia nativa di iOS
+------------------------------------------------------------
+Key:     I dati vengono eliminati automaticamente quando disinstalli l'app
+Italian: I dati vengono eliminati automaticamente quando disinstalli l'app
+------------------------------------------------------------
+Key:     I presenti Termini rimangono in vigore fino alla loro risoluzione. L'utente può recedere in qualsiasi momento disinstallando l'app. Lo sviluppatore può sospendere o interrompere l'accesso alle funzionalità dell'app in caso di violazione dei presenti Termini.
+Italian: I presenti Termini rimangono in vigore fino alla loro risoluzione. L'utente può recedere in qualsiasi momento disinstallando l'app. Lo sviluppatore può sospendere o interrompere l'accesso alle funzionalità dell'app in caso di violazione dei presenti Termini.
+------------------------------------------------------------
+Key:     I presenti Termini sono regolati dalle leggi dello Stato Italiano. Qualsiasi controversia derivante dall'utilizzo dell'applicazione sarà devoluta alla competenza esclusiva del Foro di Milano, Italia.
+Italian: I presenti Termini sono regolati dalle leggi dello Stato Italiano. Qualsiasi controversia derivante dall'utilizzo dell'applicazione sarà devoluta alla competenza esclusiva del Foro di Milano, Italia.
+------------------------------------------------------------
+Key:     I residenti in California sono tutelati dal California Consumer Privacy Act (CCPA). Poiché Personal Best Running non raccoglie né vende alcuna informazione personale a terzi, l'applicazione rispetta nativamente i requisiti di massima riservatezza imposti dalla legge.
+Italian: I residenti in California sono tutelati dal California Consumer Privacy Act (CCPA). Poiché Personal Best Running non raccoglie né vende alcuna informazione personale a terzi, l'applicazione rispetta nativamente i requisiti di massima riservatezza imposti dalla legge.
+------------------------------------------------------------
+Key:     I ritmi di allenamento sono calcolati tramite il sistema VDOT di Jack Daniels. La distribuzione settimanale segue il principio di polarizzazione 80/20 (Seiler). La progressione del volume rispetta la regola del 10% per prevenire infortuni.
+Italian: I ritmi di allenamento sono calcolati tramite il sistema VDOT di Jack Daniels. La distribuzione settimanale segue il principio di polarizzazione 80/20 (Seiler). La progressione del volume rispetta la regola del 10% per prevenire infortuni.
+------------------------------------------------------------
+Key:     Identificatori del dispositivo per il tracciamento pubblicitario
+Italian: Identificatori del dispositivo per il tracciamento pubblicitario
+------------------------------------------------------------
+Key:     Il Lungo: progressione per fase
+Italian: Il Lungo: progressione per fase
+------------------------------------------------------------
+Key:     Il Tuo Livello
+Italian: Il Tuo Livello
+------------------------------------------------------------
+Key:     Il VDOT è sex-neutral per definizione: misura la performance individuale reale, già "incorporando" le differenze fisiologiche. Una donna con VDOT 50 e un uomo con VDOT 50 si allenano agli stessi ritmi.\n\nDaniels (2022) cap. 5: "The higher VDOT value is associated with the better runner, regardless of age or sex."\n\nIl sesso viene usato nel piano solo per contestualizzare il livello del runner (soglie di popolazione differenziate per distribuzione M/F).
+Italian: Il VDOT è sex-neutral per definizione: misura la performance individuale reale, già "incorporando" le differenze fisiologiche. Una donna con VDOT 50 e un uomo con VDOT 50 si allenano agli stessi ritmi.\n\nDaniels (2022) cap. 5: "The higher VDOT value is associated with the better runner, regardless of age or sex."\n\nIl sesso viene usato nel piano solo per contestualizzare il livello del runner (soglie di popolazione differenziate per distribuzione M/F).
+------------------------------------------------------------
+Key:     Il VDOT è un indice della capacità aerobica individuale, derivato dalla formula di Daniels e Gilbert (1979). Rappresenta il consumo di ossigeno (VO2max) "effettivo" ricavato dalla performance in gara — non da un test in laboratorio.\n\nUn VDOT più alto indica una migliore forma fisica: VDOT 40 è un runner amatoriale solido, VDOT 60 è un atleta d'élite.
+Italian: Il VDOT è un indice della capacità aerobica individuale, derivato dalla formula di Daniels e Gilbert (1979). Rappresenta il consumo di ossigeno (VO2max) "effettivo" ricavato dalla performance in gara — non da un test in laboratorio.\n\nUn VDOT più alto indica una migliore forma fisica: VDOT 40 è un runner amatoriale solido, VDOT 60 è un atleta d'élite.
+------------------------------------------------------------
+Key:     Il download dell'app viene elaborato tramite l'App Store di Apple. Apple potrebbe raccogliere informazioni sull'account e cronologia degli acquisti in base alla propria informativa sulla privacy. Noi non abbiamo accesso ai tuoi dati di pagamento o account Apple.
+Italian: Il download dell'app viene elaborato tramite l'App Store di Apple. Apple potrebbe raccogliere informazioni sull'account e cronologia degli acquisti in base alla propria informativa sulla privacy. Noi non abbiamo accesso ai tuoi dati di pagamento o account Apple.
+------------------------------------------------------------
+Key:     Il lungo segue una curva di progressione basata sulla fase del piano, non solo sul volume settimanale corrente.\n\nDaniels [1] cap. 4: "I like to limit any single L run to no more than 25 percent of weekly mileage." Secondo vincolo: max 150 minuti (2h30') per sessione.\n\nRange orientativi per distanza (picco):\n\nMaratona: 16 km (base) → fino a 32 km (peak, VDOT alto)\nMezza:    10 km (base) → fino a 22 km (peak)\n10K:       8 km (base) → fino a 18 km (peak)\n\nPer maratona e mezza il target è phase-driven (cap temporale 150 min). Per la 10K si applica anche il cap 25% del volume settimanale.\n\nFonte: Daniels [1] cap. 4 e 15-16, Pfitzinger [2] cap. 3.
+Italian: Il lungo segue una curva di progressione basata sulla fase del piano, non solo sul volume settimanale corrente.\n\nDaniels [1] cap. 4: "I like to limit any single L run to no more than 25 percent of weekly mileage." Secondo vincolo: max 150 minuti (2h30') per sessione.\n\nRange orientativi per distanza (picco):\n\nMaratona: 16 km (base) → fino a 32 km (peak, VDOT alto)\nMezza:    10 km (base) → fino a 22 km (peak)\n10K:       8 km (base) → fino a 18 km (peak)\n\nPer maratona e mezza il target è phase-driven (cap temporale 150 min). Per la 10K si applica anche il cap 25% del volume settimanale.\n\nFonte: Daniels [1] cap. 4 e 15-16, Pfitzinger [2] cap. 3.
+------------------------------------------------------------
+Key:     Il sesso biologico NON influisce sul calcolo del VDOT.\n\nViene utilizzato esclusivamente per contestualizzare la valutazione del livello del runner (principiante, intermedio o avanzato).
+Italian: Il sesso biologico NON influisce sul calcolo del VDOT.\n\nViene utilizzato esclusivamente per contestualizzare la valutazione del livello del runner (principiante, intermedio o avanzato).
+------------------------------------------------------------
+Key:     Il volume di partenza del piano dipende sia dalla distanza obiettivo che dal livello del runner (VDOT).\n\nUn beginner che prepara una 10K (VDOT < 35) parte da ~18-25 km/settimana con sessioni da 4-6 km. Lo stesso runner su maratona parte da ~30-45 km/settimana.\n\nSoglie orientative settimanali per livello:\n\n10K: beginner ~25 km · recreational ~42 km · intermedio ~60 km\nHM:  beginner ~35 km · recreational ~55 km · intermedio ~70 km\nMar: beginner ~45 km · recreational ~65 km · intermedio ~85 km\n\nQuesti cap impediscono volumi sproporzionati per runner alle prime armi, riducendo il rischio di infortuni da stress.\nFonte: Daniels [1] cap. 2, Pfitzinger [2], RunRepeat Global Report (2023).
+Italian: Il volume di partenza del piano dipende sia dalla distanza obiettivo che dal livello del runner (VDOT).\n\nUn beginner che prepara una 10K (VDOT < 35) parte da ~18-25 km/settimana con sessioni da 4-6 km. Lo stesso runner su maratona parte da ~30-45 km/settimana.\n\nSoglie orientative settimanali per livello:\n\n10K: beginner ~25 km · recreational ~42 km · intermedio ~60 km\nHM:  beginner ~35 km · recreational ~55 km · intermedio ~70 km\nMar: beginner ~45 km · recreational ~65 km · intermedio ~85 km\n\nQuesti cap impediscono volumi sproporzionati per runner alle prime armi, riducendo il rischio di infortuni da stress.\nFonte: Daniels [1] cap. 2, Pfitzinger [2], RunRepeat Global Report (2023).
+------------------------------------------------------------
+Key:     Impostazioni
+Italian: Impostazioni
+------------------------------------------------------------
+Key:     Impostazioni dell'app (sistema di misura, genere, lingua)
+Italian: Impostazioni dell'app (sistema di misura, genere, lingua)
+------------------------------------------------------------
+Key:     Informativa Privacy
+Italian: Informativa Privacy
+------------------------------------------------------------
+Key:     Informativa sulla Privacy
+Italian: Informativa sulla Privacy
+------------------------------------------------------------
+Key:     Informazioni
+Italian: Informazioni
+------------------------------------------------------------
+Key:     Informazioni Memorizzate Localmente:
+Italian: Informazioni Memorizzate Localmente:
+------------------------------------------------------------
+Key:     Informazioni che NON raccogliamo:
+Italian: Informazioni che NON raccogliamo:
+------------------------------------------------------------
+Key:     Informazioni di identificazione personale (nome, email, indirizzo)
+Italian: Informazioni di identificazione personale (nome, email, indirizzo)
+------------------------------------------------------------
+Key:     Informazioni e supporto
+Italian: Informazioni e supporto
+------------------------------------------------------------
+Key:     Introduzione
+Italian: Introduzione
+------------------------------------------------------------
+Key:     L'applicazione fornisce piani di allenamento e informazioni a puro scopo illustrativo e informativo. L'attività fisica può comportare rischi per la salute.
+Italian: L'applicazione fornisce piani di allenamento e informazioni a puro scopo illustrativo e informativo. L'attività fisica può comportare rischi per la salute.
+------------------------------------------------------------
+Key:     L'utente accetta di:
+Italian: L'utente accetta di:
+------------------------------------------------------------
+Key:     La preparazione richiede almeno 12 settimane. Seleziona una data successiva al %@
+Italian: La preparazione richiede almeno 12 settimane. Seleziona una data successiva al %@
+------------------------------------------------------------
+Key:     La scheda **Profilo** riassume lo stato attuale del tuo percorso atletico. Al suo interno trovi una panoramica dettagliata che include:
+Italian: La scheda **Profilo** riassume lo stato attuale del tuo percorso atletico. Al suo interno trovi una panoramica dettagliata che include:
+------------------------------------------------------------
+Key:     La scheda **Ritmi** traduce il tuo valore VDOT attuale in andature precise, eliminando ogni incertezza su come interpretare le sessioni.
+Italian: La scheda **Ritmi** traduce il tuo valore VDOT attuale in andature precise, eliminando ogni incertezza su come interpretare le sessioni.
+------------------------------------------------------------
+Key:     Le **Previsioni** dei tuoi tempi stimati sulle distanze standard, basate sul tuo VDOT attuale.
+Italian: Le **Previsioni** dei tuoi tempi stimati sulle distanze standard, basate sul tuo VDOT attuale.
+------------------------------------------------------------
+Key:     Le basi del metodo
+Italian: Le basi del metodo
+------------------------------------------------------------
+Key:     Le gare si disputano normalmente di domenica
+Italian: Le gare si disputano normalmente di domenica
+------------------------------------------------------------
+Key:     Le informazioni sono isolate (sandboxed) all'interno dell'app
+Italian: Le informazioni sono isolate (sandboxed) all'interno dell'app
+------------------------------------------------------------
+Key:     Le tue preferenze di corsa (obiettivi di tempo, distanza, ritmo)
+Italian: Le tue preferenze di corsa (obiettivi di tempo, distanza, ritmo)
+------------------------------------------------------------
+Key:     Le tue preferenze e i tuoi dati sono memorizzati in modo sicuro sul tuo dispositivo sfruttando le funzionalità di sicurezza integrate in iOS:
+Italian: Le tue preferenze e i tuoi dati sono memorizzati in modo sicuro sul tuo dispositivo sfruttando le funzionalità di sicurezza integrate in iOS:
+------------------------------------------------------------
+Key:     Limiti di Volume per Zona
+Italian: Limiti di Volume per Zona
+------------------------------------------------------------
+Key:     Lingua
+Italian: Lingua
+------------------------------------------------------------
+Key:     Livello atleta
+Italian: Livello atleta
+------------------------------------------------------------
+Key:     Maratona
+Italian: Maratona
+------------------------------------------------------------
+Key:     Mezza Maratona
+Italian: Mezza Maratona
+------------------------------------------------------------
+Key:     Min
+Italian: Min
+------------------------------------------------------------
+Key:     Nella parte superiore della scheda **Piano** puoi trovare un riepilogo, con l'indicazione della fattibilità basata sui parametri che hai inserito.
+Italian: Nella parte superiore della scheda **Piano** puoi trovare un riepilogo, con l'indicazione della fattibilità basata sui parametri che hai inserito.
+------------------------------------------------------------
+Key:     Nella scheda **Obiettivo** puoi configurare i parametri principali.
+Italian: Nella scheda **Obiettivo** puoi configurare i parametri principali.
+------------------------------------------------------------
+Key:     Nessun problema di portabilità dei dati (non ci sono dati lato server)
+Italian: Nessun problema di portabilità dei dati (non ci sono dati lato server)
+------------------------------------------------------------
+Key:     Nessuna trasmissione dati verso server esterni
+Italian: Nessuna trasmissione dati verso server esterni
+------------------------------------------------------------
+Key:     Nome evento
+Italian: Nome evento
+------------------------------------------------------------
+Key:     Non aumentare il volume settimanale di più del 10% rispetto alla settimana precedente.\n\nDaniels suggerisce anche di mantenere lo stesso carico per 3-4 settimane prima di aumentare. Il piano applica la regola del 10% come limite superiore, con settimane di scarico ogni 3-4 settimane (principio di supercompensazione).\n\nFonte: Daniels [1] cap. 2, Galloway [8].
+Italian: Non aumentare il volume settimanale di più del 10% rispetto alla settimana precedente.\n\nDaniels suggerisce anche di mantenere lo stesso carico per 3-4 settimane prima di aumentare. Il piano applica la regola del 10% come limite superiore, con settimane di scarico ogni 3-4 settimane (principio di supercompensazione).\n\nFonte: Daniels [1] cap. 2, Galloway [8].
+------------------------------------------------------------
+Key:     Non decompilare, effettuare reverse engineering o modificare l'app
+Italian: Non decompilare, effettuare reverse engineering o modificare l'app
+------------------------------------------------------------
+Key:     Non ignorare mai il parere del medico a causa di informazioni lette all'interno dell'app.
+Italian: Non ignorare mai il parere del medico a causa di informazioni lette all'interno dell'app.
+------------------------------------------------------------
+Key:     Nota: Aggiornando le tue performance recenti nella scheda Obiettivo, questa tabella si ricalcolerà automaticamente per riflettere i tuoi progressi.
+Italian: Nota: Aggiornando le tue performance recenti nella scheda Obiettivo, questa tabella si ricalcolerà automaticamente per riflettere i tuoi progressi.
+------------------------------------------------------------
+Key:     Note
+Italian: Note
+------------------------------------------------------------
+Key:     Obiettivo
+Italian: Obiettivo
+------------------------------------------------------------
+Key:     Obiettivo: costruzione aerobica, adattamento muscolo-scheletrico, volume progressivo.\n\nContenuto: E running (80%+), ripetute in salita leggere, corse progressive. Nessuna sessione I.\n\nDaniels: "Mostly E running" nella Phase I. I collinari e le progressioni sono stimoli supplementari che aggiungono forza senza stress aerobico aggiuntivo.\n\nPer runner principianti (VDOT < 35): le ripetute in salita vengono sostituite con corse facili o progressive. I collinari richiedono una base muscolare già consolidata — introdurle troppo presto aumenta il rischio di infortuni.\n\nVolume: progressione max +10%/settimana. Ogni 4a settimana: scarico -20%.
+Italian: Obiettivo: costruzione aerobica, adattamento muscolo-scheletrico, volume progressivo.\n\nContenuto: E running (80%+), ripetute in salita leggere, corse progressive. Nessuna sessione I.\n\nDaniels: "Mostly E running" nella Phase I. I collinari e le progressioni sono stimoli supplementari che aggiungono forza senza stress aerobico aggiuntivo.\n\nPer runner principianti (VDOT < 35): le ripetute in salita vengono sostituite con corse facili o progressive. I collinari richiedono una base muscolare già consolidata — introdurle troppo presto aumenta il rischio di infortuni.\n\nVolume: progressione max +10%/settimana. Ogni 4a settimana: scarico -20%.
+------------------------------------------------------------
+Key:     Obiettivo: introduzione della qualità, sviluppo velocità e soglia.\n\nContenuto: R (Repetition) + T (Tempo) + L run. Nessuna sessione I ancora.\n\nDaniels: "Going from E running to R workouts is adding only a speed stress, with little being asked of the aerobic or lactate-clearance systems." Per questo R arriva prima di I.\n\nVolume: micro-scarico ogni 3 settimane.
+Italian: Obiettivo: introduzione della qualità, sviluppo velocità e soglia.\n\nContenuto: R (Repetition) + T (Tempo) + L run. Nessuna sessione I ancora.\n\nDaniels: "Going from E running to R workouts is adding only a speed stress, with little being asked of the aerobic or lactate-clearance systems." Per questo R arriva prima di I.\n\nVolume: micro-scarico ogni 3 settimane.
+------------------------------------------------------------
+Key:     Obiettivo: massima qualità, picco di forma, simulazione gara.\n\nContenuto: T + I + M (o I per 10K) + L run. La settimana più impegnativa del piano.\n\nPer maratona e mezza: le sessioni M-pace sono centrali perché adattano al ritmo specifico di gara.\nPer 10K: le sessioni I a VO2max sono determinanti.\n\nFonte: Daniels [1] Phase III (TQ) e IV (FQ), Pfitzinger [2].
+Italian: Obiettivo: massima qualità, picco di forma, simulazione gara.\n\nContenuto: T + I + M (o I per 10K) + L run. La settimana più impegnativa del piano.\n\nPer maratona e mezza: le sessioni M-pace sono centrali perché adattano al ritmo specifico di gara.\nPer 10K: le sessioni I a VO2max sono determinanti.\n\nFonte: Daniels [1] Phase III (TQ) e IV (FQ), Pfitzinger [2].
+------------------------------------------------------------
+Key:     Obiettivo: supercompensazione, recupero, arrivo alla gara nella forma migliore.\n\nVolume: riduzione del 40-60% rispetto al picco. Intensità: invariata — almeno una sessione T viene mantenuta per non perdere lo stimolo alla soglia.\n\nDaniels mantiene sessioni T leggere anche nell'ultima settimana prima della gara.\n\nFonte: Mujika & Padilla (2003) [6].
+Italian: Obiettivo: supercompensazione, recupero, arrivo alla gara nella forma migliore.\n\nVolume: riduzione del 40-60% rispetto al picco. Intensità: invariata — almeno una sessione T viene mantenuta per non perdere lo stimolo alla soglia.\n\nDaniels mantiene sessioni T leggere anche nell'ultima settimana prima della gara.\n\nFonte: Mujika & Padilla (2003) [6].
+------------------------------------------------------------
+Key:     Ore
+Italian: Ore
+------------------------------------------------------------
+Key:     Ottimo
+Italian: Ottimo
+------------------------------------------------------------
+Key:     Passo Attuale: **%@**
+Italian: Passo Attuale: **%@**
+------------------------------------------------------------
+Key:     Passo Target: **%@**
+Italian: Passo Target: **%@**
+------------------------------------------------------------
+Key:     Per domande relative ai presenti Termini, è possibile contattarci a:
+Italian: Per domande relative ai presenti Termini, è possibile contattarci a:
+------------------------------------------------------------
+Key:     Per evitare interferenze con il tuo calendario principale, il piano di allenamento sarà scritto su un nuovo calendario denominato **PB Running**
+Italian: Per evitare interferenze con il tuo calendario principale, il piano di allenamento sarà scritto su un nuovo calendario denominato **PB Running**
+------------------------------------------------------------
+Key:     Per gli utenti nell'Unione Europea, operiamo in conformità con il Regolamento Generale sulla Protezione dei Dati (GDPR). Poiché non raccogliamo dati personali, la maggior parte dei diritti GDPR (come l'accesso ai server o la portabilità) non si applica. Mantieni comunque il pieno controllo eliminando l'app o pulendo i dati sul telefono.
+Italian: Per gli utenti nell'Unione Europea, operiamo in conformità con il Regolamento Generale sulla Protezione dei Dati (GDPR). Poiché non raccogliamo dati personali, la maggior parte dei diritti GDPR (come l'accesso ai server o la portabilità) non si applica. Mantieni comunque il pieno controllo eliminando l'app o pulendo i dati sul telefono.
+------------------------------------------------------------
+Key:     Perché i ritmi si basano sul VDOT attuale
+Italian: Perché i ritmi si basano sul VDOT attuale
+------------------------------------------------------------
+Key:     Performance Attuale
+Italian: Performance Attuale
+------------------------------------------------------------
+Key:     Personal Best Running non raccoglie intenzionalmente informazioni personali da minori di 13 anni. L'app è progettata per appassionati di corsa di tutte le età e non raccoglie dati identificativi di alcun utente.
+Italian: Personal Best Running non raccoglie intenzionalmente informazioni personali da minori di 13 anni. L'app è progettata per appassionati di corsa di tutte le età e non raccoglie dati identificativi di alcun utente.
+------------------------------------------------------------
+Key:     Personal Best Running viene fornita "così com'è" senza garanzie di alcun tipo. **Lo sviluppatore è esonerato da qualsiasi responsabilità per danni, infortuni, lesioni fisiche o problemi di salute derivanti direttamente o indirettamente dall'esecuzione dei piani di allenamento** ottenuti tramite l'applicazione.
+Italian: Personal Best Running viene fornita "così com'è" senza garanzie di alcun tipo. **Lo sviluppatore è esonerato da qualsiasi responsabilità per danni, infortuni, lesioni fisiche o problemi di salute derivanti direttamente o indirettamente dall'esecuzione dei piani di allenamento** ottenuti tramite l'applicazione.
+------------------------------------------------------------
+Key:     Personal Best Running è disponibile in tutto il mondo. Poiché tutti i dati rimangono sul tuo dispositivo, non avviene alcun trasferimento internazionale di dati.
+Italian: Personal Best Running è disponibile in tutto il mondo. Poiché tutti i dati rimangono sul tuo dispositivo, non avviene alcun trasferimento internazionale di dati.
+------------------------------------------------------------
+Key:     Personal Best Running è progettata mettendo la privacy al primo posto:
+Italian: Personal Best Running è progettata mettendo la privacy al primo posto:
+------------------------------------------------------------
+Key:     Personal Best Running è uno strumento dedicato ai runner che permette di creare  piani di allenamento personalizzati.
+Italian: Personal Best Running è uno strumento dedicato ai runner che permette di creare  piani di allenamento personalizzati.
+------------------------------------------------------------
+Key:     Piano
+Italian: Piano
+------------------------------------------------------------
+Key:     Poiché tutti i dati sono memorizzati localmente sul tuo dispositivo, hai il controllo totale:
+Italian: Poiché tutti i dati sono memorizzati localmente sul tuo dispositivo, hai il controllo totale:
+------------------------------------------------------------
+Key:     Potremmo aggiornare questa Informativa sulla Privacy di tanto in tanto. Le modifiche verranno pubblicate all'interno dell'app e la data di "Ultimo aggiornamento" verrà modificata. L'uso continuato dell'app implica l'accettazione della policy aggiornata.
+Italian: Potremmo aggiornare questa Informativa sulla Privacy di tanto in tanto. Le modifiche verranno pubblicate all'interno dell'app e la data di "Ultimo aggiornamento" verrà modificata. L'uso continuato dell'app implica l'accettazione della policy aggiornata.
+------------------------------------------------------------
+Key:     Preferenze
+Italian: Preferenze
+------------------------------------------------------------
+Key:     Previsioni dal VDOT Attuale
+Italian: Previsioni dal VDOT Attuale
+------------------------------------------------------------
+Key:     Privacy e Sicurezza
+Italian: Privacy e Sicurezza
+------------------------------------------------------------
+Key:     Profilo
+Italian: Profilo
+------------------------------------------------------------
+Key:     Profilo Atleta
+Italian: Profilo Atleta
+------------------------------------------------------------
+Key:     Puoi disinstallare l'app per rimuovere completamente ogni traccia dei dati
+Italian: Puoi disinstallare l'app per rimuovere completamente ogni traccia dei dati
+------------------------------------------------------------
+Key:     Puoi eliminare i dati dei piani di allenamento direttamente dall'app
+Italian: Puoi eliminare i dati dei piani di allenamento direttamente dall'app
+------------------------------------------------------------
+Key:     Puoi toccare ogni sessione per avere indicazioni sul modo di affrontarla.
+Italian: Puoi toccare ogni sessione per avere indicazioni sul modo di affrontarla.
+------------------------------------------------------------
+Key:     Questa Informativa sulla Privacy spiega come **Personal Best Running** ("noi", "nostro" o "l'app") gestisce le tue informazioni quando utilizzi la nostra applicazione per la creazione dei piani di allenamento.
+Italian: Questa Informativa sulla Privacy spiega come **Personal Best Running** ("noi", "nostro" o "l'app") gestisce le tue informazioni quando utilizzi la nostra applicazione per la creazione dei piani di allenamento.
+------------------------------------------------------------
+Key:     Queste informazioni sono memorizzate unicamente sul tuo dispositivo utilizzando l'archiviazione locale sicura di iOS e non vengono mai trasmesse ai nostri server.
+Italian: Queste informazioni sono memorizzate unicamente sul tuo dispositivo utilizzando l'archiviazione locale sicura di iOS e non vengono mai trasmesse ai nostri server.
+------------------------------------------------------------
+Key:     Regola del 10%
+Italian: Regola del 10%
+------------------------------------------------------------
+Key:     Ricordare le tue impostazioni preferite
+Italian: Ricordare le tue impostazioni preferite
+------------------------------------------------------------
+Key:     Rispettare i diritti di proprietà intellettuale relativi ai contenuti dell'app
+Italian: Rispettare i diritti di proprietà intellettuale relativi ai contenuti dell'app
+------------------------------------------------------------
+Key:     Rispettiamo la tua privacy e ci impegniamo a proteggere i tuoi dati personali. Questa informativa ti aiuterà a comprendere i tuoi diritti alla privacy e come la legge ti tutela.
+Italian: Rispettiamo la tua privacy e ci impegniamo a proteggere i tuoi dati personali. Questa informativa ti aiuterà a comprendere i tuoi diritti alla privacy e come la legge ti tutela.
+------------------------------------------------------------
+Key:     Risponderemo alle richieste relative alla privacy entro 30 giorni.
+Italian: Risponderemo alle richieste relative alla privacy entro 30 giorni.
+------------------------------------------------------------
+Key:     Ritmi
+Italian: Ritmi
+------------------------------------------------------------
+Key:     Scarico
+Italian: Scarico
+------------------------------------------------------------
+Key:     Se hai domande su questa Informativa sulla Privacy o sui tuoi diritti, non esitare a contattarci:
+Italian: Se hai domande su questa Informativa sulla Privacy o sui tuoi diritti, non esitare a contattarci:
+------------------------------------------------------------
+Key:     Sec
+Italian: Sec
+------------------------------------------------------------
+Key:     Sistema di misura
+Italian: Sistema di misura
+------------------------------------------------------------
+Key:     Stime basate sul VDOT %@, indipendentemente dalla distanza obiettivo del piano.
+Italian: Stime basate sul VDOT %@, indipendentemente dalla distanza obiettivo del piano.
+------------------------------------------------------------
+Key:     Subito sotto, trovi il piano vero e proprio. Rappresenta un percorso articolato in quattro fasi che si sviluppano ai parametri indicati, calcolando la timeline che ti separa dal giorno della gara.
+Italian: Subito sotto, trovi il piano vero e proprio. Rappresenta un percorso articolato in quattro fasi che si sviluppano ai parametri indicati, calcolando la timeline che ti separa dal giorno della gara.
+------------------------------------------------------------
+Key:     Tempo Target
+Italian: Tempo Target
+------------------------------------------------------------
+Key:     Termini di Utilizzo
+Italian: Termini di Utilizzo
+------------------------------------------------------------
+Key:     Termini di utilizzo
+Italian: Termini di utilizzo
+------------------------------------------------------------
+Key:     Toccando i simboli "∨" nel calendario, la vista si espande per mostrare le singole sessioni di allenamento.
+Italian: Toccando i simboli "∨" nel calendario, la vista si espande per mostrare le singole sessioni di allenamento.
+------------------------------------------------------------
+Key:     Ultimo aggiornamento: 20 maggio 2026
+Italian: Ultimo aggiornamento: 20 maggio 2026
+------------------------------------------------------------
+Key:     Una preparazione adeguata richiede almeno 12 settimane
+Italian: Una preparazione adeguata richiede almeno 12 settimane
+------------------------------------------------------------
+Key:     Una volta scelto il numero di allenamenti a settimana puoi premere il bottone **Genera PIano**: in questo modo saranno generati i dati necessari per la pianificazione e le altre schede saranno popolate.
+Italian: Una volta scelto il numero di allenamenti a settimana puoi premere il bottone **Genera PIano**: in questo modo saranno generati i dati necessari per la pianificazione e le altre schede saranno popolate.
+------------------------------------------------------------
+Key:     Utilizzare l'app esclusivamente per scopi leciti e personali
+Italian: Utilizzare l'app esclusivamente per scopi leciti e personali
+------------------------------------------------------------
+Key:     VDOT e sesso biologico
+Italian: VDOT e sesso biologico
+------------------------------------------------------------
+Key:     Versione: 
+Italian: Versione: 
+------------------------------------------------------------
+Key:     Verso %@
+Italian: Verso %@
+------------------------------------------------------------
+Key:     Volume iniziale per distanza e livello
+Italian: Volume iniziale per distanza e livello
+------------------------------------------------------------
+Key:     forma attuale
+Italian: forma attuale
+------------------------------------------------------------
+Key:     mancano %@ pt VDOT
+Italian: mancano %@ pt VDOT
+------------------------------------------------------------
+Key:     methodology.section.phaseBase
+Italian: Fase Base (Phase I)
+------------------------------------------------------------
+Key:     methodology.section.phaseBuild
+Italian: Fase di Sviluppo (Phase II)
+------------------------------------------------------------
+Key:     methodology.section.phasePeak
+Italian: Fase di Picco (Phase III/IV)
+------------------------------------------------------------
+Key:     methodology.section.phases
+Italian: Struttura del Piano
+------------------------------------------------------------
+Key:     methodology.section.sources
+Italian: Fonti Scientifiche
+------------------------------------------------------------
+Key:     methodology.section.taper
+Italian: Scarico
+------------------------------------------------------------
+Key:     methodology.section.vdot
+Italian: Il Sistema VDOT
+------------------------------------------------------------
+Key:     methodology.section.volume
+Italian: Regole di Volume
+------------------------------------------------------------
+Key:     methodology.section.volume10
+Italian: Regola del 10%
+------------------------------------------------------------
+Key:     methodology.section.volume8020
+Italian: Distribuzione 80/20
+------------------------------------------------------------
+Key:     methodology.section.volumeLimits
+Italian: Limiti di Volume per Zona
+------------------------------------------------------------
+Key:     methodology.section.volumeLong
+Italian: Il Lungo: progressione per fase
+------------------------------------------------------------
+Key:     methodology.section.zoneE
+Italian: E — Easy
+------------------------------------------------------------
+Key:     methodology.section.zoneI
+Italian: I — Interval
+------------------------------------------------------------
+Key:     methodology.section.zoneM
+Italian: M — Marathon Pace
+------------------------------------------------------------
+Key:     methodology.section.zoneR
+Italian: R — Repetition
+------------------------------------------------------------
+Key:     methodology.section.zoneT
+Italian: T — Threshold / Tempo
+------------------------------------------------------------
+Key:     methodology.section.zones
+Italian: 5 Zone di Daniels
+------------------------------------------------------------
+Key:     methodology.zone.intensity.E
+Italian: 59-74% VO2max · 65-79% FCmax · RPE 4-5
+------------------------------------------------------------
+Key:     methodology.zone.intensity.I
+Italian: 95-100% VO2max · ~98% FCmax · RPE 8-9
+------------------------------------------------------------
+Key:     methodology.zone.intensity.M
+Italian: 75-84% VO2max · 80-89% FCmax · RPE 6-7
+------------------------------------------------------------
+Key:     methodology.zone.intensity.R
+Italian: 105-120% VDOT · >100% VO2max · RPE 9+
+------------------------------------------------------------
+Key:     methodology.zone.intensity.T
+Italian: 85-88% VO2max · 88-92% FCmax · RPE 7-8
+------------------------------------------------------------
+Key:     methodology.zone.label.intensity
+Italian: Intensità
+------------------------------------------------------------
+Key:     methodology.zone.label.purpose
+Italian: Scopo
+------------------------------------------------------------
+Key:     methodology.zone.label.recovery
+Italian: Recupero
+------------------------------------------------------------
+Key:     methodology.zone.label.source
+Italian: Fonte
+------------------------------------------------------------
+Key:     methodology.zone.label.workBout
+Italian: Work bout
+------------------------------------------------------------
+Key:     methodology.zone.purpose.E
+Italian: Sviluppo aerobico di base, recupero attivo, adattamento muscolo-tendineo. ~80% del volume settimanale totale.
+------------------------------------------------------------
+Key:     methodology.zone.purpose.I
+Italian: Massimizza il tempo a VO2max. Stimola la portata cardiaca, la densità capillare e la densità mitocondriale. Max 10 km o 8% del volume settimanale, il minore dei due.
+------------------------------------------------------------
+Key:     methodology.zone.purpose.M
+Italian: Adattamento specifico al ritmo gara maratona. Ottimizza l'economia di corsa e la gestione del ritmo.
+------------------------------------------------------------
+Key:     methodology.zone.purpose.R
+Italian: Migliora velocità, economia di corsa e potenza anaerobica. Introdotto prima di I (aggiunge solo stimolo di velocità). Max 5% del volume settimanale.
+------------------------------------------------------------
+Key:     methodology.zone.purpose.T
+Italian: Migliora la soglia anaerobica e la capacità di clearance del lattato. Max 10% del volume settimanale per sessione.
+------------------------------------------------------------
+Key:     methodology.zone.recovery.E
+Italian: Non applicabile
+------------------------------------------------------------
+Key:     methodology.zone.recovery.I
+Italian: Recupero attivo (jog) uguale al tempo di lavoro
+------------------------------------------------------------
+Key:     methodology.zone.recovery.M
+Italian: Non applicabile (ritmo continuo)
+------------------------------------------------------------
+Key:     methodology.zone.recovery.R
+Italian: COMPLETO: jog uguale o superiore alla distanza percorsa
+------------------------------------------------------------
+Key:     methodology.zone.recovery.T
+Italian: 1 min tra gli intervalli cruise
+------------------------------------------------------------
+Key:     methodology.zone.source.E
+Italian: Daniels [1] cap. 4
+------------------------------------------------------------
+Key:     methodology.zone.source.I
+Italian: Daniels [1] cap. 4, Billat [3], Laursen & Jenkins [5]
+------------------------------------------------------------
+Key:     methodology.zone.source.M
+Italian: Daniels [1] cap. 4, Pfitzinger [2]
+------------------------------------------------------------
+Key:     methodology.zone.source.R
+Italian: Daniels [1] cap. 4
+------------------------------------------------------------
+Key:     methodology.zone.source.T
+Italian: Daniels [1] cap. 4
+------------------------------------------------------------
+Key:     methodology.zone.title.E
+Italian: E — Easy
+------------------------------------------------------------
+Key:     methodology.zone.title.I
+Italian: I — Interval
+------------------------------------------------------------
+Key:     methodology.zone.title.M
+Italian: M — Marathon Pace
+------------------------------------------------------------
+Key:     methodology.zone.title.R
+Italian: R — Repetition
+------------------------------------------------------------
+Key:     methodology.zone.title.T
+Italian: T — Threshold / Tempo
+------------------------------------------------------------
+Key:     methodology.zone.workBout.E
+Italian: Qualsiasi durata
+------------------------------------------------------------
+Key:     methodology.zone.workBout.I
+Italian: 3-5 minuti per ripetizione
+------------------------------------------------------------
+Key:     methodology.zone.workBout.M
+Italian: Sezione principale 10-28 km
+------------------------------------------------------------
+Key:     methodology.zone.workBout.R
+Italian: MAX 2 minuti per ripetizione (tipico 200-400m)
+------------------------------------------------------------
+Key:     methodology.zone.workBout.T
+Italian: 20 min continui (Tempo Run) o intervalli cruise 3-15 min
+------------------------------------------------------------
+Key:     obiettivo
+Italian: obiettivo
+------------------------------------------------------------
+Key:     paces.detail.easy
+Italian: 59-74% VO2max · 65-79% FCmax
+------------------------------------------------------------
+Key:     paces.detail.interval
+Italian: 95-100% VO2max · rec. attivo (jog) · max 8% vol. sett.
+------------------------------------------------------------
+Key:     paces.detail.longRun
+Italian: E-pace prolungato · max 25% vol. sett. · max 150 min
+------------------------------------------------------------
+Key:     paces.detail.marPace
+Italian: 75-84% VO2max · 80-89% FCmax
+------------------------------------------------------------
+Key:     paces.detail.repetition
+Italian: 105-120% VDOT · max 2 min/rep · rec. completo · max 5% vol. sett.
+------------------------------------------------------------
+Key:     paces.detail.tempo
+Italian: 85-88% VO2max · 88-92% FCmax · max 10% vol. sett.
+------------------------------------------------------------
+Key:     paces.footer
+Italian: Basate sul VDOT attuale %@. Ci si allena alla forma che si ha oggi, non a quella obiettivo.
+------------------------------------------------------------
+Key:     paces.header
+Italian: Ritmi di Allenamento
+------------------------------------------------------------
+Key:     paces.note.howCalculated
+Italian: Come sono calcolate
+------------------------------------------------------------
+Key:     paces.note.howCalculated.body
+Italian: Le andature si basano sul tuo VDOT attuale (%@), non sull'obiettivo. Ci si allena alla forma che si ha oggi: i ritmi migliorano man mano che il VDOT cresce.
+------------------------------------------------------------
+Key:     paces.note.longRun
+Italian: Lungo: max 25% del volume settimanale
+------------------------------------------------------------
+Key:     paces.note.longRun.body
+Italian: Il lungo non supera il 25% del volume settimanale né 150 minuti. Fonte: Daniels (2022) cap. 4.
+------------------------------------------------------------
+Key:     paces.note.volume8020
+Italian: Distribuzione 80/20
+------------------------------------------------------------
+Key:     paces.note.volume8020.body
+Italian: ~80% del volume a E-pace (Z2), ~20% a T/I/R (Z4-Z5+). Fonte: Seiler & Kjerland (2006).
+------------------------------------------------------------
+Key:     paces.note.zone1
+Italian: Zona 1 (Z1) — perché non è in tabella
+------------------------------------------------------------
+Key:     paces.note.zone1.body
+Italian: Daniels non assegna un ritmo specifico alla Z1: l'E-pace (Z2, 59-74% VO2max) copre già tutto il range di bassa intensità, recupero attivo incluso. Nei giorni di recupero corri al limite inferiore dell'E-pace senza un target preciso — l'obiettivo è muoversi, non allenare.
+------------------------------------------------------------
+Key:     paces.rpe
+Italian: RPE %@
+------------------------------------------------------------
+Key:     paces.section.notes
+Italian: Note
+------------------------------------------------------------
+Key:     volume
+Italian: volume
+------------------------------------------------------------
+Key:     ~80% del volume settimanale a bassa intensità (E-pace, Z2), ~20% ad alta intensità (T/I/R, Z4-Z5+).\n\nSeiler & Kjerland (2006) hanno osservato questo pattern negli atleti d'élite di endurance. È una distribuzione empirica, non un modello prescrittivo: descrive cosa fanno i migliori, non necessariamente cosa ottimizza ogni runner.\n\nNel piano viene usata come guida per bilanciare il mix di intensità nella settimana, coerentemente con la struttura per fasi di Daniels.\n\nFonte: Seiler & Kjerland [4].
+Italian: ~80% del volume settimanale a bassa intensità (E-pace, Z2), ~20% ad alta intensità (T/I/R, Z4-Z5+).\n\nSeiler & Kjerland (2006) hanno osservato questo pattern negli atleti d'élite di endurance. È una distribuzione empirica, non un modello prescrittivo: descrive cosa fanno i migliori, non necessariamente cosa ottimizza ogni runner.\n\nNel piano viene usata come guida per bilanciare il mix di intensità nella settimana, coerentemente con la struttura per fasi di Daniels.\n\nFonte: Seiler & Kjerland [4].
+------------------------------------------------------------
+Key:     🗑️ Azzera e ricomincia
+Italian: 🗑️ Azzera e ricomincia
+------------------------------------------------------------

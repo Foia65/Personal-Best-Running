@@ -2,28 +2,93 @@
   "sourceLanguage" : "it",
   "strings" : {
     "" : {
-
+      "shouldTranslate" : false
     },
-    "\nAlla fine del piano, trovi due bottoni per esportarlo in formato PDF o per scriverlo direttamente sul tuo calendario." : {
-
+    "\nSotto il piano, trovi due bottoni per esportarlo in formato PDF o per scriverlo direttamente sul tuo calendario." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\nBelow the plan, you will find two buttons to export it in PDF format or to write it directly to your calendar."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "\nSotto il piano, trovi due bottoni per esportarlo in formato PDF o per scriverlo direttamente sul tuo calendario."
+          }
+        }
+      }
     },
     ":" : {
-
+      "shouldTranslate" : false
     },
     "·" : {
-
+      "shouldTranslate" : false
     },
     "**Calcolo del VDOT:** Visualizza il tuo punteggio VDOT corrente, calcolato  incrociando la tua distanza di riferimento con il tuo ultimo tempo cronometrato." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "**VDOT Calculation:** View your current VDOT score, calculated by cross-referencing your benchmark distance with your last recorded time."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "**Calcolo del VDOT:** Visualizza il tuo punteggio VDOT corrente, calcolato  incrociando la tua distanza di riferimento con il tuo ultimo tempo cronometrato."
+          }
+        }
+      }
     },
     "**Il tuo livello** attuale basato su VDOT, sesso biologico,distribuzione percentile dei finishing time nelle maratone di massa (RunRepeat Global Report 2023) e sulle tabelle age-grading di WMA (World Masters Athletics)" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "**Your current level** based on VDOT, biological sex, percentile distribution of finishing times in mass marathons (RunRepeat Global Report 2023) and WMA (World Masters Athletics) age-grading tables"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "**Il tuo livello** attuale basato su VDOT, sesso biologico,distribuzione percentile dei finishing time nelle maratone di massa (RunRepeat Global Report 2023) e sulle tabelle age-grading di WMA (World Masters Athletics)"
+          }
+        }
+      }
     },
     "**Si raccomanda vivamente di consultare un medico professionista o uno specialista prima di iniziare qualsiasi piano di allenamento**, di modificare le proprie abitudini di esercizio fisico o se si hanno dubbi sulle proprie condizioni di salute generali. " : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "**It is strongly recommended that you consult a medical professional or healthcare provider before starting any exercise plan**, changing your exercise habits, or if you have any concerns about your general health."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "**Si raccomanda vivamente di consultare un medico professionista o uno specialista prima di iniziare qualsiasi piano di allenamento**, di modificare le proprie abitudini di esercizio fisico o se si hanno dubbi sulle proprie condizioni di salute generali. "
+          }
+        }
+      }
     },
     "**Trend VDOT:** Monitora la tua progressione atletica e scopri quanto manca per raggiungere il livello successivo." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "**VDOT Trends:** Track your athletic progression and find out how far you are from reaching the next level."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "**Trend VDOT:** Monitora la tua progressione atletica e scopri quanto manca per raggiungere il livello successivo."
+          }
+        }
+      }
     },
     "%@ (%@)" : {
       "localizations" : {
@@ -33,7 +98,8 @@
             "value" : "%1$@ (%2$@)"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%lld settimane" : {
       "localizations" : {
@@ -42,17 +108,44 @@
             "state" : "translated",
             "value" : "%lld weeks"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%lld settimane"
+          }
         }
       }
     },
     "%lldh" : {
-
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%lldh"
+          }
+        }
+      },
+      "shouldTranslate" : false
     },
     "•" : {
-
+      "shouldTranslate" : false
     },
     "~80% del volume settimanale a bassa intensità (E-pace, Z2), ~20% ad alta intensità (T/I/R, Z4-Z5+).\n\nSeiler & Kjerland (2006) hanno osservato questo pattern negli atleti d'élite di endurance. È una distribuzione empirica, non un modello prescrittivo: descrive cosa fanno i migliori, non necessariamente cosa ottimizza ogni runner.\n\nNel piano viene usata come guida per bilanciare il mix di intensità nella settimana, coerentemente con la struttura per fasi di Daniels.\n\nFonte: Seiler & Kjerland [4]." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "~80% of weekly volume at low intensity (E-pace, Z2), ~20% at high intensity (T/I/R, Z4-Z5+).\n\nSeiler & Kjerland (2006) observed this pattern in elite endurance athletes. It is an empirical distribution, not a prescriptive model: it describes what the best athletes do, not necessarily what every runner optimizes.\n\nIn the plan, it is used as a guide to balance the intensity mix throughout the week, consistent with Daniels' phased structure.\n\nSource: Seiler & Kjerland [4]."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "~80% del volume settimanale a bassa intensità (E-pace, Z2), ~20% ad alta intensità (T/I/R, Z4-Z5+).\n\nSeiler & Kjerland (2006) hanno osservato questo pattern negli atleti d'élite di endurance. È una distribuzione empirica, non un modello prescrittivo: descrive cosa fanno i migliori, non necessariamente cosa ottimizza ogni runner.\n\nNel piano viene usata come guida per bilanciare il mix di intensità nella settimana, coerentemente con la struttura per fasi di Daniels.\n\nFonte: Seiler & Kjerland [4]."
+          }
+        }
+      }
     },
     "🗑️ Azzera e ricomincia" : {
       "localizations" : {
@@ -61,92 +154,430 @@
             "state" : "translated",
             "value" : "🗑️ Reset"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "🗑️ Azzera e ricomincia"
+          }
+        }
+      }
+    },
+    "1 — Riposo completo. Nessuno sforzo percepito.\n\n2 — Attività leggera. Respiro normale, conversazione illimitata.\n\n3 — Facile. Si può mantenere a lungo senza difficoltà.\n\n4 — Moderato facile. Respiro profondo ma confortevole. Conversazione fluida. Corrisponde all'inizio dell'E-pace.\n\n5 — Moderato. Conversazione ancora possibile con qualche pausa. Meta-alta dell'E-pace.\n\n6 — Moderato sostenuto. Conversazione breve. Corrisponde all'M-pace.\n\n7 — Sostenuto impegnativo. \"Comfortably hard\". Frasi brevi. Corrisponde al T-pace.\n\n8 — Impegnativo. Conversazione difficile. Poche parole per volta. Corrisponde all'I-pace.\n\n9 — Molto intenso. Conversazione impossibile per più di una parola. Corrisponde all'R-pace. Non sostenibile a lungo.\n\n10 — Sforzo massimo assoluto. Sprint terminale, tutto quello che rimane." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 — Complete rest. No perceived exertion."
+          }
         }
       }
     },
     "1. Configura il tuo Obiettivo" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1. Set up your goal"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "1. Configura il tuo Obiettivo"
+          }
+        }
+      }
     },
     "1. Introduzione" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1. Introduction"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "1. Introduzione"
+          }
+        }
+      }
     },
     "2. Descrizione dell'App" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2. App Description"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "2. Descrizione dell'App"
+          }
+        }
+      }
     },
     "2. Il tuo Piano di Allenamento" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2. Your Training Plan"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "2. Il tuo Piano di Allenamento"
+          }
+        }
+      }
     },
     "2. Informazioni che Raccogliamo" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2. Information we collect"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "2. Informazioni che Raccogliamo"
+          }
+        }
+      }
     },
     "3. Disclaimer Medico Importante" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3. Important Medical Disclaimer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "3. Disclaimer Medico Importante"
+          }
+        }
+      }
     },
     "3. I tuoi Ritmi Personalizzati" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3. Your custom Paces"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "3. I tuoi Ritmi Personalizzati"
+          }
+        }
+      }
     },
     "3. Servizi di Terze Parti" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3. Third Party Services"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "3. Servizi di Terze Parti"
+          }
+        }
+      }
     },
     "4. Come Utilizziamo le Informazioni" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4. How We Use Information"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "4. Come Utilizziamo le Informazioni"
+          }
+        }
+      }
     },
     "4. Profilo Atleta" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4. Athlete Profile"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "4. Profilo Atleta"
+          }
+        }
+      }
     },
     "4. Responsabilità dell'Utente" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4. User Responsibilities"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "4. Responsabilità dell'Utente"
+          }
+        }
+      }
     },
     "5 km" : {
       "shouldTranslate" : false
     },
     "5. Limitazione di Responsabilità" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5. Limitation of Liability"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "5. Limitazione di Responsabilità"
+          }
+        }
+      }
     },
     "5. Sicurezza dei Dati" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5. Data Security"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "5. Sicurezza dei Dati"
+          }
+        }
+      }
     },
     "6. Aggiornamenti e Modifiche" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6. Updates and Changes"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "6. Aggiornamenti e Modifiche"
+          }
+        }
+      }
     },
     "6. I Tuoi Diritti sulla Privacy" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6. Your Privacy Rights"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "6. I Tuoi Diritti sulla Privacy"
+          }
+        }
+      }
     },
     "7. Privacy dei Minori" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "7. Privacy of Minors"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "7. Privacy dei Minori"
+          }
+        }
+      }
     },
     "7. Risoluzione" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "7. Termination"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "7. Risoluzione"
+          }
+        }
+      }
     },
     "8. Contatti" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "8. Contacts"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "8. Contatti"
+          }
+        }
+      }
     },
     "8. Utenti Internazionali" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "8. International Users"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "8. Utenti Internazionali"
+          }
+        }
+      }
     },
     "9. Legge Applicabile" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "9. Governing Law"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "9. Legge Applicabile"
+          }
+        }
+      }
     },
     "9. Modifiche a questa Informativa sulla Privacy" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "9. Changes to this Privacy Policy"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "9. Modifiche a questa Informativa sulla Privacy"
+          }
+        }
+      }
     },
     "10 km" : {
       "shouldTranslate" : false
     },
     "10. Contatti" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10. Contacts"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "10. Contatti"
+          }
+        }
+      }
     },
     "11. Conformità GDPR" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "11. GDPR Compliance"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "11. Conformità GDPR"
+          }
+        }
+      }
     },
     "12. Diritti della Privacy in California (CCPA)" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12. California Privacy Rights (CCPA)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "12. Diritti della Privacy in California (CCPA)"
+          }
+        }
+      }
     },
     "Accesso alla galleria fotografica o ai contatti" : {
-
-    },
-    "Aiuto" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Access to photo gallery or contacts"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Accesso alla galleria fotografica o ai contatti"
+          }
+        }
+      }
     },
     "Aiuto e Supporto" : {
       "localizations" : {
@@ -155,42 +586,197 @@
             "state" : "translated",
             "value" : "Help & Support"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Aiuto e Supporto"
+          }
         }
       }
     },
     "Allenarsi al ritmo target (futuro) anziché al VDOT attuale è uno degli errori più comuni — e più rischiosi. Daniels è esplicito: \"Train at the level you are, not at the level you hope to be.\"\n\nI ritmi del piano — Easy, M, T, I, R — riflettono la tua forma di oggi, non l'obiettivo. Man mano che il VDOT cresce durante il piano, le sessioni diventano progressivamente più impegnative alla stessa intensità relativa.\n\nNota sul lungo: anche la distanza del lungo dipende dall'E-pace attuale, tramite il cap di 150 minuti. Un runner più lento farà meno km per la stessa durata — ed è corretto: lo stimolo fisiologico è equivalente." : {
-
-    },
-    "Analisi sull'utilizzo o dati comportamentali" : {
-
-    },
-    "Andature di Allenamento" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Training Paces"
+            "value" : "Training at your target (future) pace rather than your current VDOT is one of the most common—and riskiest—mistakes. Daniels is explicit: \"Train at the level you are, not at the level you hope to be.\"\n\nThe paces in the plan—Easy, M, T, I, R—reflect your current form, not your goal. As your VDOT increases during the plan, sessions become progressively more challenging at the same relative intensity.\n\nNote on long runs: The distance of the long run also depends on your current E-pace, via the 150-minute cap. A slower runner will cover fewer miles in the same duration—and rightly so: the physiological stimulus is equivalent."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Allenarsi al ritmo target (futuro) anziché al VDOT attuale è uno degli errori più comuni — e più rischiosi. Daniels è esplicito: \"Train at the level you are, not at the level you hope to be.\"\n\nI ritmi del piano — Easy, M, T, I, R — riflettono la tua forma di oggi, non l'obiettivo. Man mano che il VDOT cresce durante il piano, le sessioni diventano progressivamente più impegnative alla stessa intensità relativa.\n\nNota sul lungo: anche la distanza del lungo dipende dall'E-pace attuale, tramite il cap di 150 minuti. Un runner più lento farà meno km per la stessa durata — ed è corretto: lo stimolo fisiologico è equivalente."
+          }
+        }
+      }
+    },
+    "Amatore" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recreational"
+          }
+        }
+      }
+    },
+    "Analisi sull'utilizzo o dati comportamentali" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usage analytics or behavioral data"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Analisi sull'utilizzo o dati comportamentali"
           }
         }
       }
     },
     "App Store:" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Store:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "App Store:"
+          }
+        }
+      }
+    },
+    "AppTheme.label.dark" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dark"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Scuro"
+          }
+        }
+      }
+    },
+    "AppTheme.label.light" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Light"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Chiaro"
+          }
+        }
+      }
+    },
+    "AppTheme.label.system" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sistema"
+          }
+        }
+      }
     },
     "Ascoltare il proprio corpo e interrompere immediatamente l'allenamento in caso di dolore, vertigini o malessere" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listen to your body and stop training immediately if you experience pain, dizziness or discomfort."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Ascoltare il proprio corpo e interrompere immediatamente l'allenamento in caso di dolore, vertigini o malessere"
+          }
+        }
+      }
     },
     "Aspetto dell'App" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Theme"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Aspetto dell'App"
+          }
+        }
+      }
     },
-    "Basate sul VDOT attuale %@. Ci si allena alla forma che si ha oggi, non a quella obiettivo." : {
-
+    "Avanzato" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Advanced"
+          }
+        }
+      }
     },
     "Benvenuto in **Personal Best Running**. I presenti Termini di Servizio (\"Termini\") disciplinano l'utilizzo della nostra applicazione. Scaricando, installando o utilizzando Personal Best Running, l'utente accetta di essere vincolato dai presenti Termini." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to **Personal Best Running**. These Terms of Service (\"Terms\") govern your use of our application. By downloading, installing, or using Personal Best Running, you agree to be bound by these Terms."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Benvenuto in **Personal Best Running**. I presenti Termini di Servizio (\"Termini\") disciplinano l'utilizzo della nostra applicazione. Scaricando, installando o utilizzando Personal Best Running, l'utente accetta di essere vincolato dai presenti Termini."
+          }
+        }
+      }
     },
     "Benvenuto in Personal Best Running! Questa applicazione ti aiuta a generare un piano di allenamento personalizzato basato sul metodo VDOT di Jack Daniels." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to Personal Best Running! This app helps you create a personalized training plan based on Jack Daniels' VDOT method"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Benvenuto in Personal Best Running! Questa applicazione ti aiuta a generare un piano di allenamento personalizzato basato sul metodo VDOT di Jack Daniels."
+          }
+        }
+      }
     },
     "Calendario Aggiornato" : {
       "localizations" : {
@@ -198,6 +784,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Calendar Updated"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Calendario Aggiornato"
           }
         }
       }
@@ -209,23 +801,88 @@
             "state" : "translated",
             "value" : "Training schedule"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Calendario Allenamenti"
+          }
         }
       }
     },
     "Chiudi" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Chiudi"
+          }
+        }
+      }
     },
     "Ci riserviamo il diritto di modificare i presenti Termini in qualsiasi momento. L'uso continuato dell'app dopo le modifiche costituisce l'accettazione dei nuovi Termini. Potremmo aggiornare l'app per migliorare le funzionalità, correggere bug o conformarci ai requisiti del sistema operativo." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We reserve the right to modify these Terms at any time. Your continued use of the app after any changes constitutes acceptance of the new Terms. We may update the app to improve functionality, fix bugs, or comply with operating system requirements."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Ci riserviamo il diritto di modificare i presenti Termini in qualsiasi momento. L'uso continuato dell'app dopo le modifiche costituisce l'accettazione dei nuovi Termini. Potremmo aggiornare l'app per migliorare le funzionalità, correggere bug o conformarci ai requisiti del sistema operativo."
+          }
+        }
+      }
     },
-    "Cliccando sulle settimane, la vista si espande per mostrare le singole sessioni di allenamento." : {
-
+    "Come usarlo in allenamento" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How to use it in training"
+          }
+        }
+      }
     },
     "Come viene calcolato" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How it's calculated"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Come viene calcolato"
+          }
+        }
+      }
     },
     "Con un piano di 16-20 settimane è realistico guadagnare 3-5 punti VDOT." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With a 16-20 week plan it is realistic to earn 3-5 VDOT points."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Con un piano di 16-20 settimane è realistico guadagnare 3-5 punti VDOT."
+          }
+        }
+      }
     },
     "Condivisione" : {
       "localizations" : {
@@ -234,23 +891,114 @@
             "state" : "translated",
             "value" : "Sharing"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Condivisione"
+          }
         }
       }
     },
     "Contatta il supporto" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contact Support"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Contatta il supporto"
+          }
+        }
+      }
+    },
+    "Corri con una certa regolarità e hai sviluppato una base aerobica solida. Puoi iniziare a introdurre sessioni di qualità leggere." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're running regularly and have developed a solid aerobic base. You can start introducing light, quality sessions."
+          }
+        }
+      }
     },
     "Cos'è il VDOT" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What is VDOT"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Cos'è il VDOT"
+          }
+        }
+      }
+    },
+    "Cos'è l'RPE" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What is RPE"
+          }
+        }
+      }
     },
     "Crea un piano nella scheda Obiettivo" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create a plan in the Target tab"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Crea un piano nella scheda Obiettivo"
+          }
+        }
+      }
     },
     "Dal tempo e dalla distanza di una performance recente, il sistema calcola la velocità di corsa e la percentuale di VO2max utilizzata a quella durata. La formula è:\n\nVO2 richiesto = −4.60 + 0.182258·v + 0.000104·v²\n%VO2max = 0.8 + 0.1894·e^(−0.01278·t) + 0.2990·e^(−0.1933·t)\nVDOT = VO2 / %VO2max\n\ndove v = velocità in m/min, t = tempo in minuti.\nFonte: Daniels & Gilbert (1979), adattato da Daniels (2022)." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From the time and distance of a recent performance, the system calculates the running speed and the percentage of VO2max utilized at that time. The formula is:\n\nVO2 required = −4.60 + 0.182258 v + 0.000104 v²\n%VO2max = 0.8 + 0.1894 e^(−0.01278 t) + 0.2990 e^(−0.1933 t)\nVDOT = VO2 / %VO2max\n\nwhere v = speed in m/min, t = time in minutes.\n\nSource: Daniels & Gilbert (1979), adapted from Daniels (2022)."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Dal tempo e dalla distanza di una performance recente, il sistema calcola la velocità di corsa e la percentuale di VO2max utilizzata a quella durata. La formula è:\n\nVO2 richiesto = −4.60 + 0.182258·v + 0.000104·v²\n%VO2max = 0.8 + 0.1894·e^(−0.01278·t) + 0.2990·e^(−0.1933·t)\nVDOT = VO2 / %VO2max\n\ndove v = velocità in m/min, t = tempo in minuti.\nFonte: Daniels & Gilbert (1979), adattato da Daniels (2022)."
+          }
+        }
+      }
     },
     "Daniels definisce limiti precisi per ogni zona in una singola sessione:\n\nT (Tempo):      max 10% del volume settimanale\nM (Marathon):   max 20% del volume settimanale\nI (Interval):   max il minore tra 10 km e 8% settimanale\nR (Repetition): max 5% del volume settimanale\nL (Long Run):   max 25% del volume settimanale\n                E max 150 minuti a E-pace (vincolo primario)\n\nIl vincolo temporale (150 min) prevale sul 25% del volume quando i due entrano in conflitto. Per HM e maratona è sempre il cap temporale a determinare i km effettivi del lungo.\n\nQuesti limiti prevengono il sovraccarico e garantiscono un recupero adeguato tra le sessioni.\n\nFonte: Daniels [1] cap. 4." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daniels defines precise limits for each zone in a single session:\n\nT (Tempo): max 10% of weekly volume\nM (Marathon): max 20% of weekly volume\nI (Interval): max 10 km or 8% of weekly volume, whichever is less\nR (Repetition): max 5% of weekly volume\nL (Long Run): max 25% of weekly volume\nAnd max 150 minutes at E-pace (primary constraint)\n\nThe time constraint (150 min) prevails over the 25% volume when the two conflict. For HM and marathon, the time cap always determines the actual kilometers of the long run.\n\nThese limits prevent overload and ensure adequate recovery between sessions.\n\nSource: Daniels [1] chap. 4."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Daniels definisce limiti precisi per ogni zona in una singola sessione:\n\nT (Tempo):      max 10% del volume settimanale\nM (Marathon):   max 20% del volume settimanale\nI (Interval):   max il minore tra 10 km e 8% settimanale\nR (Repetition): max 5% del volume settimanale\nL (Long Run):   max 25% del volume settimanale\n                E max 150 minuti a E-pace (vincolo primario)\n\nIl vincolo temporale (150 min) prevale sul 25% del volume quando i due entrano in conflitto. Per HM e maratona è sempre il cap temporale a determinare i km effettivi del lungo.\n\nQuesti limiti prevengono il sovraccarico e garantiscono un recupero adeguato tra le sessioni.\n\nFonte: Daniels [1] cap. 4."
+          }
+        }
+      }
     },
     "Data gara" : {
       "localizations" : {
@@ -259,14 +1007,46 @@
             "state" : "translated",
             "value" : "Race Date"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Data gara"
+          }
         }
       }
     },
     "Dati di localizzazione o coordinate GPS sui nostri server" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Location data or GPS coordinates on our servers"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Dati di localizzazione o coordinate GPS sui nostri server"
+          }
+        }
+      }
     },
     "Dato che non raccogliamo dati personali, utilizziamo le informazioni memorizzate localmente solo per:" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Since we do not collect personal data, we use the information stored locally only to:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Dato che non raccogliamo dati personali, utilizziamo le informazioni memorizzate localmente solo per:"
+          }
+        }
+      }
     },
     "Distanza" : {
       "localizations" : {
@@ -274,6 +1054,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Distance"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Distanza"
           }
         }
       }
@@ -285,14 +1071,56 @@
             "state" : "translated",
             "value" : "Reference distance"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Distanza di riferimento"
+          }
         }
       }
     },
     "Distribuzione 80/20" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "80/20 Distribution"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Distribuzione 80/20"
+          }
+        }
+      }
     },
     "Dovrai inserire la distanza della gara, la data dell'evento, il tuo tempo obiettivo e un tempo recente di riferimento per permettere all'algoritmo di calcolare accuratamente il tuo VDOT iniziale." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You will need to enter the race distance, the event date, your goal time, and a recent benchmark time to allow the algorithm to accurately calculate your starting VDOT."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Dovrai inserire la distanza della gara, la data dell'evento, il tuo tempo obiettivo e un tempo recente di riferimento per permettere all'algoritmo di calcolare accuratamente il tuo VDOT iniziale."
+          }
+        }
+      }
+    },
+    "Elite" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elite"
+          }
+        }
+      }
     },
     "Esporta nel Calendario" : {
       "localizations" : {
@@ -300,6 +1128,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Export to Calendar"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Esporta nel Calendario"
           }
         }
       }
@@ -311,6 +1145,12 @@
             "state" : "translated",
             "value" : "Export Plan as PDF"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Esporta Piano in PDF"
+          }
         }
       }
     },
@@ -321,16 +1161,28 @@
             "state" : "translated",
             "value" : "Event:"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Evento:"
+          }
         }
       }
     },
     "export.csvHeader" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Week;Date;Workout Name;Distance;Pace"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Settimana;Data;Nome Workout;Distanza;Passo\n"
+            "value" : "Settimana;Data;Nome Workout;Distanza;Passo"
           }
         }
       }
@@ -338,6 +1190,12 @@
     "export.notAvailable" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "N/A"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "new",
@@ -347,25 +1205,100 @@
       }
     },
     "Fase Base (Phase I)" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Base Phase (Phase I)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Fase Base (Phase I)"
+          }
+        }
+      }
     },
     "Fase di picco (Phase III/IV)" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peak Phase (Phase III/IV)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Fase di picco (Phase III/IV)"
+          }
+        }
+      }
     },
     "Fase di Sviluppo (Phase II)" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Development Phase (Phase II)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Fase di Sviluppo (Phase II)"
+          }
+        }
+      }
     },
     "Fine" : {
-
-    },
-    "Fonti Scientifiche" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Fine"
+          }
+        }
+      }
     },
     "forma attuale" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "current fitness"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "forma attuale"
+          }
+        }
+      }
     },
     "Fornire un'esperienza utente fluida e personalizzata" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Provide a seamless and personalized user experience"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Fornire un'esperienza utente fluida e personalizzata"
+          }
+        }
+      }
     },
     "Gara Target" : {
       "localizations" : {
@@ -373,6 +1306,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Target Rece"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Gara Target"
           }
         }
       }
@@ -418,6 +1357,12 @@
             "state" : "translated",
             "value" : "Create Plan"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Genera Piano"
+          }
         }
       }
     },
@@ -427,6 +1372,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gender"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Genere"
           }
         }
       }
@@ -438,6 +1389,12 @@
             "state" : "translated",
             "value" : "Days per week: %lld"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Giorni alla settimana: %lld"
+          }
         }
       }
     },
@@ -447,6 +1404,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Training days"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Giorni di Allenamento"
           }
         }
       }
@@ -556,6 +1519,12 @@
     "goalFeasibility.raceDescription.ambitious" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Race day! Ambitious goal considering your starting form. If the plan goes well, you can do it. It's crucial to start cautiously in the first few kilometers."
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "new",
@@ -567,6 +1536,12 @@
     "goalFeasibility.raceDescription.challenging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Race day! A very challenging goal considering your starting form. Run at your best and use this race as a warm-up."
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "new",
@@ -578,6 +1553,12 @@
     "goalFeasibility.raceDescription.conservative" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Race day! Your goal is very conservative compared to your current form: you could do much better. Start calmly and evaluate whether to increase your pace as you go."
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "new",
@@ -589,6 +1570,12 @@
     "goalFeasibility.raceDescription.extreme" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Race day! Your stated goal was way beyond your starting form. Run at your estimated pace: use this race as experience and reevaluate your goal for the next cycle."
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "new",
@@ -600,6 +1587,12 @@
     "goalFeasibility.raceDescription.prudent" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Race day! A conservative goal given your current form. An excellent foundation for a solid, risk-free result. Run with confidence."
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "new",
@@ -611,6 +1604,12 @@
     "goalFeasibility.raceDescription.realistic" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Race day! Your goal should be aligned with your current form. Execute your race plan: the work you've done supports it. Start cautiously for the first few kilometers."
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "new",
@@ -619,15 +1618,54 @@
         }
       }
     },
+    "Guida" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Help"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Guida"
+          }
+        }
+      }
+    },
     "Hai raggiunto il livello massimo della scala." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You have reached the maximum level."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Hai raggiunto il livello massimo della scala."
+          }
+        }
+      }
+    },
+    "Hai una base aerobica ben sviluppata e tolleri sessioni di qualità. Puoi lavorare su soglia e ritmo maratona con buoni risultati." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You have a well-developed aerobic base and can tolerate quality sessions. You can work on threshold and marathon pace with good results."
+          }
+        }
+      }
     },
     "Ho aggiunto correttamente %lld eventi al tuo calendario 'PB Running'." : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Successfully added %lld events to your 'PB Running' calendar."
           }
         },
@@ -640,19 +1678,84 @@
       }
     },
     "I dati sono protetti tramite la crittografia nativa di iOS" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data is protected with native iOS encryption"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "I dati sono protetti tramite la crittografia nativa di iOS"
+          }
+        }
+      }
     },
     "I dati vengono eliminati automaticamente quando disinstalli l'app" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data is automatically deleted when you uninstall the app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "I dati vengono eliminati automaticamente quando disinstalli l'app"
+          }
+        }
+      }
     },
     "I presenti Termini rimangono in vigore fino alla loro risoluzione. L'utente può recedere in qualsiasi momento disinstallando l'app. Lo sviluppatore può sospendere o interrompere l'accesso alle funzionalità dell'app in caso di violazione dei presenti Termini." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These Terms remain in effect until terminated. You may terminate them at any time by uninstalling the app. The developer may suspend or terminate your access to the app's features if you violate these Terms."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "I presenti Termini rimangono in vigore fino alla loro risoluzione. L'utente può recedere in qualsiasi momento disinstallando l'app. Lo sviluppatore può sospendere o interrompere l'accesso alle funzionalità dell'app in caso di violazione dei presenti Termini."
+          }
+        }
+      }
     },
     "I presenti Termini sono regolati dalle leggi dello Stato Italiano. Qualsiasi controversia derivante dall'utilizzo dell'applicazione sarà devoluta alla competenza esclusiva del Foro di Milano, Italia." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These Terms are governed by Italian law. Any dispute arising from the use of the application will be submitted to the exclusive jurisdiction of the Court of Milan, Italy."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "I presenti Termini sono regolati dalle leggi dello Stato Italiano. Qualsiasi controversia derivante dall'utilizzo dell'applicazione sarà devoluta alla competenza esclusiva del Foro di Milano, Italia."
+          }
+        }
+      }
     },
     "I residenti in California sono tutelati dal California Consumer Privacy Act (CCPA). Poiché Personal Best Running non raccoglie né vende alcuna informazione personale a terzi, l'applicazione rispetta nativamente i requisiti di massima riservatezza imposti dalla legge." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "California residents are protected by the California Consumer Privacy Act (CCPA). Because Personal Best Running does not collect or sell any personal information to third parties, the app natively complies with the strict privacy requirements imposed by the law."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "I residenti in California sono tutelati dal California Consumer Privacy Act (CCPA). Poiché Personal Best Running non raccoglie né vende alcuna informazione personale a terzi, l'applicazione rispetta nativamente i requisiti di massima riservatezza imposti dalla legge."
+          }
+        }
+      }
     },
     "I ritmi di allenamento sono calcolati tramite il sistema VDOT di Jack Daniels. La distribuzione settimanale segue il principio di polarizzazione 80/20 (Seiler). La progressione del volume rispetta la regola del 10% per prevenire infortuni." : {
       "localizations" : {
@@ -661,20 +1764,78 @@
             "state" : "translated",
             "value" : "Training paces are calculated using Jack Daniels' VDOT system. The weekly distribution follows the 80/20 polarisation principle (Seiler). Volume progression respects the 10% rule to prevent injury."
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "I ritmi di allenamento sono calcolati tramite il sistema VDOT di Jack Daniels. La distribuzione settimanale segue il principio di polarizzazione 80/20 (Seiler). La progressione del volume rispetta la regola del 10% per prevenire infortuni."
+          }
         }
       }
     },
     "Identificatori del dispositivo per il tracciamento pubblicitario" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device identifiers for advertising tracking"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Identificatori del dispositivo per il tracciamento pubblicitario"
+          }
+        }
+      }
     },
     "Il download dell'app viene elaborato tramite l'App Store di Apple. Apple potrebbe raccogliere informazioni sull'account e cronologia degli acquisti in base alla propria informativa sulla privacy. Noi non abbiamo accesso ai tuoi dati di pagamento o account Apple." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your app download is processed through the Apple App Store. Apple may collect account information and purchase history in accordance with its privacy policy. We do not have access to your payment information or Apple account."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Il download dell'app viene elaborato tramite l'App Store di Apple. Apple potrebbe raccogliere informazioni sull'account e cronologia degli acquisti in base alla propria informativa sulla privacy. Noi non abbiamo accesso ai tuoi dati di pagamento o account Apple."
+          }
+        }
+      }
     },
     "Il lungo segue una curva di progressione basata sulla fase del piano, non solo sul volume settimanale corrente.\n\nDaniels [1] cap. 4: \"I like to limit any single L run to no more than 25 percent of weekly mileage.\" Secondo vincolo: max 150 minuti (2h30') per sessione.\n\nRange orientativi per distanza (picco):\n\nMaratona: 16 km (base) → fino a 32 km (peak, VDOT alto)\nMezza:    10 km (base) → fino a 22 km (peak)\n10K:       8 km (base) → fino a 18 km (peak)\n\nPer maratona e mezza il target è phase-driven (cap temporale 150 min). Per la 10K si applica anche il cap 25% del volume settimanale.\n\nFonte: Daniels [1] cap. 4 e 15-16, Pfitzinger [2] cap. 3." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The long run follows a progression curve based on the phase of the plan, not just the current weekly volume.\n\nDaniels [1] chap. 4: \"I like to limit any single long run to no more than 25 percent of weekly mileage.\" Second constraint: max 150 minutes (2h30') per session.\n\nApproximate ranges by distance (peak):\n\nMarathon: 16 km (base) → up to 32 km (peak, high VDOT)\nHalf: 10 km (base) → up to 22 km (peak)\n10K: 8 km (base) → up to 18 km (peak)\n\nFor the marathon and half marathon, the target is phase-driven (time cap 150 min). For the 10K, the 25% weekly volume cap also applies.\n\nSource: Daniels [1] chap. 4 and 15-16, Pfitzinger [2] chap. 3."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Il lungo segue una curva di progressione basata sulla fase del piano, non solo sul volume settimanale corrente.\n\nDaniels [1] cap. 4: \"I like to limit any single L run to no more than 25 percent of weekly mileage.\" Secondo vincolo: max 150 minuti (2h30') per sessione.\n\nRange orientativi per distanza (picco):\n\nMaratona: 16 km (base) → fino a 32 km (peak, VDOT alto)\nMezza:    10 km (base) → fino a 22 km (peak)\n10K:       8 km (base) → fino a 18 km (peak)\n\nPer maratona e mezza il target è phase-driven (cap temporale 150 min). Per la 10K si applica anche il cap 25% del volume settimanale.\n\nFonte: Daniels [1] cap. 4 e 15-16, Pfitzinger [2] cap. 3."
+          }
+        }
+      }
     },
     "Il Lungo: progressione per fase" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Long Run: progression by phase"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Il Lungo: progressione per fase"
+          }
+        }
+      }
     },
     "Il piano verrà limitato a %lld settimane (il massimo efficace per %@)" : {
       "localizations" : {
@@ -693,29 +1854,84 @@
       }
     },
     "Il sesso biologico NON influisce sul calcolo del VDOT.\n\nViene utilizzato esclusivamente per contestualizzare la valutazione del livello del runner (principiante, intermedio o avanzato)." : {
-
-    },
-    "Il Sistema VDOT" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "VDOT System"
+            "value" : "Biological sex does NOT affect the VDOT calculation.\n\nIt is used exclusively to contextualize the runner's level assessment (beginner, intermediate, or advanced)."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Il sesso biologico NON influisce sul calcolo del VDOT.\n\nViene utilizzato esclusivamente per contestualizzare la valutazione del livello del runner (principiante, intermedio o avanzato)."
           }
         }
       }
     },
     "Il Tuo Livello" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your Level"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Il Tuo Livello"
+          }
+        }
+      }
     },
     "Il VDOT è sex-neutral per definizione: misura la performance individuale reale, già \"incorporando\" le differenze fisiologiche. Una donna con VDOT 50 e un uomo con VDOT 50 si allenano agli stessi ritmi.\n\nDaniels (2022) cap. 5: \"The higher VDOT value is associated with the better runner, regardless of age or sex.\"\n\nIl sesso viene usato nel piano solo per contestualizzare il livello del runner (soglie di popolazione differenziate per distribuzione M/F)." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VDOT is sex-neutral by definition: it measures actual individual performance, already \"incorporating\" physiological differences. A woman with a VDOT of 50 and a man with a VDOT of 50 train at the same pace.\n\nDaniels (2022) chap. 5: \"The higher VDOT value is associated with the better runner, regardless of age or sex.\"\n\nSex is used in the profile only to contextualize the runner's level (differentiated population thresholds for M/F distribution)."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Il VDOT è sex-neutral per definizione: misura la performance individuale reale, già \"incorporando\" le differenze fisiologiche. Una donna con VDOT 50 e un uomo con VDOT 50 si allenano agli stessi ritmi.\n\nDaniels (2022) cap. 5: \"The higher VDOT value is associated with the better runner, regardless of age or sex.\"\n\nIl sesso viene usato nel piano solo per contestualizzare il livello del runner (soglie di popolazione differenziate per distribuzione M/F)."
+          }
+        }
+      }
     },
     "Il VDOT è un indice della capacità aerobica individuale, derivato dalla formula di Daniels e Gilbert (1979). Rappresenta il consumo di ossigeno (VO2max) \"effettivo\" ricavato dalla performance in gara — non da un test in laboratorio.\n\nUn VDOT più alto indica una migliore forma fisica: VDOT 40 è un runner amatoriale solido, VDOT 60 è un atleta d'élite." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VDOT is an index of individual aerobic capacity, derived from the Daniels and Gilbert (1979) formula. It represents the \"effective\" oxygen consumption (VO2max) derived from racing performance—not from a laboratory test.\n\nA higher VDOT indicates better physical fitness: VDOT 40 is a solid recreational runner, VDOT 60 is an elite athlete."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Il VDOT è un indice della capacità aerobica individuale, derivato dalla formula di Daniels e Gilbert (1979). Rappresenta il consumo di ossigeno (VO2max) \"effettivo\" ricavato dalla performance in gara — non da un test in laboratorio.\n\nUn VDOT più alto indica una migliore forma fisica: VDOT 40 è un runner amatoriale solido, VDOT 60 è un atleta d'élite."
+          }
+        }
+      }
     },
     "Il volume di partenza del piano dipende sia dalla distanza obiettivo che dal livello del runner (VDOT).\n\nUn beginner che prepara una 10K (VDOT < 35) parte da ~18-25 km/settimana con sessioni da 4-6 km. Lo stesso runner su maratona parte da ~30-45 km/settimana.\n\nSoglie orientative settimanali per livello:\n\n10K: beginner ~25 km · recreational ~42 km · intermedio ~60 km\nHM:  beginner ~35 km · recreational ~55 km · intermedio ~70 km\nMar: beginner ~45 km · recreational ~65 km · intermedio ~85 km\n\nQuesti cap impediscono volumi sproporzionati per runner alle prime armi, riducendo il rischio di infortuni da stress.\nFonte: Daniels [1] cap. 2, Pfitzinger [2], RunRepeat Global Report (2023)." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The starting volume of the plan depends on both the goal distance and the runner's level (VDOT).\n\nA beginner training for a 10K (VDOT < 35) starts with ~18-25 km/week with sessions of 4-6 km. The same marathon runner starts with ~30-45 km/week.\n\nApproximate weekly thresholds by level:\n\n10K: beginner ~25 km · recreational ~42 km · intermediate ~60 km\nHM: beginner ~35 km · recreational ~55 km · intermediate ~70 km\nMar: beginner ~45 km · recreational ~65 km · intermediate ~85 km\n\nThese caps prevent disproportionate volumes for novice runners, reducing the risk of stress injuries.\nSource: Daniels [1] chap. 2, Pfitzinger [2], RunRepeat Global Report (2023)."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Il volume di partenza del piano dipende sia dalla distanza obiettivo che dal livello del runner (VDOT).\n\nUn beginner che prepara una 10K (VDOT < 35) parte da ~18-25 km/settimana con sessioni da 4-6 km. Lo stesso runner su maratona parte da ~30-45 km/settimana.\n\nSoglie orientative settimanali per livello:\n\n10K: beginner ~25 km · recreational ~42 km · intermedio ~60 km\nHM:  beginner ~35 km · recreational ~55 km · intermedio ~70 km\nMar: beginner ~45 km · recreational ~65 km · intermedio ~85 km\n\nQuesti cap impediscono volumi sproporzionati per runner alle prime armi, riducendo il rischio di infortuni da stress.\nFonte: Daniels [1] cap. 2, Pfitzinger [2], RunRepeat Global Report (2023)."
+          }
+        }
+      }
     },
     "Impostazioni" : {
       "localizations" : {
@@ -724,17 +1940,49 @@
             "state" : "translated",
             "value" : "Settings"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Impostazioni"
+          }
         }
       }
     },
     "Impostazioni dell'app (sistema di misura, genere, lingua)" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App settings (measurement system, gender, language)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Impostazioni dell'app (sistema di misura, genere, lingua)"
+          }
+        }
+      }
     },
     "info.foiasoft@gmail.com" : {
-
+      "shouldTranslate" : false
     },
     "Informativa Privacy" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Informativa Privacy"
+          }
+        }
+      }
     },
     "Informativa sulla Privacy" : {
       "localizations" : {
@@ -743,17 +1991,62 @@
             "state" : "translated",
             "value" : "Privacy Policy"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Informativa sulla Privacy"
+          }
         }
       }
     },
     "Informazioni" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Information"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Informazioni"
+          }
+        }
+      }
     },
     "Informazioni che NON raccogliamo:" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Information we DO NOT collect:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Informazioni che NON raccogliamo:"
+          }
+        }
+      }
     },
     "Informazioni di identificazione personale (nome, email, indirizzo)" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personally identifiable information (name, email, address)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Informazioni di identificazione personale (nome, email, indirizzo)"
+          }
+        }
+      }
     },
     "Informazioni e supporto" : {
       "localizations" : {
@@ -762,38 +2055,178 @@
             "state" : "translated",
             "value" : "About & Support"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Informazioni e supporto"
+          }
         }
       }
     },
     "Informazioni Memorizzate Localmente:" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Locally Stored Information:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Informazioni Memorizzate Localmente:"
+          }
+        }
+      }
+    },
+    "Intermedio" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intermediate"
+          }
+        }
+      }
     },
     "Introduzione" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Introduction"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Introduzione"
+          }
+        }
+      }
     },
     "L'applicazione fornisce piani di allenamento e informazioni a puro scopo illustrativo e informativo. L'attività fisica può comportare rischi per la salute." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The app provides training plans and information for illustrative and informational purposes only. Physical activity may pose health risks."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "L'applicazione fornisce piani di allenamento e informazioni a puro scopo illustrativo e informativo. L'attività fisica può comportare rischi per la salute."
+          }
+        }
+      }
+    },
+    "L'RPE (Rate of Perceived Exertion) è una scala soggettiva dell'intensità dello sforzo percepito durante l'allenamento. Utilizza una scala da 1 a 10, dove 1 è uno sforzo minimo (riposo) e 10 è lo sforzo massimo assoluto.\n\nA differenza della frequenza cardiaca o del VO2max, l'RPE incorpora fattori soggettivi come il sonno, lo stress, l'ambiente e la fatica accumulata — ed è per questo che Daniels lo considera un indicatore complementare essenziale.\n\nL'RPE target per zona è calcolato sull'RPE medio dell'intera sessione, non dei singoli intervalli." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RPE (Rate of Perceived Exertion) is a subjective scale of perceived exertion during exercise. It uses a scale of 1 to 10, where 1 is minimal effort (rest) and 10 is absolute maximum effort.\n\nUnlike heart rate or VO2 max, RPE incorporates subjective factors such as sleep, stress, environment, and accumulated fatigue—which is why Daniels considers it an essential complementary indicator.\n\nThe target RPE per zone is calculated based on the average RPE of the entire session, not the individual intervals."
+          }
+        }
+      }
     },
     "L'utente accetta di:" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You agree to:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "L'utente accetta di:"
+          }
+        }
+      }
     },
     "La preparazione richiede almeno 12 settimane. Seleziona una data successiva al %@" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preparation takes at least 12 weeks. Select a date after %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "La preparazione richiede almeno 12 settimane. Seleziona una data successiva al %@"
+          }
+        }
+      }
     },
     "La scheda **Profilo** riassume lo stato attuale del tuo percorso atletico. Al suo interno trovi una panoramica dettagliata che include:" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The **Profile** tab summarizes the current status of your athletic journey. It provides a detailed overview that includes:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "La scheda **Profilo** riassume lo stato attuale del tuo percorso atletico. Al suo interno trovi una panoramica dettagliata che include:"
+          }
+        }
+      }
     },
     "La scheda **Ritmi** traduce il tuo valore VDOT attuale in andature precise, eliminando ogni incertezza su come interpretare le sessioni." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The **Paces** tab translates your current VDOT value into accurate paces, taking the guesswork out of interpreting your sessions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "La scheda **Ritmi** traduce il tuo valore VDOT attuale in andature precise, eliminando ogni incertezza su come interpretare le sessioni."
+          }
+        }
+      }
     },
     "Le **Previsioni** dei tuoi tempi stimati sulle distanze standard, basate sul tuo VDOT attuale." : {
-
-    },
-    "Le 5 Zone di Daniels" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your estimated **time predictions** for standard distances, based on your current VDOT.\n"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Le **Previsioni** dei tuoi tempi stimati sulle distanze standard, basate sul tuo VDOT attuale."
+          }
+        }
+      }
     },
     "Le basi del metodo" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Method basics"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Le basi del metodo"
+          }
+        }
+      }
     },
     "Le gare si disputano normalmente di domenica" : {
       "localizations" : {
@@ -802,29 +2235,126 @@
             "state" : "translated",
             "value" : "Races are normally held on Sundays"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Le gare si disputano normalmente di domenica"
+          }
         }
       }
     },
     "Le informazioni sono isolate (sandboxed) all'interno dell'app" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Information is isolated (sandboxed) within the app"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Le informazioni sono isolate (sandboxed) all'interno dell'app"
+          }
+        }
+      }
     },
     "Le tue preferenze di corsa (obiettivi di tempo, distanza, ritmo)" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your running preferences (time, distance, pace goals)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Le tue preferenze di corsa (obiettivi di tempo, distanza, ritmo)"
+          }
+        }
+      }
     },
     "Le tue preferenze e i tuoi dati sono memorizzati in modo sicuro sul tuo dispositivo sfruttando le funzionalità di sicurezza integrate in iOS:" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your preferences and data are securely stored on your device using security features built into iOS:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Le tue preferenze e i tuoi dati sono memorizzati in modo sicuro sul tuo dispositivo sfruttando le funzionalità di sicurezza integrate in iOS:"
+          }
+        }
+      }
     },
     "Limiti di Volume per Zona" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volume Limits per Zone"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Limiti di Volume per Zona"
+          }
+        }
+      }
     },
     "Lingua" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Language"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Lingua"
+          }
+        }
+      }
     },
     "Livello atleta" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Athlete level"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Livello atleta"
+          }
+        }
+      }
     },
     "mancano %@ pt VDOT" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ pt VDOT missing"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "mancano %@ pt VDOT"
+          }
+        }
+      }
     },
     "Maratona" : {
       "localizations" : {
@@ -832,6 +2362,925 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Marathon"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Maratona"
+          }
+        }
+      }
+    },
+    "methodology.section.phaseBase" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Base Phase (Phase I)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Fase Base (Phase I)"
+          }
+        }
+      }
+    },
+    "methodology.section.phaseBuild" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Development Phase (Phase II)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Fase di Sviluppo (Phase II)"
+          }
+        }
+      }
+    },
+    "methodology.section.phasePeak" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peak Phase (Phase III/IV)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Fase di Picco (Phase III/IV)"
+          }
+        }
+      }
+    },
+    "methodology.section.phases" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan Structure"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Struttura del Piano"
+          }
+        }
+      }
+    },
+    "methodology.section.rpe" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "RPE — Rate of Perceived Exertion"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "methodology.section.sources" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scientific Sources"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Fonti Scientifiche"
+          }
+        }
+      }
+    },
+    "methodology.section.taper" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taper"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Scarico"
+          }
+        }
+      }
+    },
+    "methodology.section.vdot" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VDOT System"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Il Sistema VDOT"
+          }
+        }
+      }
+    },
+    "methodology.section.volume" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volume Rules"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Regole di Volume"
+          }
+        }
+      }
+    },
+    "methodology.section.volume10" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10% Rule"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Regola del 10%"
+          }
+        }
+      }
+    },
+    "methodology.section.volume8020" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "80/20 Distribution"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Distribuzione 80/20"
+          }
+        }
+      }
+    },
+    "methodology.section.volumeLimits" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volume Limits per Zone"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Limiti di Volume per Zona"
+          }
+        }
+      }
+    },
+    "methodology.section.volumeLong" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Long Run: progression by phase"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Il Lungo: progressione per fase"
+          }
+        }
+      }
+    },
+    "methodology.section.zoneE" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E — Easy"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "E — Easy"
+          }
+        }
+      }
+    },
+    "methodology.section.zoneI" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I — Interval"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "I — Interval"
+          }
+        }
+      }
+    },
+    "methodology.section.zoneM" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "M — Marathon Pace"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "M — Marathon Pace"
+          }
+        }
+      }
+    },
+    "methodology.section.zoneR" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "R — Repetition"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "R — Repetition"
+          }
+        }
+      }
+    },
+    "methodology.section.zones" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daniels' 5 Zones"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "5 Zone di Daniels"
+          }
+        }
+      }
+    },
+    "methodology.section.zoneT" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "T — Threshold / Tempo"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "T — Threshold / Tempo"
+          }
+        }
+      }
+    },
+    "methodology.zone.intensity.E" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "59-74% VO2max · 65-79% HRmax · RPE 4-5"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "59-74% VO2max · 65-79% FCmax · RPE 4-5"
+          }
+        }
+      }
+    },
+    "methodology.zone.intensity.I" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "95-100% VO2max · ~98% HRmax · RPE 8-9"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "95-100% VO2max · ~98% FCmax · RPE 8-9"
+          }
+        }
+      }
+    },
+    "methodology.zone.intensity.M" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "75-84% VO2max · 80-89% HRmax · RPE 6-7"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "75-84% VO2max · 80-89% FCmax · RPE 6-7"
+          }
+        }
+      }
+    },
+    "methodology.zone.intensity.R" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "105-120% VDOT · >100% VO2max · RPE 9+"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "105-120% VDOT · >100% VO2max · RPE 9+"
+          }
+        }
+      }
+    },
+    "methodology.zone.intensity.T" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "85-88% VO2max · 88-92% HRmax · RPE 7-8"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "85-88% VO2max · 88-92% FCmax · RPE 7-8"
+          }
+        }
+      }
+    },
+    "methodology.zone.label.intensity" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intensity"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Intensità"
+          }
+        }
+      }
+    },
+    "methodology.zone.label.purpose" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Purpose"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Scopo"
+          }
+        }
+      }
+    },
+    "methodology.zone.label.recovery" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recovery"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Recupero"
+          }
+        }
+      }
+    },
+    "methodology.zone.label.source" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Fonte"
+          }
+        }
+      }
+    },
+    "methodology.zone.label.workBout" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Work bout"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Work bout"
+          }
+        }
+      }
+    },
+    "methodology.zone.purpose.E" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Base aerobic development, active recovery, muscle-tendon adaptation. ~80% of total weekly volume."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sviluppo aerobico di base, recupero attivo, adattamento muscolo-tendineo. ~80% del volume settimanale totale."
+          }
+        }
+      }
+    },
+    "methodology.zone.purpose.I" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maximizes time at VO2max. Stimulates cardiac output, capillary density, and mitochondrial density. Max of 10K or 8% of weekly volume, whichever is less."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Massimizza il tempo a VO2max. Stimola la portata cardiaca, la densità capillare e la densità mitocondriale. Max 10 km o 8% del volume settimanale, il minore dei due."
+          }
+        }
+      }
+    },
+    "methodology.zone.purpose.M" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Specific adaptation to marathon race pace. Optimizes running economy and pace management."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Adattamento specifico al ritmo gara maratona. Ottimizza l'economia di corsa e la gestione del ritmo."
+          }
+        }
+      }
+    },
+    "methodology.zone.purpose.R" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Improves speed, running economy, and anaerobic power. Introduced before I (adds only speed stimulus). Max 5% of weekly volume."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Migliora velocità, economia di corsa e potenza anaerobica. Introdotto prima di I (aggiunge solo stimolo di velocità). Max 5% del volume settimanale."
+          }
+        }
+      }
+    },
+    "methodology.zone.purpose.T" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Improves anaerobic threshold and lactate clearance capacity. Max 10% of weekly volume per session."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Migliora la soglia anaerobica e la capacità di clearance del lattato. Max 10% del volume settimanale per sessione."
+          }
+        }
+      }
+    },
+    "methodology.zone.recovery.E" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not applicable"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Non applicabile"
+          }
+        }
+      }
+    },
+    "methodology.zone.recovery.I" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Active recovery (jog) equal to work time"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Recupero attivo (jog) uguale al tempo di lavoro"
+          }
+        }
+      }
+    },
+    "methodology.zone.recovery.M" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not applicable (continuous pace)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Non applicabile (ritmo continuo)"
+          }
+        }
+      }
+    },
+    "methodology.zone.recovery.R" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "COMPLETE: jog equal to or greater than distance run"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "COMPLETO: jog uguale o superiore alla distanza percorsa"
+          }
+        }
+      }
+    },
+    "methodology.zone.recovery.T" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 min between cruise intervals"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "1 min tra gli intervalli cruise"
+          }
+        }
+      }
+    },
+    "methodology.zone.source.E" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daniels [1] ch. 4"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Daniels [1] cap. 4"
+          }
+        }
+      }
+    },
+    "methodology.zone.source.I" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daniels [1] ch. 4, Billat [3], Laursen & Jenkins [5]"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Daniels [1] cap. 4, Billat [3], Laursen & Jenkins [5]"
+          }
+        }
+      }
+    },
+    "methodology.zone.source.M" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daniels [1] ch. 4, Pfitzinger [2]"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Daniels [1] cap. 4, Pfitzinger [2]"
+          }
+        }
+      }
+    },
+    "methodology.zone.source.R" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daniels [1] ch. 4"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Daniels [1] cap. 4"
+          }
+        }
+      }
+    },
+    "methodology.zone.source.T" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daniels [1] ch. 4"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Daniels [1] cap. 4"
+          }
+        }
+      }
+    },
+    "methodology.zone.title.E" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E — Easy"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "E — Easy"
+          }
+        }
+      }
+    },
+    "methodology.zone.title.I" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I — Interval"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "I — Interval"
+          }
+        }
+      }
+    },
+    "methodology.zone.title.M" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "M — Marathon Pace"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "M — Marathon Pace"
+          }
+        }
+      }
+    },
+    "methodology.zone.title.R" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "R — Repetition"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "R — Repetition"
+          }
+        }
+      }
+    },
+    "methodology.zone.title.T" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "T — Threshold / Tempo"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "T — Threshold / Tempo"
+          }
+        }
+      }
+    },
+    "methodology.zone.workBout.E" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any duration"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Qualsiasi durata"
+          }
+        }
+      }
+    },
+    "methodology.zone.workBout.I" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3-5 minutes per repetition"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "3-5 minuti per ripetizione"
+          }
+        }
+      }
+    },
+    "methodology.zone.workBout.M" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Main section 10-28 km"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sezione principale 10-28 km"
+          }
+        }
+      }
+    },
+    "methodology.zone.workBout.R" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MAX 2 minutes per repetition (typical 200-400m)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "MAX 2 minuti per ripetizione (tipico 200-400m)"
+          }
+        }
+      }
+    },
+    "methodology.zone.workBout.T" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "20 min continuous (Tempo Run) or cruise intervals 3-15 min"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "20 min continui (Tempo Run) o intervalli cruise 3-15 min"
           }
         }
       }
@@ -843,38 +3292,174 @@
             "state" : "translated",
             "value" : "Half Marathon"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mezza Maratona"
+          }
         }
       }
     },
     "Min" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Min"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Min"
+          }
+        }
+      }
     },
     "Nella parte superiore della scheda **Piano** puoi trovare un riepilogo, con l'indicazione della fattibilità basata sui parametri che hai inserito." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At the top of the **Plan** tab you can find a summary, indicating the feasibility based on the parameters you entered."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Nella parte superiore della scheda **Piano** puoi trovare un riepilogo, con l'indicazione della fattibilità basata sui parametri che hai inserito."
+          }
+        }
+      }
     },
     "Nella scheda **Obiettivo** puoi configurare i parametri principali." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In the **Target** tab you can configure the main parameters."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Nella scheda **Obiettivo** puoi configurare i parametri principali."
+          }
+        }
+      }
     },
     "Nessun problema di portabilità dei dati (non ci sono dati lato server)" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No data portability issues (there is no server-side data)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Nessun problema di portabilità dei dati (non ci sono dati lato server)"
+          }
+        }
+      }
     },
     "Nessuna trasmissione dati verso server esterni" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No data transmission to external servers"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Nessuna trasmissione dati verso server esterni"
+          }
+        }
+      }
     },
     "Nome evento" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Event Name"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Nome evento"
+          }
+        }
+      }
     },
     "Non aumentare il volume settimanale di più del 10% rispetto alla settimana precedente.\n\nDaniels suggerisce anche di mantenere lo stesso carico per 3-4 settimane prima di aumentare. Il piano applica la regola del 10% come limite superiore, con settimane di scarico ogni 3-4 settimane (principio di supercompensazione).\n\nFonte: Daniels [1] cap. 2, Galloway [8]." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Don't increase your weekly volume by more than 10% over the previous week.\n\nDaniels also suggests maintaining the same load for 3-4 weeks before increasing. The plan uses the 10% rule as an upper limit, with deload weeks every 3-4 weeks (the principle of supercompensation).\n\nSource: Daniels [1] chap. 2, Galloway [8]."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Non aumentare il volume settimanale di più del 10% rispetto alla settimana precedente.\n\nDaniels suggerisce anche di mantenere lo stesso carico per 3-4 settimane prima di aumentare. Il piano applica la regola del 10% come limite superiore, con settimane di scarico ogni 3-4 settimane (principio di supercompensazione).\n\nFonte: Daniels [1] cap. 2, Galloway [8]."
+          }
+        }
+      }
     },
     "Non decompilare, effettuare reverse engineering o modificare l'app" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do not decompile, reverse engineer, or modify the app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Non decompilare, effettuare reverse engineering o modificare l'app"
+          }
+        }
+      }
     },
     "Non ignorare mai il parere del medico a causa di informazioni lette all'interno dell'app." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Never ignore your doctor's advice because of information you read in the app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Non ignorare mai il parere del medico a causa di informazioni lette all'interno dell'app."
+          }
+        }
+      }
     },
     "Nota: Aggiornando le tue performance recenti nella scheda Obiettivo, questa tabella si ricalcolerà automaticamente per riflettere i tuoi progressi." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note: By updating your recent performances in the Goal tab, this table will automatically recalculate to reflect your progress."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Nota: Aggiornando le tue performance recenti nella scheda Obiettivo, questa tabella si ricalcolerà automaticamente per riflettere i tuoi progressi."
+          }
+        }
+      }
     },
     "Note" : {
       "localizations" : {
@@ -883,11 +3468,30 @@
             "state" : "translated",
             "value" : "Notes"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Note"
+          }
         }
       }
     },
     "obiettivo" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Target"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "obiettivo"
+          }
+        }
+      }
     },
     "Obiettivo" : {
       "localizations" : {
@@ -896,23 +3500,104 @@
             "state" : "translated",
             "value" : "Target"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Obiettivo"
+          }
         }
       }
     },
     "Obiettivo: costruzione aerobica, adattamento muscolo-scheletrico, volume progressivo.\n\nContenuto: E running (80%+), ripetute in salita leggere, corse progressive. Nessuna sessione I.\n\nDaniels: \"Mostly E running\" nella Phase I. I collinari e le progressioni sono stimoli supplementari che aggiungono forza senza stress aerobico aggiuntivo.\n\nPer runner principianti (VDOT < 35): le ripetute in salita vengono sostituite con corse facili o progressive. I collinari richiedono una base muscolare già consolidata — introdurle troppo presto aumenta il rischio di infortuni.\n\nVolume: progressione max +10%/settimana. Ogni 4a settimana: scarico -20%." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goal: Aerobic buildup, musculoskeletal adaptation, progressive volume.\n\nContent: E running (80%+), easy hill repeats, progressive runs. No I sessions.\n\nDaniels: \"Mostly E running\" in Phase I. Hills and progressions are supplemental stimuli that add strength without additional aerobic stress.\n\nFor beginner runners (VDOT < 35): Hill repeats are replaced with easy or progressive runs. Hills require a well-established muscular base—introducing them too early increases the risk of injury.\n\nVolume: Max progression +10%/week. Every 4th week: taper -20%."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Obiettivo: costruzione aerobica, adattamento muscolo-scheletrico, volume progressivo.\n\nContenuto: E running (80%+), ripetute in salita leggere, corse progressive. Nessuna sessione I.\n\nDaniels: \"Mostly E running\" nella Phase I. I collinari e le progressioni sono stimoli supplementari che aggiungono forza senza stress aerobico aggiuntivo.\n\nPer runner principianti (VDOT < 35): le ripetute in salita vengono sostituite con corse facili o progressive. I collinari richiedono una base muscolare già consolidata — introdurle troppo presto aumenta il rischio di infortuni.\n\nVolume: progressione max +10%/settimana. Ogni 4a settimana: scarico -20%."
+          }
+        }
+      }
     },
     "Obiettivo: introduzione della qualità, sviluppo velocità e soglia.\n\nContenuto: R (Repetition) + T (Tempo) + L run. Nessuna sessione I ancora.\n\nDaniels: \"Going from E running to R workouts is adding only a speed stress, with little being asked of the aerobic or lactate-clearance systems.\" Per questo R arriva prima di I.\n\nVolume: micro-scarico ogni 3 settimane." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Objective: Introduction of quality, speed and threshold development.\n\nContent: R (Repetition) + T (Tempo) + L run. No I sessions yet.\n\nDaniels: \"Going from E running to R workouts is adding only a speed stress, with little being asked of the aerobic or lactate-clearance systems.\" This is why R comes before I.\n\nVolume: Micro-unloading every 3 weeks."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Obiettivo: introduzione della qualità, sviluppo velocità e soglia.\n\nContenuto: R (Repetition) + T (Tempo) + L run. Nessuna sessione I ancora.\n\nDaniels: \"Going from E running to R workouts is adding only a speed stress, with little being asked of the aerobic or lactate-clearance systems.\" Per questo R arriva prima di I.\n\nVolume: micro-scarico ogni 3 settimane."
+          }
+        }
+      }
     },
     "Obiettivo: massima qualità, picco di forma, simulazione gara.\n\nContenuto: T + I + M (o I per 10K) + L run. La settimana più impegnativa del piano.\n\nPer maratona e mezza: le sessioni M-pace sono centrali perché adattano al ritmo specifico di gara.\nPer 10K: le sessioni I a VO2max sono determinanti.\n\nFonte: Daniels [1] Phase III (TQ) e IV (FQ), Pfitzinger [2]." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goal: Maximum quality, peak form, race simulation.\n\nContent: T + I + M (or I for 10K) + L run. The most challenging week of the plan.\n\nFor marathons and half marathons: M-pace sessions are crucial because they adapt to the specific race pace.\nFor 10Ks: I sessions at VO2max are crucial.\n\nSource: Daniels [1] Phase III (TQ) and IV (FQ), Pfitzinger [2]."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Obiettivo: massima qualità, picco di forma, simulazione gara.\n\nContenuto: T + I + M (o I per 10K) + L run. La settimana più impegnativa del piano.\n\nPer maratona e mezza: le sessioni M-pace sono centrali perché adattano al ritmo specifico di gara.\nPer 10K: le sessioni I a VO2max sono determinanti.\n\nFonte: Daniels [1] Phase III (TQ) e IV (FQ), Pfitzinger [2]."
+          }
+        }
+      }
     },
     "Obiettivo: supercompensazione, recupero, arrivo alla gara nella forma migliore.\n\nVolume: riduzione del 40-60% rispetto al picco. Intensità: invariata — almeno una sessione T viene mantenuta per non perdere lo stimolo alla soglia.\n\nDaniels mantiene sessioni T leggere anche nell'ultima settimana prima della gara.\n\nFonte: Mujika & Padilla (2003) [6]." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goal: Supercompensation, recovery, and arriving at the race in top form.\n\nVolume: 40-60% reduction from peak. Intensity: unchanged—at least one T session is maintained to maintain threshold stimulation.\n\nDaniels maintains light T sessions even in the final week before the race.\n\nSource: Mujika & Padilla (2003) [6]."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Obiettivo: supercompensazione, recupero, arrivo alla gara nella forma migliore.\n\nVolume: riduzione del 40-60% rispetto al picco. Intensità: invariata — almeno una sessione T viene mantenuta per non perdere lo stimolo alla soglia.\n\nDaniels mantiene sessioni T leggere anche nell'ultima settimana prima della gara.\n\nFonte: Mujika & Padilla (2003) [6]."
+          }
+        }
+      }
+    },
+    "Ogni allenamento nel piano indica l'RPE target. È un riferimento — non una prescrizione rigida. Se il tuo RPE è più alto del previsto in un giorno, rallenta o accorcia la sessione.\n\nL'RPE tende ad aumentare durante sessioni lunghe: se la prima parte è lenta, la seconda potrebbe sentiresi più dura del previsto\n\nDaniels consiglia di usare l'RPE insieme al passo: se il passo giusto corrisponde all'RPE giusto, l'intensità è corretta." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each workout in the plan indicates a target RPE. It's a guideline—not a rigid prescription. If your RPE is higher than expected on a given day, slow down or shorten your session.\n\nRPE tends to increase during long sessions: if the first half is slow, the second half may feel harder than expected.\n\nDaniels recommends using RPE in conjunction with pace: if the right pace corresponds to the right RPE, the intensity is correct."
+          }
+        }
+      }
     },
     "Ore" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hours"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Ore"
+          }
+        }
+      }
     },
     "Ottimo" : {
       "localizations" : {
@@ -920,6 +3605,317 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Great"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Ottimo"
+          }
+        }
+      }
+    },
+    "paces.detail.easy" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "59-74% VO2max · 65-79% HRmax"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "59-74% VO2max · 65-79% FCmax"
+          }
+        }
+      }
+    },
+    "paces.detail.interval" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "95-100% VO2max · active recovery (jog) · max 8% weekly vol."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "95-100% VO2max · rec. attivo (jog) · max 8% vol. sett."
+          }
+        }
+      }
+    },
+    "paces.detail.longRun" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extended E-pace · max 25% weekly vol. · max 150 min"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "E-pace prolungato · max 25% vol. sett. · max 150 min"
+          }
+        }
+      }
+    },
+    "paces.detail.marPace" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "75-84% VO2max · 80-89% HRmax"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "75-84% VO2max · 80-89% FCmax"
+          }
+        }
+      }
+    },
+    "paces.detail.repetition" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "105-120% VDOT · max 2 min/rep · full recovery · max 5% weekly vol."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "105-120% VDOT · max 2 min/rep · rec. completo · max 5% vol. sett."
+          }
+        }
+      }
+    },
+    "paces.detail.tempo" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "85-88% VO2max · 88-92% HRmax · max 10% weekly vol."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "85-88% VO2max · 88-92% FCmax · max 10% vol. sett."
+          }
+        }
+      }
+    },
+    "paces.footer" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Based on current VDOT %@. Train at the level you are today, not at your target level."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Basate sul VDOT attuale %@. Ci si allena alla forma che si ha oggi, non a quella obiettivo."
+          }
+        }
+      }
+    },
+    "paces.header" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Training Paces"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Ritmi di Allenamento"
+          }
+        }
+      }
+    },
+    "paces.note.howCalculated" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How they are calculated"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Come sono calcolate"
+          }
+        }
+      }
+    },
+    "paces.note.howCalculated.body" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paces are based on your current VDOT (%@), not on your target. Train at the level you are today: paces improve as VDOT grows."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Le andature si basano sul tuo VDOT attuale (%@), non sull'obiettivo. Ci si allena alla forma che si ha oggi: i ritmi migliorano man mano che il VDOT cresce."
+          }
+        }
+      }
+    },
+    "paces.note.longRun" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Long: max 25% of weekly volume"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Lungo: max 25% del volume settimanale"
+          }
+        }
+      }
+    },
+    "paces.note.longRun.body" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The long run does not exceed 25% of weekly volume or 150 minutes. Source: Daniels (2022) ch. 4."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Il lungo non supera il 25% del volume settimanale né 150 minuti. Fonte: Daniels (2022) cap. 4."
+          }
+        }
+      }
+    },
+    "paces.note.volume8020" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "80/20 Distribution"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Distribuzione 80/20"
+          }
+        }
+      }
+    },
+    "paces.note.volume8020.body" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "~80% of volume at E-pace (Z2), ~20% at T/I/R (Z4-Z5+). Source: Seiler & Kjerland (2006)."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "~80% del volume a E-pace (Z2), ~20% a T/I/R (Z4-Z5+). Fonte: Seiler & Kjerland (2006)."
+          }
+        }
+      }
+    },
+    "paces.note.zone1" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zone 1 (Z1) — why it is not in the table"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Zona 1 (Z1) — perché non è in tabella"
+          }
+        }
+      }
+    },
+    "paces.note.zone1.body" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daniels does not assign a specific pace to Z1: E-pace (Z2, 59-74% VO2max) already covers the entire low-intensity range, including active recovery. On recovery days, run at the lower end of E-pace without a precise target — the goal is to move, not to train."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Daniels non assegna un ritmo specifico alla Z1: l'E-pace (Z2, 59-74% VO2max) copre già tutto il range di bassa intensità, recupero attivo incluso. Nei giorni di recupero corri al limite inferiore dell'E-pace senza un target preciso — l'obiettivo è muoversi, non allenare."
+          }
+        }
+      }
+    },
+    "paces.rpe" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RPE %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "RPE %@"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "paces.section.notes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notes"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Note"
           }
         }
       }
@@ -931,6 +3927,12 @@
             "state" : "translated",
             "value" : "Current Pace: **%@**"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Passo Attuale: **%@**"
+          }
         }
       }
     },
@@ -941,20 +3943,286 @@
             "state" : "translated",
             "value" : "Target pace: **%@**"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Passo Target: **%@**"
+          }
         }
       }
     },
+    "pdf.athlete.vdot" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Current VDOT"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "VDOT ATTUALE"
+          }
+        }
+      }
+    },
+    "pdf.footer" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Powered by Personal Best Running • Scientific logic based on Jack Daniel's VDOT system and 80/20 bias"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Generato da Personal Best Running • Logiche scientifiche basate sul sistema VDOT di Jack Daniels e polarizzazione 80/20"
+          }
+        }
+      }
+    },
+    "pdf.header.info" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ • Target: %2$@ • %3$lld Weeks • Race: %4$@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ • Obiettivo: %2$@ • %3$lld Settimane • Gara: %4$@"
+          }
+        }
+      }
+    },
+    "pdf.header.totalDistance" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TOTAL PROGRAM DISTANCE: %1$@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "DISTANZA TOTALE DEL PROGRAMMA: %1$@"
+          }
+        }
+      }
+    },
+    "pdf.paces.easy" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Easy (E)"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "pdf.paces.header" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "REFERENCE TRAINING PACES"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "RITMI DI ALLENAMENTO DI RIFERIMENTO"
+          }
+        }
+      }
+    },
+    "pdf.paces.interval" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Interval (I)"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "pdf.paces.marathon" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Marathon (M)"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "pdf.paces.repetition" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Repetition (R)"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "pdf.paces.threshold" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Threshold (T)"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "pdf.title" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Training Plan: %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Piano di Allenamento: %@"
+          }
+        }
+      }
+    },
+    "pdf.week.header" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "WEEK %1$lld"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "SETTIMANA %1$lld"
+          }
+        }
+      }
+    },
+    "pdf.week.volume" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volume: %1$@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Volume: %1$@"
+          }
+        }
+      }
+    },
+    "pdf.workout.rpe" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "RPE"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
     "Per domande relative ai presenti Termini, è possibile contattarci a:" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For questions regarding these Terms, you may contact us at:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Per domande relative ai presenti Termini, è possibile contattarci a:"
+          }
+        }
+      }
     },
     "Per evitare interferenze con il tuo calendario principale, il piano di allenamento sarà scritto su un nuovo calendario denominato **PB Running**" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To avoid interference with your main calendar, the training plan will be written on a new calendar called **PB Running**"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Per evitare interferenze con il tuo calendario principale, il piano di allenamento sarà scritto su un nuovo calendario denominato **PB Running**"
+          }
+        }
+      }
     },
     "Per gli utenti nell'Unione Europea, operiamo in conformità con il Regolamento Generale sulla Protezione dei Dati (GDPR). Poiché non raccogliamo dati personali, la maggior parte dei diritti GDPR (come l'accesso ai server o la portabilità) non si applica. Mantieni comunque il pieno controllo eliminando l'app o pulendo i dati sul telefono." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For users in the European Union, we comply with the General Data Protection Regulation (GDPR). Since we do not collect personal data, most GDPR rights (such as server access or data portability) do not apply. You still retain full control by deleting the app or clearing the data on your phone."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Per gli utenti nell'Unione Europea, operiamo in conformità con il Regolamento Generale sulla Protezione dei Dati (GDPR). Poiché non raccogliamo dati personali, la maggior parte dei diritti GDPR (come l'accesso ai server o la portabilità) non si applica. Mantieni comunque il pieno controllo eliminando l'app o pulendo i dati sul telefono."
+          }
+        }
+      }
     },
     "Perché i ritmi si basano sul VDOT attuale" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Why are the paces based on the current VDOT?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Perché i ritmi si basano sul VDOT attuale"
+          }
+        }
+      }
     },
     "Performance Attuale" : {
       "localizations" : {
@@ -963,26 +4231,97 @@
             "state" : "translated",
             "value" : "Current Performance"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Performance Attuale"
+          }
         }
       }
     },
     "Personal Best Running" : {
-
+      "shouldTranslate" : false
     },
     "Personal Best Running è disponibile in tutto il mondo. Poiché tutti i dati rimangono sul tuo dispositivo, non avviene alcun trasferimento internazionale di dati." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal Best Running is available worldwide. Since all data remains on your device, there is no international data transfer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Personal Best Running è disponibile in tutto il mondo. Poiché tutti i dati rimangono sul tuo dispositivo, non avviene alcun trasferimento internazionale di dati."
+          }
+        }
+      }
     },
     "Personal Best Running è progettata mettendo la privacy al primo posto:" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal Best Running is designed with privacy first:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Personal Best Running è progettata mettendo la privacy al primo posto:"
+          }
+        }
+      }
     },
     "Personal Best Running è uno strumento dedicato ai runner che permette di creare  piani di allenamento personalizzati." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal Best Running is a tool for runners that allows them to create personalized training plans."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Personal Best Running è uno strumento dedicato ai runner che permette di creare  piani di allenamento personalizzati."
+          }
+        }
+      }
     },
     "Personal Best Running non raccoglie intenzionalmente informazioni personali da minori di 13 anni. L'app è progettata per appassionati di corsa di tutte le età e non raccoglie dati identificativi di alcun utente." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal Best Running does not knowingly collect personal information from children under 13. The app is designed for running enthusiasts of all ages and does not collect personally identifiable information from any user."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Personal Best Running non raccoglie intenzionalmente informazioni personali da minori di 13 anni. L'app è progettata per appassionati di corsa di tutte le età e non raccoglie dati identificativi di alcun utente."
+          }
+        }
+      }
     },
     "Personal Best Running viene fornita \"così com'è\" senza garanzie di alcun tipo. **Lo sviluppatore è esonerato da qualsiasi responsabilità per danni, infortuni, lesioni fisiche o problemi di salute derivanti direttamente o indirettamente dall'esecuzione dei piani di allenamento** ottenuti tramite l'applicazione." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal Best Running is provided \"as is\" without warranties of any kind. **The developer is exempt from any liability for damages, injuries, physical injuries, or health problems resulting directly or indirectly from the execution of the training plans** obtained through the application."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Personal Best Running viene fornita \"così com'è\" senza garanzie di alcun tipo. **Lo sviluppatore è esonerato da qualsiasi responsabilità per danni, infortuni, lesioni fisiche o problemi di salute derivanti direttamente o indirettamente dall'esecuzione dei piani di allenamento** ottenuti tramite l'applicazione."
+          }
+        }
+      }
     },
     "Piano" : {
       "localizations" : {
@@ -991,23 +4330,114 @@
             "state" : "translated",
             "value" : "Plan"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Piano"
+          }
         }
       }
     },
     "Poiché tutti i dati sono memorizzati localmente sul tuo dispositivo, hai il controllo totale:" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Since all data is stored locally on your device, you have complete control:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Poiché tutti i dati sono memorizzati localmente sul tuo dispositivo, hai il controllo totale:"
+          }
+        }
+      }
     },
     "Potremmo aggiornare questa Informativa sulla Privacy di tanto in tanto. Le modifiche verranno pubblicate all'interno dell'app e la data di \"Ultimo aggiornamento\" verrà modificata. L'uso continuato dell'app implica l'accettazione della policy aggiornata." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We may update this Privacy Policy from time to time. Changes will be posted within the app, and the \"Last Updated\" date will be updated. Your continued use of the app constitutes acceptance of the updated policy."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Potremmo aggiornare questa Informativa sulla Privacy di tanto in tanto. Le modifiche verranno pubblicate all'interno dell'app e la data di \"Ultimo aggiornamento\" verrà modificata. L'uso continuato dell'app implica l'accettazione della policy aggiornata."
+          }
+        }
+      }
     },
     "Preferenze" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preferences"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Preferenze"
+          }
+        }
+      }
+    },
+    "Prestazioni di alto livello. L'ottimizzazione riguarda dettagli fisiologici fini: periodizzazione, recupero e picco di forma." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "High-level performance. Optimization involves fine physiological details: periodization, recovery, and peak fitness."
+          }
+        }
+      }
     },
     "Previsioni dal VDOT Attuale" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Predictions from Current VDOT"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Previsioni dal VDOT Attuale"
+          }
+        }
+      }
+    },
+    "Principiante" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beginner"
+          }
+        }
+      }
     },
     "Privacy e Sicurezza" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy & Security"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Privacy e Sicurezza"
+          }
+        }
+      }
     },
     "Profilo" : {
       "localizations" : {
@@ -1015,6 +4445,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Profile"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Profilo"
           }
         }
       }
@@ -1026,41 +4462,174 @@
             "state" : "translated",
             "value" : "Athlete Profile"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Profilo Atleta"
+          }
         }
       }
     },
-    "Puoi cliccare su ogni sessione per avere indicazioni sul modo di affrontarla." : {
-
-    },
     "Puoi disinstallare l'app per rimuovere completamente ogni traccia dei dati" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can uninstall the app to completely remove all traces of data."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Puoi disinstallare l'app per rimuovere completamente ogni traccia dei dati"
+          }
+        }
+      }
     },
     "Puoi eliminare i dati dei piani di allenamento direttamente dall'app" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can delete your training plan data directly from the app"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Puoi eliminare i dati dei piani di allenamento direttamente dall'app"
+          }
+        }
+      }
+    },
+    "Puoi toccare ogni sessione per avere indicazioni sul modo di affrontarla." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can tap on each session for guidance on how to approach it."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Puoi toccare ogni sessione per avere indicazioni sul modo di affrontarla."
+          }
+        }
+      }
     },
     "Questa Informativa sulla Privacy spiega come **Personal Best Running** (\"noi\", \"nostro\" o \"l'app\") gestisce le tue informazioni quando utilizzi la nostra applicazione per la creazione dei piani di allenamento." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This Privacy Policy explains how **Personal Best Running** (“we”, “our” or “the app”) handles your information when you use our training plan creation application."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Questa Informativa sulla Privacy spiega come **Personal Best Running** (\"noi\", \"nostro\" o \"l'app\") gestisce le tue informazioni quando utilizzi la nostra applicazione per la creazione dei piani di allenamento."
+          }
+        }
+      }
     },
     "Queste informazioni sono memorizzate unicamente sul tuo dispositivo utilizzando l'archiviazione locale sicura di iOS e non vengono mai trasmesse ai nostri server." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This information is stored solely on your device using secure iOS local storage and is never transmitted to our servers."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Queste informazioni sono memorizzate unicamente sul tuo dispositivo utilizzando l'archiviazione locale sicura di iOS e non vengono mai trasmesse ai nostri server."
+          }
+        }
+      }
     },
     "Regola del 10%" : {
-
-    },
-    "Regole di Volume" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10% rule"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Regola del 10%"
+          }
+        }
+      }
     },
     "Ricordare le tue impostazioni preferite" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remember your favorite settings"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Ricordare le tue impostazioni preferite"
+          }
+        }
+      }
     },
     "Rispettare i diritti di proprietà intellettuale relativi ai contenuti dell'app" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respect intellectual property rights relating to the content of the app"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Rispettare i diritti di proprietà intellettuale relativi ai contenuti dell'app"
+          }
+        }
+      }
     },
     "Rispettiamo la tua privacy e ci impegniamo a proteggere i tuoi dati personali. Questa informativa ti aiuterà a comprendere i tuoi diritti alla privacy e come la legge ti tutela." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We respect your privacy and are committed to protecting your personal data. This policy will help you understand your privacy rights and how the law protects you."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Rispettiamo la tua privacy e ci impegniamo a proteggere i tuoi dati personali. Questa informativa ti aiuterà a comprendere i tuoi diritti alla privacy e come la legge ti tutela."
+          }
+        }
+      }
     },
     "Risponderemo alle richieste relative alla privacy entro 30 giorni." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We will respond to privacy requests within 30 days."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Risponderemo alle richieste relative alla privacy entro 30 giorni."
+          }
+        }
+      }
     },
     "Ritmi" : {
       "localizations" : {
@@ -1069,23 +4638,85 @@
             "state" : "translated",
             "value" : "Paces"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Ritmi"
+          }
         }
       }
     },
-    "RPE %@" : {
-
-    },
     "RPE: %@" : {
-
+      "shouldTranslate" : false
+    },
+    "Scala RPE" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RPE scale"
+          }
+        }
+      }
     },
     "Scarico" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taper Phase"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Scarico"
+          }
+        }
+      }
     },
     "Se hai domande su questa Informativa sulla Privacy o sui tuoi diritti, non esitare a contattarci:" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If you have any questions about this Privacy Policy or your rights, please contact us:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Se hai domande su questa Informativa sulla Privacy o sui tuoi diritti, non esitare a contattarci:"
+          }
+        }
+      }
     },
     "Sec" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sec"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sec"
+          }
+        }
+      }
+    },
+    "Sei un runner allenato con capacità aerobica elevata. Sessioni I e R producono adattamenti significativi a questo livello." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're a trained runner with high aerobic capacity. Sessions I and R produce significant adaptations at this level."
+          }
+        }
+      }
     },
     "Settimana %lld – %@" : {
       "localizations" : {
@@ -1110,11 +4741,50 @@
             "state" : "translated",
             "value" : "Measuring system"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sistema di misura"
+          }
+        }
+      }
+    },
+    "Stai costruendo le fondamenta. L'obiettivo principale è la continuità: completare le sessioni con regolarità è più importante del ritmo." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're building the foundation. The main goal is consistency: completing sessions regularly is more important than pacing."
+          }
+        }
+      }
+    },
+    "Stima Attuale" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Current Estimate"
+          }
         }
       }
     },
     "Stime basate sul VDOT %@, indipendentemente dalla distanza obiettivo del piano." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estimates based on VDOT %@, regardless of target plan distance."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Stime basate sul VDOT %@, indipendentemente dalla distanza obiettivo del piano."
+          }
+        }
+      }
     },
     "structuredSets.hillRepeat" : {
       "extractionState" : "extracted_with_value",
@@ -1320,11 +4990,31 @@
         }
       }
     },
-    "Struttura del Piano" : {
-
-    },
     "Subito sotto, trovi il piano vero e proprio. Rappresenta un percorso articolato in quattro fasi che si sviluppano ai parametri indicati, calcolando la timeline che ti separa dal giorno della gara." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Immediately below, you'll find the actual plan. It represents a four-phase process that unfolds according to the parameters indicated, calculating the timeline that separates you from race day."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Subito sotto, trovi il piano vero e proprio. Rappresenta un percorso articolato in quattro fasi che si sviluppano ai parametri indicati, calcolando la timeline che ti separa dal giorno della gara."
+          }
+        }
+      }
+    },
+    "Target" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Target"
+          }
+        }
+      }
     },
     "Tempo non realistico per %@. Range accettato: %@ – %@" : {
       "localizations" : {
@@ -1349,11 +5039,30 @@
             "state" : "translated",
             "value" : "Finish Target Time"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Tempo Target"
+          }
         }
       }
     },
     "Termini di utilizzo" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms of service"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Termini di utilizzo"
+          }
+        }
+      }
     },
     "Termini di Utilizzo" : {
       "localizations" : {
@@ -1361,6 +5070,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Terms of service"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Termini di Utilizzo"
+          }
+        }
+      }
+    },
+    "Toccando i simboli \"∨\" nel calendario, la vista si espande per mostrare le singole sessioni di allenamento." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tapping the “∨” symbols in the calendar expands the view to show individual training sessions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Toccando i simboli \"∨\" nel calendario, la vista si espande per mostrare le singole sessioni di allenamento."
           }
         }
       }
@@ -1502,7 +5233,20 @@
       }
     },
     "Ultimo aggiornamento: 20 maggio 2026" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last updated: May 20, 2026"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Ultimo aggiornamento: 20 maggio 2026"
+          }
+        }
+      }
     },
     "Una preparazione adeguata richiede almeno 12 settimane" : {
       "localizations" : {
@@ -1511,11 +5255,30 @@
             "state" : "translated",
             "value" : "Adequate preparation takes at least 12 weeks"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Una preparazione adeguata richiede almeno 12 settimane"
+          }
         }
       }
     },
     "Una volta scelto il numero di allenamenti a settimana puoi premere il bottone **Genera PIano**: in questo modo saranno generati i dati necessari per la pianificazione e le altre schede saranno popolate." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Once you have chosen the number of workouts per week, you can press the **Create Plan** button: this will generate the data necessary for planning and populate the other tabs."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Una volta scelto il numero di allenamenti a settimana puoi premere il bottone **Genera PIano**: in questo modo saranno generati i dati necessari per la pianificazione e le altre schede saranno popolate."
+          }
+        }
+      }
     },
     "UnitSystem.label.imperial" : {
       "extractionState" : "extracted_with_value",
@@ -1552,22 +5315,74 @@
       }
     },
     "Utilizzare l'app esclusivamente per scopi leciti e personali" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use the app only for lawful and personal purposes."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Utilizzare l'app esclusivamente per scopi leciti e personali"
+          }
+        }
+      }
     },
     "VDOT" : {
-
+      "shouldTranslate" : false
     },
     "VDOT %@" : {
-
+      "shouldTranslate" : false
     },
-    "VDOT e sesso" : {
-
+    "VDOT e sesso biologico" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VDOT and biological sex"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "VDOT e sesso biologico"
+          }
+        }
+      }
     },
     "Versione: " : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Versione: "
+          }
+        }
+      }
     },
     "Verso %@" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Towards %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Verso %@"
+          }
+        }
+      }
     },
     "volume" : {
       "localizations" : {
@@ -1576,11 +5391,30 @@
             "state" : "translated",
             "value" : "volume"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "volume"
+          }
         }
       }
     },
     "Volume iniziale per distanza e livello" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Initial volume for distance and level"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Volume iniziale per distanza e livello"
+          }
+        }
+      }
     },
     "weeklyNote.baseDeload" : {
       "extractionState" : "extracted_with_value",
@@ -1908,6 +5742,12 @@
     "workoutTitle.easyRecovery" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Easy Run (Recovery)"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "new",
@@ -1919,6 +5759,12 @@
     "workoutTitle.postRaceRest" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post-race recovery"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "new",
@@ -1930,6 +5776,12 @@
     "workoutTitle.racePace" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Race Pace"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "new",

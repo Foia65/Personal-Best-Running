@@ -84,7 +84,7 @@ struct HelpView: View {
                 Text("Subito sotto, trovi il piano vero e proprio. Rappresenta un percorso articolato in quattro fasi che si sviluppano ai parametri indicati, calcolando la timeline che ti separa dal giorno della gara.")
                     .font(.body)
                 
-                Text("Cliccando sulle settimane, la vista si espande per mostrare le singole sessioni di allenamento.")
+                Text("Toccando i simboli \"∨\" nel calendario, la vista si espande per mostrare le singole sessioni di allenamento.")
                     .font(.body)
                 
                 Image("calendario")
@@ -92,7 +92,7 @@ struct HelpView: View {
                     .scaledToFit()
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                 
-                Text("Puoi cliccare su ogni sessione per avere indicazioni sul modo di affrontarla.")
+                Text("Puoi toccare ogni sessione per avere indicazioni sul modo di affrontarla.")
                     .font(.body)
                 
                 Image("dettaglio")
@@ -100,7 +100,7 @@ struct HelpView: View {
                     .scaledToFit()
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                 
-                Text("\nAlla fine del piano, trovi due bottoni per esportarlo in formato PDF o per scriverlo direttamente sul tuo calendario.")
+                Text("\nSotto il piano, trovi due bottoni per esportarlo in formato PDF o per scriverlo direttamente sul tuo calendario.")
                     .font(.body)
                 
                 Image("condivisione")
@@ -151,9 +151,9 @@ struct HelpView: View {
                     
                     Label("**Calcolo del VDOT:** Visualizza il tuo punteggio VDOT corrente, calcolato  incrociando la tua distanza di riferimento con il tuo ultimo tempo cronometrato.", systemImage: "waveform.path.ecg")
 
-                    Label("**Il tuo livello** attuale basato su VDOT, sesso biologico,distribuzione percentile dei finishing time nelle maratone di massa (RunRepeat Global Report 2023) e sulle tabelle age-grading di WMA (World Masters Athletics)", systemImage: "person.circle.fill")
+                    Label("**Il tuo livello** attuale basato su VDOT, sesso biologico,distribuzione percentile dei finishing time nelle maratone di massa (RunRepeat Global Report 2023) e sulle tabelle age-grading di WMA (World Masters Athletics)", systemImage: "person.circle")
                     
-                    Label("Le **Previsioni** dei tuoi tempi stimati sulle distanze standard, basate sul tuo VDOT attuale.", systemImage: "stopwatch.fill")
+                    Label("Le **Previsioni** dei tuoi tempi stimati sulle distanze standard, basate sul tuo VDOT attuale.", systemImage: "stopwatch")
 
                     Label("**Trend VDOT:** Monitora la tua progressione atletica e scopri quanto manca per raggiungere il livello successivo.", systemImage: "chart.line.uptrend.xyaxis")
                     
