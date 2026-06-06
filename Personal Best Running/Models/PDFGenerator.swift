@@ -220,7 +220,8 @@ class TrainingPlanPDFGenerator {
                 ),
                 locale: locale,
                 arguments: [week.weekNumber]
-            ).uppercased()
+            )
+                .uppercased()
             weekTitle.draw(
                 at: CGPoint(x: margin, y: currentY),
                 withAttributes: [.font: UIFont.boldSystemFont(ofSize: 12)]

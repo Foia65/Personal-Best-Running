@@ -66,7 +66,11 @@ struct PacesView: View {
                     )
                 }
             } header: {
-                Text("paces.header", tableName: nil)
+//                Text(AppLocalizedString.resolve(
+//                    LocalizedStringResource("paces.header", defaultValue: "Training Paces"),
+//                    locale: locale
+//                ))
+                Text("Ritmi di Allenamento")
                     .padding(.top, 20)
 
             } footer: {
@@ -140,7 +144,10 @@ struct PacesView: View {
                     )
                 )
             } header: {
-                Text("paces.section.notes", tableName: nil)
+                Text(AppLocalizedString.resolve(
+                    LocalizedStringResource("paces.section.notes", defaultValue: "Note"),
+                    locale: locale
+                ))
             }
         }
     }
@@ -152,8 +159,8 @@ struct PaceRow: View {
     let pace: String
     let rpe: String
     let detail: String
-    var rpeText: String? = nil
-    var name: String? = nil
+    var rpeText: String?
+    var name: String?
 
     private var resolvedRpeText: String {
         rpeText ?? "RPE \(rpe)"
@@ -224,7 +231,7 @@ struct NoteRow: View {
     let title: String
     let text: String
     // Opzionale: se specificata, mostra un MethodologyButton accanto al titolo.
-    var methodologySection: MethodologySection? = nil
+    var methodologySection: MethodologySection? 
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {

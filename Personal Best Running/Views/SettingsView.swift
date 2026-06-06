@@ -3,7 +3,7 @@ import Combine
 
 class LanguageManager: ObservableObject {
     // Salva l'identificatore della lingua (es. "it", "en") in UserDefaults
-    @AppStorage("selected_language") var selectedLanguage: String = "it" {
+    @AppStorage("selected_language") var selectedLanguage: String = "en" {
         didSet {
             // Notifica i cambiamenti alle viste
             objectWillChange.send()

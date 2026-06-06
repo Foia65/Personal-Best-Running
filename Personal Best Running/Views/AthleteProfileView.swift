@@ -12,8 +12,10 @@ import SwiftUI
 struct AthleteProfileView: View {
     let plan: TrainingPlan
 
+    @AppStorage("runnerSex") private var runnerSex: RunnerSex = .male
+
     private var vdot: Double {plan.paces.vdot}
-    private var sex: RunnerSex {plan.input.sex}
+    private var sex: RunnerSex {runnerSex}
     private var level: RunnerLevel {sex.runnerLevel(vdot: vdot)}
 
     var body: some View {
@@ -335,7 +337,7 @@ struct RunnerLevelDescriptionView: View {
             distance: .tenK,
             time: 55 * 60
         ),
-        sex: .male
+        sex: .female
     )
     
     let samplePlan = TrainingPlanGenerator().generate(input: sampleInput)

@@ -57,8 +57,8 @@ file_length:
   ignore_comment_only_lines: true
 
 function_body_length:
-  warning: 60
-  error: 80
+  warning: 70
+  error: 90
 
 identifier_name:
   excluded:

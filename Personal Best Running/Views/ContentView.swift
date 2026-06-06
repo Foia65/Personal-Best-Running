@@ -275,15 +275,14 @@ struct PlanInputView: View {
                     }
                 }
                 header: {
-                    Text("Gara Target")
+                    Text("GARA TARGET")
                         .padding(.top, 20)
                 }
                 .listRowInsets(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
-
-                .listRowBackground(Color.orange.opacity(0.05)) // Only this row is yellow
+                .listRowBackground(Color.secondary.opacity(0.05))
                 .id("top")
-
-                Section("Tempo Target") {
+                
+                Section("TEMPO TARGET") {
                     HStack {
                         Spacer()
                         Picker("Ore", selection: $targetHours) {
@@ -323,10 +322,10 @@ struct PlanInputView: View {
                         .foregroundStyle(.red)
                     }
                 }
-                .listRowBackground(Color.blue.opacity(0.05))
+                .listRowBackground(Color.secondary.opacity(0.05))
                 .listRowInsets(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
                 
-                Section("Performance Attuale") {
+                Section("PERFORMANCE ATTUALE") {
                     Picker("Distanza di riferimento", selection: $currentDistance) {
                         ForEach(RaceDistance.allCases) { dist in
                             Text(dist.localizedName).tag(dist)
@@ -371,13 +370,13 @@ struct PlanInputView: View {
                         .foregroundStyle(.red)
                     }
                 }
-                .listRowBackground(Color.green.opacity(0.05))
+                .listRowBackground(Color.secondary.opacity(0.05))
                 .listRowInsets(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
 
-                Section("Giorni di Allenamento") {
+                Section("GIORNI DI ALLENAMENTO") {
                     Stepper("Giorni alla settimana: \(trainingDays)", value: $trainingDays, in: 3...6)
                 }
-                .listRowBackground(Color.indigo.opacity(0.05))
+                .listRowBackground(Color.secondary.opacity(0.05))
                 .listRowInsets(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
 
                 Section {
@@ -394,7 +393,7 @@ struct PlanInputView: View {
                     .controlSize(.large)
                     .disabled(isGenerateDisabled)
                     .listRowInsets(EdgeInsets())
-                    
+
                     if isPreparationTooShort {
                         Text("La preparazione richiede almeno 12 settimane. Seleziona una data successiva al \(Calendar.current.date(byAdding: .weekOfYear, value: 12, to: Date())?.formatted(date: .abbreviated, time: .omitted) ?? "")")
                             .font(.footnote)
@@ -413,9 +412,12 @@ struct PlanInputView: View {
                             proxy.scrollTo("top", anchor: .top)
                         }
                     } label: {
-                        Text("🗑️ Azzera e ricomincia")
-                            .font(.footnote)
-                            .frame(maxWidth: .infinity)
+                        HStack {
+                            Image(systemName: "arrow.counterclockwise")
+                            Text("Azzera e ricomincia")
+                                .font(.footnote)
+                        }
+                        .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.borderless)
                     .padding(.top, 8)

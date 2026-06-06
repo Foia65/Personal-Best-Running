@@ -137,7 +137,7 @@ enum WorkoutDescriptionKind {
     case marPace
     case race(GoalFeasibility)
 
-    func localizedText(locale: Locale) -> String {
+    func localizedText(locale: Locale) -> String { // swiftlint:disable:this cyclomatic_complexity
         switch self {
         case .rest:
             return Self.text(

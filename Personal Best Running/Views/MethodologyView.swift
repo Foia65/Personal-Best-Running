@@ -81,7 +81,7 @@ enum MethodologySection: String, CaseIterable {
 struct MethodologyView: View {
     // Sezione su cui fare scroll all'apertura.
     // nil = nessuno scroll automatico (apertura da Settings).
-    var scrollTo: MethodologySection? = nil
+    var scrollTo: MethodologySection?
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.locale) private var locale

@@ -147,22 +147,6 @@
         }
       }
     },
-    "🗑️ Azzera e ricomincia" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "🗑️ Reset"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "🗑️ Azzera e ricomincia"
-          }
-        }
-      }
-    },
     "1 — Riposo completo. Nessuno sforzo percepito.\n\n2 — Attività leggera. Respiro normale, conversazione illimitata.\n\n3 — Facile. Si può mantenere a lungo senza difficoltà.\n\n4 — Moderato facile. Respiro profondo ma confortevole. Conversazione fluida. Corrisponde all'inizio dell'E-pace.\n\n5 — Moderato. Conversazione ancora possibile con qualche pausa. Meta-alta dell'E-pace.\n\n6 — Moderato sostenuto. Conversazione breve. Corrisponde all'M-pace.\n\n7 — Sostenuto impegnativo. \"Comfortably hard\". Frasi brevi. Corrisponde al T-pace.\n\n8 — Impegnativo. Conversazione difficile. Poche parole per volta. Corrisponde all'I-pace.\n\n9 — Molto intenso. Conversazione impossibile per più di una parola. Corrisponde all'R-pace. Non sostenibile a lungo.\n\n10 — Sforzo massimo assoluto. Sprint terminale, tutto quello che rimane." : {
       "localizations" : {
         "en" : {
@@ -746,6 +730,16 @@
         }
       }
     },
+    "Azzera e ricomincia" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset"
+          }
+        }
+      }
+    },
     "Benvenuto in **Personal Best Running**. I presenti Termini di Servizio (\"Termini\") disciplinano l'utilizzo della nostra applicazione. Scaricando, installando o utilizzando Personal Best Running, l'utente accetta di essere vincolato dai presenti Termini." : {
       "localizations" : {
         "en" : {
@@ -1300,18 +1294,12 @@
         }
       }
     },
-    "Gara Target" : {
+    "GARA TARGET" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Target Rece"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Gara Target"
+            "value" : "TARGET RACE"
           }
         }
       }
@@ -1398,18 +1386,12 @@
         }
       }
     },
-    "Giorni di Allenamento" : {
+    "GIORNI DI ALLENAMENTO" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Training days"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Giorni di Allenamento"
+            "value" : "TRAINING DAYS"
           }
         }
       }
@@ -3734,22 +3716,6 @@
         }
       }
     },
-    "paces.header" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Training Paces"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Ritmi di Allenamento"
-          }
-        }
-      }
-    },
     "paces.note.howCalculated" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -3905,6 +3871,7 @@
       "shouldTranslate" : false
     },
     "paces.section.notes" : {
+      "extractionState" : "extracted_with_value",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4224,18 +4191,12 @@
         }
       }
     },
-    "Performance Attuale" : {
+    "PERFORMANCE ATTUALE" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Current Performance"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Performance Attuale"
+            "value" : "CURRENT PERFORMANCE"
           }
         }
       }
@@ -4647,6 +4608,16 @@
         }
       }
     },
+    "Ritmi di Allenamento" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Training paces"
+          }
+        }
+      }
+    },
     "RPE: %@" : {
       "shouldTranslate" : false
     },
@@ -5032,18 +5003,12 @@
         }
       }
     },
-    "Tempo Target" : {
+    "TEMPO TARGET" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Finish Target Time"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Tempo Target"
+            "value" : "FINISH TARGET TIME"
           }
         }
       }
