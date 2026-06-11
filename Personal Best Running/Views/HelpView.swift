@@ -35,7 +35,7 @@ struct HelpView: View {
     
     private var introductionSection: some View {
         Section {
-            Text("Benvenuto in Personal Best Running! Questa applicazione ti aiuta a generare un piano di allenamento personalizzato basato sul metodo VDOT di Jack Daniels.")
+            Text("Benvenuto in Personal Best Running!\nQuesta applicazione ti aiuta a generare un piano di allenamento personalizzato basato sul metodo VDOT di Jack Daniels.")
                 .font(.body)
                 .padding(.vertical, 4)
         } header: {
@@ -173,4 +173,5 @@ struct HelpView: View {
 
 #Preview {
     HelpView()
+        .environment(\.locale, .init(identifier: "EN"))
 }

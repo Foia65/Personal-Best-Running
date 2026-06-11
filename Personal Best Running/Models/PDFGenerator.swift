@@ -371,7 +371,7 @@ class TrainingPlanPDFGenerator {
         let footerStr = AppLocalizedString.resolve(
             LocalizedStringResource(
                 "pdf.footer",
-                defaultValue: "Generato da Personal Best Running • Logiche scientifiche basate sul sistema VDOT di Jack Daniels e polarizzazione 80/20"
+                defaultValue: "Generato da Personal Best Running"
             ),
             locale: locale
         )

@@ -273,7 +273,7 @@ struct MethodologyView: View {
             )
             .id(MethodologySection.zoneR.rawValue)
         }         header: {
-            Text(AppLocalizedString.resolve(LocalizedStringResource("methodology.section.zones", defaultValue: "5 Zone di Daniels"), locale: locale))
+            Text(AppLocalizedString.resolve(LocalizedStringResource("methodology.section.zones", defaultValue: "Le 5 Zone di Daniels"), locale: locale))
         }
     }
 
@@ -305,7 +305,7 @@ struct MethodologyView: View {
             MethodologyCard(
                 symbol: "slider.horizontal.3",
                 color: .secondary,
-                title: "Scala RPE",
+                title: "La Scala RPE",
                 corpo: """
                     1 — Riposo completo. Nessuno sforzo percepito.
 

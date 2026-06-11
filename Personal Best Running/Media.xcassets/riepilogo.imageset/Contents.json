@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "riepilogo.png",
+      "filename" : "Simulator Screenshot - iPhone 17 Pro - 2026-06-10 at 17.18.32.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -12,10 +12,45 @@
     {
       "idiom" : "universal",
       "scale" : "3x"
+    },
+    {
+      "filename" : "Simulator Screenshot - iPhone 17 Pro - 2026-06-10 at 17.18.32 1.png",
+      "idiom" : "universal",
+      "locale" : "en",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "en",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "en",
+      "scale" : "3x"
+    },
+    {
+      "filename" : "Untitled.jpg",
+      "idiom" : "universal",
+      "locale" : "it",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "it",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "it",
+      "scale" : "3x"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "localizable" : true
   }
 }

@@ -58,18 +58,12 @@
         }
       }
     },
-    "**Si raccomanda vivamente di consultare un medico professionista o uno specialista prima di iniziare qualsiasi piano di allenamento**, di modificare le proprie abitudini di esercizio fisico o se si hanno dubbi sulle proprie condizioni di salute generali. " : {
+    "**Si raccomanda vivamente di consultare un medico professionista o uno specialista prima di iniziare qualsiasi piano di allenamento, di modificare le proprie abitudini di esercizio fisico o se si hanno dubbi sulle proprie condizioni di salute generali.**" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "**It is strongly recommended that you consult a medical professional or healthcare provider before starting any exercise plan**, changing your exercise habits, or if you have any concerns about your general health."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "**Si raccomanda vivamente di consultare un medico professionista o uno specialista prima di iniziare qualsiasi piano di allenamento**, di modificare le proprie abitudini di esercizio fisico o se si hanno dubbi sulle proprie condizioni di salute generali. "
+            "value" : "**It is strongly recommended that you consult a medical professional or healthcare provider before starting any exercise plan, changing your exercise habits, or if you have any concerns about your general health.**"
           }
         }
       }
@@ -152,7 +146,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "1 — Complete rest. No perceived exertion."
+            "value" : "1 — Complete rest. No perceived exertion.\n\n2 — Light activity. Normal breathing, unlimited conversation.\n\n3 — Easy. Can be maintained for a long time without difficulty.\n\n4 — Moderate easy. Deep but comfortable breathing. Fluid conversation. Corresponds to the beginning of E-pace (Easy pace).\n\n5 — Moderate. Conversation still possible with a few pauses. Mid-to-high E-pace.\n\n6 — Steady moderate. Short conversation. Corresponds to M-pace (Marathon pace).\n\n7 — Hard steady. \"Comfortably hard\". Short sentences. Corresponds to T-pace (Threshold pace).\n\n8 — Hard. Difficult conversation. Only a few words at a time. Corresponds to I-pace (Interval pace).\n\n9 — Very intense. Conversation impossible for more than a single word. Corresponds to R-pace (Repetition pace). Cannot be sustained for long.\n\n10 — Maximal effort. Terminal sprint, everything you have left."
           }
         }
       }
@@ -237,22 +231,6 @@
         }
       }
     },
-    "3. Disclaimer Medico Importante" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "3. Important Medical Disclaimer"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "3. Disclaimer Medico Importante"
-          }
-        }
-      }
-    },
     "3. I tuoi Ritmi Personalizzati" : {
       "localizations" : {
         "en" : {
@@ -265,6 +243,16 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "3. I tuoi Ritmi Personalizzati"
+          }
+        }
+      }
+    },
+    "3. Proprietà Intellettuale e Fonti Scientifiche" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3. Intellectual Property and Scientific Sources"
           }
         }
       }
@@ -301,6 +289,16 @@
         }
       }
     },
+    "4. Disclaimer Medico Importante" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4. Important Medical Disclaimer"
+          }
+        }
+      }
+    },
     "4. Profilo Atleta" : {
       "localizations" : {
         "en" : {
@@ -317,37 +315,15 @@
         }
       }
     },
-    "4. Responsabilità dell'Utente" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "4. User Responsibilities"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "4. Responsabilità dell'Utente"
-          }
-        }
-      }
-    },
     "5 km" : {
       "shouldTranslate" : false
     },
-    "5. Limitazione di Responsabilità" : {
+    "5. Responsabilità dell'Utente" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "5. Limitation of Liability"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "5. Limitazione di Responsabilità"
+            "value" : "5. User Responsibilities"
           }
         }
       }
@@ -368,22 +344,6 @@
         }
       }
     },
-    "6. Aggiornamenti e Modifiche" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "6. Updates and Changes"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "6. Aggiornamenti e Modifiche"
-          }
-        }
-      }
-    },
     "6. I Tuoi Diritti sulla Privacy" : {
       "localizations" : {
         "en" : {
@@ -396,6 +356,26 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "6. I Tuoi Diritti sulla Privacy"
+          }
+        }
+      }
+    },
+    "6. Limitazione di Responsabilità" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6. Limitation of Liability"
+          }
+        }
+      }
+    },
+    "7. Aggiornamenti e Modifiche" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "7. Updates and Changes"
           }
         }
       }
@@ -416,34 +396,12 @@
         }
       }
     },
-    "7. Risoluzione" : {
+    "8. Risoluzione" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "7. Termination"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "7. Risoluzione"
-          }
-        }
-      }
-    },
-    "8. Contatti" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "8. Contacts"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "8. Contatti"
+            "value" : "8. Termination"
           }
         }
       }
@@ -464,18 +422,12 @@
         }
       }
     },
-    "9. Legge Applicabile" : {
+    "9. Contatti" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "9. Governing Law"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "9. Legge Applicabile"
+            "value" : "9. Contacts"
           }
         }
       }
@@ -511,6 +463,16 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "10. Contatti"
+          }
+        }
+      }
+    },
+    "10. Legge Applicabile" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10. Governing Law"
           }
         }
       }
@@ -756,18 +718,12 @@
         }
       }
     },
-    "Benvenuto in Personal Best Running! Questa applicazione ti aiuta a generare un piano di allenamento personalizzato basato sul metodo VDOT di Jack Daniels." : {
+    "Benvenuto in Personal Best Running!\nQuesta applicazione ti aiuta a generare un piano di allenamento personalizzato basato sul metodo VDOT di Jack Daniels." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welcome to Personal Best Running! This app helps you create a personalized training plan based on Jack Daniels' VDOT method"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Benvenuto in Personal Best Running! Questa applicazione ti aiuta a generare un piano di allenamento personalizzato basato sul metodo VDOT di Jack Daniels."
+            "value" : "Welcome to Personal Best Running!\nThis app helps you create a personalized training plan based on Jack Daniels' VDOT method"
           }
         }
       }
@@ -1294,6 +1250,16 @@
         }
       }
     },
+    "FREQUENZA DI ALLENAMENTO" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TRAINING FREQUENCY"
+          }
+        }
+      }
+    },
     "GARA TARGET" : {
       "localizations" : {
         "en" : {
@@ -1382,16 +1348,6 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Giorni alla settimana: %lld"
-          }
-        }
-      }
-    },
-    "GIORNI DI ALLENAMENTO" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "TRAINING DAYS"
           }
         }
       }
@@ -1691,6 +1647,16 @@
         }
       }
     },
+    "I piani di allenamento generati dall'applicazione utilizzano formule e principi di fisiologia della corsa di dominio pubblico, liberamente ispirati alle metodologie di allenamento tradizionali della corsa di fondo (tra cui i modelli di Jack Daniels)." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The training plans generated by the application use formulas and principles of running physiology that are in the public domain, freely inspired by traditional endurance running training methodologies (including Jack Daniels’ models)."
+          }
+        }
+      }
+    },
     "I presenti Termini rimangono in vigore fino alla loro risoluzione. L'utente può recedere in qualsiasi momento disinstallando l'app. Lo sviluppatore può sospendere o interrompere l'accesso alle funzionalità dell'app in caso di violazione dei presenti Termini." : {
       "localizations" : {
         "en" : {
@@ -1904,13 +1870,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The starting volume of the plan depends on both the goal distance and the runner's level (VDOT).\n\nA beginner training for a 10K (VDOT < 35) starts with ~18-25 km/week with sessions of 4-6 km. The same marathon runner starts with ~30-45 km/week.\n\nApproximate weekly thresholds by level:\n\n10K: beginner ~25 km · recreational ~42 km · intermediate ~60 km\nHM: beginner ~35 km · recreational ~55 km · intermediate ~70 km\nMar: beginner ~45 km · recreational ~65 km · intermediate ~85 km\n\nThese caps prevent disproportionate volumes for novice runners, reducing the risk of stress injuries.\nSource: Daniels [1] chap. 2, Pfitzinger [2], RunRepeat Global Report (2023)."
+            "value" : "The starting volume of the plan depends on both the goal distance and the runner's level (VDOT).\n\nA beginner training for a 10K (VDOT < 35) starts with ~18-25 km/week with sessions of 4-6 km. The same marathon runner starts with ~30-45 km/week.\n\nApproximate weekly thresholds by level:\n\n10K: beginner ~25 km · recreational ~42 km · intermediate ~60 km\nHM: beginner ~35 km · recreational ~55 km · intermediate ~70 km\nMar: beginner ~45 km · recreational ~65 km · intermediate ~85 km\n\nThese caps prevent disproportionate volumes for novice runners, reducing the risk of stress injuries.\n\nSource: Daniels [1] chap. 2, Pfitzinger [2], RunRepeat Global Report (2023)."
           }
         },
         "it" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Il volume di partenza del piano dipende sia dalla distanza obiettivo che dal livello del runner (VDOT).\n\nUn beginner che prepara una 10K (VDOT < 35) parte da ~18-25 km/settimana con sessioni da 4-6 km. Lo stesso runner su maratona parte da ~30-45 km/settimana.\n\nSoglie orientative settimanali per livello:\n\n10K: beginner ~25 km · recreational ~42 km · intermedio ~60 km\nHM:  beginner ~35 km · recreational ~55 km · intermedio ~70 km\nMar: beginner ~45 km · recreational ~65 km · intermedio ~85 km\n\nQuesti cap impediscono volumi sproporzionati per runner alle prime armi, riducendo il rischio di infortuni da stress.\nFonte: Daniels [1] cap. 2, Pfitzinger [2], RunRepeat Global Report (2023)."
+            "state" : "translated",
+            "value" : "Il volume di partenza del piano dipende sia dalla distanza obiettivo che dal livello del runner (VDOT).\n\nUn beginner che prepara una 10K (VDOT < 35) parte da ~18-25 km/settimana con sessioni da 4-6 km. Lo stesso runner su maratona parte da ~30-45 km/settimana.\n\nSoglie orientative settimanali per livello:\n\n10K: beginner ~25 km · recreational ~42 km · intermedio ~60 km\nHM:  beginner ~35 km · recreational ~55 km · intermedio ~70 km\nMar: beginner ~45 km · recreational ~65 km · intermedio ~85 km\n\nQuesti cap impediscono volumi sproporzionati per runner alle prime armi, riducendo il rischio di infortuni da stress.\n\nFonte: Daniels [1] cap. 2, Pfitzinger [2], RunRepeat Global Report (2023)."
           }
         }
       }
@@ -2142,6 +2108,16 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "La preparazione richiede almeno 12 settimane. Seleziona una data successiva al %@"
+          }
+        }
+      }
+    },
+    "La Scala RPE" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RPE scale"
           }
         }
       }
@@ -2650,7 +2626,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "5 Zone di Daniels"
+            "value" : "Le 5 Zone di Daniels"
           }
         }
       }
@@ -3331,6 +3307,16 @@
         }
       }
     },
+    "Nessun piano attivo" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No active plan"
+          }
+        }
+      }
+    },
     "Nessun problema di portabilità dei dati (non ci sono dati lato server)" : {
       "localizations" : {
         "en" : {
@@ -3564,6 +3550,9 @@
           }
         }
       }
+    },
+    "OK" : {
+      "shouldTranslate" : false
     },
     "Ore" : {
       "localizations" : {
@@ -3942,13 +3931,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Powered by Personal Best Running • Scientific logic based on Jack Daniel's VDOT system and 80/20 bias"
+            "value" : "Powered by Personal Best Running"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Generato da Personal Best Running • Logiche scientifiche basate sul sistema VDOT di Jack Daniels e polarizzazione 80/20"
+            "value" : "Generato da Personal Best Running"
           }
         }
       }
@@ -4236,18 +4225,22 @@
         }
       }
     },
-    "Personal Best Running è uno strumento dedicato ai runner che permette di creare  piani di allenamento personalizzati." : {
+    "Personal Best Running è un progetto software totalmente indipendente. L'applicazione e il suo sviluppatore non sono in alcun modo affiliati, associati, sponsorizzati, autorizzati o ufficialmente collegati a Jack Daniels, al 'Run SMART Project', ai loro partner commerciali o alle rispettive case editrici. Tutti i marchi registrati e i nomi citati appartengono ai legittimi proprietari." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Personal Best Running is a tool for runners that allows them to create personalized training plans."
+            "value" : "Personal Best Running is a completely independent software project. The application and its developer are in no way affiliated, associated, sponsored, authorized, or officially connected to Jack Daniels, the 'Run SMART Project', their business partners, or their respective publishers. All registered trademarks and names mentioned belong to their respective owners."
           }
-        },
-        "it" : {
+        }
+      }
+    },
+    "Personal Best Running è uno strumento dedicato ai runner che permette di creare piani di allenamento personalizzati." : {
+      "localizations" : {
+        "en" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Personal Best Running è uno strumento dedicato ai runner che permette di creare  piani di allenamento personalizzati."
+            "state" : "translated",
+            "value" : "Personal Best Running is a tool dedicated to runners that allows you to create personalized training plans."
           }
         }
       }
@@ -4268,18 +4261,12 @@
         }
       }
     },
-    "Personal Best Running viene fornita \"così com'è\" senza garanzie di alcun tipo. **Lo sviluppatore è esonerato da qualsiasi responsabilità per danni, infortuni, lesioni fisiche o problemi di salute derivanti direttamente o indirettamente dall'esecuzione dei piani di allenamento** ottenuti tramite l'applicazione." : {
+    "Personal Best Running viene fornita \"così com'è\" senza garanzie di alcun tipo. Lo sviluppatore è esonerato da qualsiasi responsabilità per danni, infortuni, lesioni fisiche o problemi di salute derivanti direttamente o indirettamente dall'esecuzione dei piani di allenamento ottenuti tramite l'applicazione." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Personal Best Running is provided \"as is\" without warranties of any kind. **The developer is exempt from any liability for damages, injuries, physical injuries, or health problems resulting directly or indirectly from the execution of the training plans** obtained through the application."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Personal Best Running viene fornita \"così com'è\" senza garanzie di alcun tipo. **Lo sviluppatore è esonerato da qualsiasi responsabilità per danni, infortuni, lesioni fisiche o problemi di salute derivanti direttamente o indirettamente dall'esecuzione dei piani di allenamento** ottenuti tramite l'applicazione."
+            "value" : "Personal Best Running is provided 'as is' without warranties of any kind. The developer is exempt from any liability for damages, injuries, physical harm, or health problems arising directly or indirectly from the execution of the training plans obtained through the application."
           }
         }
       }
@@ -4620,16 +4607,6 @@
     },
     "RPE: %@" : {
       "shouldTranslate" : false
-    },
-    "Scala RPE" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "RPE scale"
-          }
-        }
-      }
     },
     "Scarico" : {
       "localizations" : {
@@ -5193,6 +5170,16 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "più lento"
+          }
+        }
+      }
+    },
+    "Trascina per modificare i tempi" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drag to adjust times"
           }
         }
       }
