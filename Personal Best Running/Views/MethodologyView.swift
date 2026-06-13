@@ -83,7 +83,6 @@ struct MethodologyView: View {
     // nil = no auto-scroll (opened from Settings).
     var scrollTo: MethodologySection?
 
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.locale) private var locale
 
     var body: some View {
@@ -98,11 +97,6 @@ struct MethodologyView: View {
                      sourcesSection
                 }
                 .listStyle(.insetGrouped)
-                .toolbar {
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button("Chiudi") { dismiss() }
-                    }
-                }
                 .onAppear {
                     if let target = scrollTo {
                         // Small delay to allow List rendering
