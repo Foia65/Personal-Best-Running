@@ -6,9 +6,9 @@ struct PacesView: View {
     @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
     @Environment(\.locale) private var locale
 
-    // Righe in ordine crescente di intensità.
-    // I tipi senza ritmo proprio (rest, recovery, progression, hillRepeat, race)
-    // non appaiono qui — non hanno un pace target definito da Daniels.
+    // Rows in ascending order of intensity.
+    // Types without their own pace (rest, recovery, progression, hillRepeat, race)
+    // don't appear here — they have no pace target defined by Daniels.
     private var paceRows: [(type: WorkoutType, pace: String, rpe: String, detail: String, rpeText: String, name: String)] { // swiftlint:disable:this large_tuple
 
         let rpeResource = LocalizedStringResource("paces.rpe", defaultValue: "RPE %@")
@@ -66,10 +66,6 @@ struct PacesView: View {
                     )
                 }
             } header: {
-//                Text(AppLocalizedString.resolve(
-//                    LocalizedStringResource("paces.header", defaultValue: "Training Paces"),
-//                    locale: locale
-//                ))
                 Text("Ritmi di Allenamento")
                     .padding(.top, 20)
 
@@ -193,7 +189,7 @@ struct PaceRow: View {
                             .padding(.vertical, 2)
                             .background(type.color.opacity(0.12), in: Capsule())
                     }
-                    // Link contestuale → sezione zona corrispondente in MethodologyView
+                    // Contextual link → corresponding zone section in MethodologyView
                     if let section = type.methodologySection {
                         MethodologyButton(section: section)
                     }
@@ -230,8 +226,8 @@ struct NoteRow: View {
     let symbol: String
     let title: String
     let text: String
-    // Opzionale: se specificata, mostra un MethodologyButton accanto al titolo.
-    var methodologySection: MethodologySection? 
+    // Optional: if specified, shows a MethodologyButton next to the title.
+    var methodologySection: MethodologySection?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -264,9 +260,9 @@ struct NoteRow: View {
         ),
         sex: .male
     )
-    
+
     let samplePlan = TrainingPlanGenerator().generate(input: sampleInput)
-    
+
     NavigationStack {
         PacesView(plan: samplePlan)
     }

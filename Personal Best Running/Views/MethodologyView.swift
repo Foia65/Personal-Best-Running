@@ -3,10 +3,10 @@ import SwiftUI
 
 // MARK: - MethodologySection
 //
-// Enum delle ancore di navigazione per MethodologyView.
-// Unica fonte di verità per i link contestuali provenienti da
-// PacesView, AthleteProfileView e TrainingPlanView.
-// Ogni caso corrisponde a una Section con id in MethodologyView.
+// Navigation anchor enum for MethodologyView.
+// Single source of truth for contextual links from
+// PacesView, AthleteProfileView, and TrainingPlanView.
+// Each case corresponds to a Section with id in MethodologyView.
 
 enum MethodologySection: String, CaseIterable {
     case vdot         = "vdot"
@@ -25,7 +25,7 @@ enum MethodologySection: String, CaseIterable {
     case volumeLimits = "volume-limiti"
     case rpe          = "rpe"
     case sources      = "fonti"
-    
+
     var localizedSectionTitle: LocalizedStringResource {
         switch self {
         case .vdot:
@@ -66,26 +66,26 @@ enum MethodologySection: String, CaseIterable {
 
 // MARK: - MethodologyView
 //
-// Vista di riferimento per la metodologia di allenamento.
-// Accessibile da Settings e tramite link contestuali (ⓘ) dalle
-// viste principali. Supporta navigazione diretta a una sezione
-// tramite il parametro `scrollTo`.
+// Reference view for training methodology.
+// Accessible from Settings and via contextual links (ⓘ) from
+// the main views. Supports direct navigation to a section
+// via the `scrollTo` parameter.
 //
-// Struttura:
-//   1. Il Sistema VDOT
-//   2. Le 5 Zone di Daniels (E/M/T/I/R)
-//   3. Struttura del Piano (fasi)
-//   4. Regole di Volume
-//   5. Fonti Scientifiche
+// Structure:
+//   1. The VDOT System
+//   2. The 5 Daniels Zones (E/M/T/I/R)
+//   3. Plan Structure (phases)
+//   4. Volume Rules
+//   5. Scientific Sources
 
 struct MethodologyView: View {
-    // Sezione su cui fare scroll all'apertura.
-    // nil = nessuno scroll automatico (apertura da Settings).
+    // Section to scroll to on open.
+    // nil = no auto-scroll (opened from Settings).
     var scrollTo: MethodologySection?
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.locale) private var locale
-    
+
     var body: some View {
         NavigationStack {
             ScrollViewReader { proxy in
@@ -98,8 +98,6 @@ struct MethodologyView: View {
                      sourcesSection
                 }
                 .listStyle(.insetGrouped)
-                // .navigationTitle("Metodologia")
-                // .navigationBarTitleDisplayMode(.large)
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction) {
                         Button("Chiudi") { dismiss() }
@@ -107,7 +105,7 @@ struct MethodologyView: View {
                 }
                 .onAppear {
                     if let target = scrollTo {
-                        // Piccolo delay per permettere il rendering della List
+                        // Small delay to allow List rendering
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                             withAnimation {
                                 proxy.scrollTo(target.rawValue, anchor: .top)
@@ -118,9 +116,9 @@ struct MethodologyView: View {
             }
         }
     }
-    
-    // MARK: - Sezione VDOT
-    
+
+    // MARK: - VDOT Section
+
     private var vdotSection: some View {
         Section {
             MethodologyCard(
@@ -132,14 +130,14 @@ struct MethodologyView: View {
                                 derivato dalla formula di Daniels e Gilbert (1979). \
                                 Rappresenta il consumo di ossigeno (VO2max) "effettivo" \
                                 ricavato dalla performance in gara — non da un test in laboratorio.
-                                
+
                                 Un VDOT più alto indica una migliore forma fisica: \
                                 VDOT 40 è un runner amatoriale solido, \
                                 VDOT 60 è un atleta d'élite.
                                 """,
-                isInitiallyExpanded: scrollTo == .vdot // <-- PASSA IL CONTROLLO DI ESPANSIONE
+                isInitiallyExpanded: scrollTo == .vdot // <-- PASS EXPANSION CONTROL
             )
-            
+
             MethodologyCard(
                 symbol: "function",
                 color: .secondary,
@@ -149,17 +147,17 @@ struct MethodologyView: View {
                     il sistema calcola la velocità di corsa e la percentuale \
                     di VO2max utilizzata a quella durata. \
                     La formula è:
-                    
+
                     VO2 richiesto = −4.60 + 0.182258·v + 0.000104·v²
                     %VO2max = 0.8 + 0.1894·e^(−0.01278·t) + 0.2990·e^(−0.1933·t)
                     VDOT = VO2 / %VO2max
-                    
+
                     dove v = velocità in m/min, t = tempo in minuti.
                     Fonte: Daniels & Gilbert (1979), adattato da Daniels (2022).
                     """,
-                isInitiallyExpanded: false // non ha un link diretto
+                isInitiallyExpanded: false // no direct link
             )
-            
+
             MethodologyCard(
                 symbol: "person.fill.questionmark",
                 color: .secondary,
@@ -181,7 +179,7 @@ struct MethodologyView: View {
                     Un runner più lento farà meno km per la stessa durata — \
                     ed è corretto: lo stimolo fisiologico è equivalente.
                     """,
-                isInitiallyExpanded: false // non ha un link diretto
+                isInitiallyExpanded: false // no direct link
             )
 
             MethodologyCard(
@@ -193,15 +191,15 @@ struct MethodologyView: View {
                     individuale reale, già "incorporando" le differenze fisiologiche. \
                     Una donna con VDOT 50 e un uomo con VDOT 50 si allenano \
                     agli stessi ritmi.
-                    
+
                     Daniels (2022) cap. 5: "The higher VDOT value is associated \
                     with the better runner, regardless of age or sex."
-                    
+
                     Il sesso viene usato nel piano solo per contestualizzare \
                     il livello del runner (soglie di popolazione differenziate \
                     per distribuzione M/F).
                     """,
-                isInitiallyExpanded: false // non ha un link diretto
+                isInitiallyExpanded: false // no direct link
             )
         } header: {
             Text(String(localized: MethodologySection.vdot.localizedSectionTitle))
@@ -209,7 +207,7 @@ struct MethodologyView: View {
         .id(MethodologySection.vdot.rawValue)
     }
 
-    // MARK: - Sezione Zone
+    // MARK: - Zones Section
 
     private var zonesSection: some View {
         Section {
@@ -277,7 +275,7 @@ struct MethodologyView: View {
         }
     }
 
-    // MARK: - Sezione RPE
+    // MARK: - RPE Section
 
     private var rpeSection: some View {
         Section {
@@ -356,80 +354,77 @@ struct MethodologyView: View {
         .id(MethodologySection.rpe.rawValue)
     }
 
-    // MARK: - Sezione Fasi
+    // MARK: - Phases Section
 
     private var phasesSection: some View {
         Section {
             MethodologyCard(
                 symbol: WorkoutType.easy.sfSymbol,
-                // color: WorkoutType.easy.color,
                 color: .secondary,
                 title: "Fase Base (Phase I)",
                 corpo: """
                     Obiettivo: costruzione aerobica, adattamento muscolo-scheletrico, \
                     volume progressivo.
-                    
+
                     Contenuto: E running (80%+), ripetute in salita leggere, \
                     corse progressive. Nessuna sessione I.
-                    
+
                     Daniels: "Mostly E running" nella Phase I. \
                     I collinari e le progressioni sono stimoli supplementari \
                     che aggiungono forza senza stress aerobico aggiuntivo.
-                    
+
                     Per runner principianti (VDOT < 35): le ripetute in salita \
                     vengono sostituite con corse facili o progressive. \
                     I collinari richiedono una base muscolare già consolidata — \
                     introdurle troppo presto aumenta il rischio di infortuni.
-                    
+
                     Volume: progressione max +10%/settimana. \
                     Ogni 4a settimana: scarico -20%.
                     """,
-                isInitiallyExpanded: scrollTo == .phaseBase // <-- ESPANSIONE AUTOMATICA SE CHIAMATO
+                isInitiallyExpanded: scrollTo == .phaseBase // <-- AUTO-EXPAND IF CALLED
             )
             .id(MethodologySection.phaseBase.rawValue)
-            
+
             MethodologyCard(
                 symbol: WorkoutType.repetition.sfSymbol,
-                //                color: WorkoutType.repetition.color,
                 color: .secondary,
                 title: "Fase di Sviluppo (Phase II)",
                 corpo: """
                     Obiettivo: introduzione della qualità, sviluppo velocità e soglia.
-                    
+
                     Contenuto: R (Repetition) + T (Tempo) + L run. \
                     Nessuna sessione I ancora.
-                    
+
                     Daniels: "Going from E running to R workouts is adding \
                     only a speed stress, with little being asked of the aerobic \
                     or lactate-clearance systems." Per questo R arriva prima di I.
-                    
+
                     Volume: micro-scarico ogni 3 settimane.
                     """,
-                isInitiallyExpanded: scrollTo == .phaseBuild // <-- ESPANSIONE AUTOMATICA SE CHIAMATO
+                isInitiallyExpanded: scrollTo == .phaseBuild // <-- AUTO-EXPAND IF CALLED
             )
             .id(MethodologySection.phaseBuild.rawValue)
-            
+
             MethodologyCard(
                 symbol: WorkoutType.interval.sfSymbol,
-                //                color: WorkoutType.interval.color,
                 color: .secondary,
                 title: "Fase di picco (Phase III/IV)",
                 corpo: """
                     Obiettivo: massima qualità, picco di forma, simulazione gara.
-                    
+
                     Contenuto: T + I + M (o I per 10K) + L run. \
                     La settimana più impegnativa del piano.
-                    
+
                     Per maratona e mezza: le sessioni M-pace sono centrali \
                     perché adattano al ritmo specifico di gara.
                     Per 10K: le sessioni I a VO2max sono determinanti.
-                    
+
                     Fonte: Daniels [1] Phase III (TQ) e IV (FQ), Pfitzinger [2].
                     """,
-                isInitiallyExpanded: scrollTo == .phasePeak // <-- ESPANSIONE AUTOMATICA SE CHIAMATO
+                isInitiallyExpanded: scrollTo == .phasePeak // <-- AUTO-EXPAND IF CALLED
             )
             .id(MethodologySection.phasePeak.rawValue)
-            
+
             MethodologyCard(
                 symbol: "arrow.down.circle",
                 color: .secondary,
@@ -437,14 +432,14 @@ struct MethodologyView: View {
                 corpo: """
                     Obiettivo: supercompensazione, recupero, arrivo alla gara \
                     nella forma migliore.
-                    
+
                     Volume: riduzione del 40-60% rispetto al picco. \
                     Intensità: invariata — almeno una sessione T viene mantenuta \
                     per non perdere lo stimolo alla soglia.
-                    
+
                     Daniels mantiene sessioni T leggere anche nell'ultima settimana \
                     prima della gara.
-                    
+
                     Fonte: Mujika & Padilla (2003) [6].
                     """,
                 isInitiallyExpanded: scrollTo == .taper
@@ -455,7 +450,7 @@ struct MethodologyView: View {
         }
     }
 
-    // MARK: - Sezione Volume
+    // MARK: - Volume Section
 
     private var volumeSection: some View {
         Section {
@@ -466,19 +461,19 @@ struct MethodologyView: View {
                 corpo: """
                     Non aumentare il volume settimanale di più del 10% \
                     rispetto alla settimana precedente.
-                    
+
                     Daniels suggerisce anche di mantenere lo stesso carico \
                     per 3-4 settimane prima di aumentare. \
                     Il piano applica la regola del 10% come limite superiore, \
                     con settimane di scarico ogni 3-4 settimane \
                     (principio di supercompensazione).
-                    
+
                     Fonte: Daniels [1] cap. 2, Galloway [8].
                     """,
                 isInitiallyExpanded: scrollTo == .volume10
             )
             .id(MethodologySection.volume10.rawValue)
-            
+
             MethodologyCard(
                 symbol: "person.crop.circle.badge.checkmark",
                 color: .indigo,
@@ -502,9 +497,9 @@ struct MethodologyView: View {
                     Fonte: Daniels [1] cap. 2, Pfitzinger [2], \
                     RunRepeat Global Report (2023).
                     """,
-                isInitiallyExpanded: false // non ha un link diretto
+                isInitiallyExpanded: false // no direct link
             )
-                
+
             MethodologyCard(
                         symbol: "ruler",
                         color: .indigo,
@@ -531,7 +526,7 @@ struct MethodologyView: View {
                             """
                     )
                     .id(MethodologySection.volumeLong.rawValue)
-            
+
             MethodologyCard(
                 symbol: "chart.pie",
                 color: .indigo,
@@ -539,22 +534,22 @@ struct MethodologyView: View {
                 corpo: """
                     ~80% del volume settimanale a bassa intensità (E-pace, Z2), \
                     ~20% ad alta intensità (T/I/R, Z4-Z5+).
-                    
+
                     Seiler & Kjerland (2006) hanno osservato questo pattern \
                     negli atleti d'élite di endurance. È una distribuzione \
                     empirica, non un modello prescrittivo: descrive cosa fanno \
                     i migliori, non necessariamente cosa ottimizza ogni runner.
-                    
+
                     Nel piano viene usata come guida per bilanciare il mix \
                     di intensità nella settimana, coerentemente con la \
                     struttura per fasi di Daniels.
-                    
+
                     Fonte: Seiler & Kjerland [4].
                     """,
                 isInitiallyExpanded: scrollTo == .volume8020
             )
             .id(MethodologySection.volume8020.rawValue)
-            
+
             MethodologyCard(
                 symbol: "percent",
                 color: .indigo,
@@ -562,7 +557,7 @@ struct MethodologyView: View {
                 corpo: """
                     Daniels definisce limiti precisi per ogni zona \
                     in una singola sessione:
-                    
+
                     T (Tempo):      max 10% del volume settimanale
                     M (Marathon):   max 20% del volume settimanale
                     I (Interval):   max il minore tra 10 km e 8% settimanale
@@ -588,7 +583,7 @@ struct MethodologyView: View {
         }
     }
 
-    // MARK: - Sezione Fonti
+    // MARK: - Sources Section
 
     private var sourcesSection: some View {
         Section {
@@ -618,31 +613,29 @@ struct MethodologyView: View {
 
 // MARK: - MethodologyCard
 //
-// Card generica per contenuto testuale con icona SF Symbol.
-// Usata nelle sezioni VDOT, Fasi, Volume.
-
-// MARK: - MethodologyCard Aggiornato
-
+// Generic card for text content with SF Symbol icon.
+// Used in the VDOT, Phases, Volume sections.
+// Supports programmatic expansion via `isInitiallyExpanded`.
 struct MethodologyCard: View {
     let symbol: String
     let color: Color
     let title: LocalizedStringKey
     let corpo: LocalizedStringKey
-    
-    // Cambiato in variabile normale con valore iniziale calcolato nell'init
+
+    // Changed to regular variable with initial value computed in init
     @State private var expanded: Bool
-    
-    // INIT CUSTOM: Controlla se questa specifica card deve nascere già espansa
+
+    // CUSTOM INIT: Checks if this specific card should start expanded
     init(symbol: String, color: Color, title: LocalizedStringKey, corpo: LocalizedStringKey, isInitiallyExpanded: Bool = false) {
         self.symbol = symbol
         self.color = color
         self.title = title
         self.corpo = corpo
-        // Inizializza lo State interno basandosi sul parametro esterno
+        // Initialize internal State based on external parameter
         _expanded = State(initialValue: isInitiallyExpanded)
     }
-    
-    var bodyView: some View {
+
+    var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Button {
                 withAnimation(.easeInOut(duration: 0.2)) { expanded.toggle() }
@@ -666,28 +659,25 @@ struct MethodologyCard: View {
                 }
             }
             .buttonStyle(.plain)
-            
+
             if expanded {
                 Text(corpo)
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .padding(.top, 10)
-                    .padding(.leading, 46)   // allineato con il testo del titolo
+                    .padding(.leading, 46)   // aligned with title text
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
         .padding(.vertical, 4)
     }
-    
-    var bodyContent: some View { bodyView }
-    var body: some View { bodyContent }
 }
 
 // MARK: - ZoneRow
 //
-// Riga espandibile per le zone di Daniels.
-// Mostra badge WorkoutBadge + titolo, espande su intensità,
-// work bout, recupero, scopo e fonte.
+// Expandable row for Daniels zones.
+// Shows WorkoutBadge + title, expands to show intensity,
+// work bout, recovery, purpose, and source.
 
 struct ZoneRow: View {
     let type: WorkoutType
@@ -699,10 +689,10 @@ struct ZoneRow: View {
     let source: String
 
     @Environment(\.locale) private var locale
-    
-    // Cambiato per supportare l'espansione programmata dall'init
+
+    // Changed to support programmatic expansion from init
     @State private var expanded: Bool
-    
+
     init(type: WorkoutType, title: String, intensity: String, workBout: String, recovery: String, purpose: String, source: String, isInitiallyExpanded: Bool = false) {
         self.type = type
         self.title = title
@@ -713,7 +703,7 @@ struct ZoneRow: View {
         self.source = source
         _expanded = State(initialValue: isInitiallyExpanded)
     }
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Button {
@@ -731,7 +721,7 @@ struct ZoneRow: View {
                 }
             }
             .buttonStyle(.plain)
-            
+
             if expanded {
                 VStack(alignment: .leading, spacing: 8) {
                     ZoneDetailRow(label: AppLocalizedString.resolve(LocalizedStringResource("methodology.zone.label.intensity", defaultValue: "Intensità"), locale: locale), value: intensity)
@@ -770,19 +760,19 @@ struct ZoneDetailRow: View {
 
 // MARK: - MethodologyButton
 //
-// Pulsante ⓘ riutilizzabile che apre MethodologyView come sheet
-// con scroll automatico alla sezione specificata.
-// Usato nelle viste principali come link contestuale.
+// Reusable ⓘ button that opens MethodologyView as a sheet
+// with auto-scroll to the specified section.
+// Used in the main views as a contextual link.
 //
-// Uso:
-//   MethodologyButton(section: .zoneT)   // apre su T-pace
-//   MethodologyButton(section: .vdot)    // apre su VDOT
+// Usage:
+//   MethodologyButton(section: .zoneT)   // opens to T-pace
+//   MethodologyButton(section: .vdot)    // opens to VDOT
 
 struct MethodologyButton: View {
     let section: MethodologySection
-    
+
     @State private var showSheet = false
-    
+
     var body: some View {
         Button {
             showSheet = true

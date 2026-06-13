@@ -1,11 +1,10 @@
-/*
- Gestisce la scrittura degli allenamenti ("eventi")
- nel calendario "PB running"
- */
-
 import Foundation
 import EventKit
 import Combine
+
+// MARK: - CalendarManager
+//
+// Manages writing workout events to a dedicated "PB Running" calendar.
 
 class CalendarManager: ObservableObject {
     let eventStore = EKEventStore()
@@ -13,26 +12,28 @@ class CalendarManager: ObservableObject {
     @Published var lastEventCount = 0
     @Published var showConfirmation = false
     
+    // Writes a batch of workout events to the "PB Running" calendar.
+    // Creates the calendar if it doesn't exist.
     func addEventsBatch(_ events: [EventData]) {
-        print("🚀 Avvio addEventsBatch con \(events.count) eventi")
+        print("Starting addEventsBatch with \(events.count) events")
         
         isProcessing = true
         
         eventStore.requestFullAccessToEvents { granted, error in
             DispatchQueue.main.async {
                 if let error = error {
-                    print("❌ Errore richiesta accesso: \(error.localizedDescription)")
+                    print("❌ Access request error: \(error.localizedDescription)")
                     self.isProcessing = false
                     return
                 }
                 
                 if !granted {
-                    print("⚠️ Accesso NEGATO al calendario. Controlla Impostazioni > Privacy.")
+                    print("⚠️ Calendar access denied. Check Settings > Privacy.")
                     self.isProcessing = false
                     return
                 }
                 
-                print("✅ Accesso garantito, inizio elaborazione...")
+                print("✅ Access granted, processing...")
                 self.processBatch(events)
             }
         }
@@ -43,17 +44,17 @@ class CalendarManager: ObservableObject {
         var targetCalendar = self.findCalendar(name: calendarName)
         
         if targetCalendar == nil {
-            print("📅 Calendario '\(calendarName)' non trovato, provo a crearlo...")
+            print("📅 Calendar '\(calendarName)' not found, creating...")
             targetCalendar = self.createCalendar(name: calendarName)
         }
         
         guard let calendar = targetCalendar else {
-            print("❌ Impossibile trovare o creare il calendario target.")
+            print("❌ Failed to find or create target calendar.")
             self.isProcessing = false
             return
         }
         
-        print("📍 Usando calendario: \(calendar.title) (ID: \(calendar.calendarIdentifier))")
+        print("Using calendar: \(calendar.title)")
         
         var count = 0
         for data in events {
@@ -68,16 +69,16 @@ class CalendarManager: ObservableObject {
             do {
                 try self.eventStore.save(event, span: .thisEvent, commit: false)
                 count += 1
-                print("📝 Preparato: \(data.title)")
+                print("Prepared: \(data.title)")
             } catch {
-                print("❌ Errore durante il salvataggio di \(data.title): \(error)")
+                print("❌ Error saving \(data.title): \(error)")
             }
         }
         
         do {
-            print("💾 Eseguo il commit di \(count) eventi...")
+            print("Committing \(count) events...")
             try self.eventStore.commit()
-            print("🎉 Commit completato con successo!")
+            print("Commit successful!")
             
             DispatchQueue.main.async {
                 self.lastEventCount = count
@@ -85,7 +86,7 @@ class CalendarManager: ObservableObject {
                 self.showConfirmation = true
             }
         } catch {
-            print("❌ Errore critico nel commit: \(error)")
+            print("Critical commit error: \(error)")
             DispatchQueue.main.async { self.isProcessing = false }
         }
     }
@@ -93,7 +94,7 @@ class CalendarManager: ObservableObject {
     private func findCalendar(name: String) -> EKCalendar? {
         let calendars = eventStore.calendars(for: .event)
         let found = calendars.first(where: { $0.title == name })
-        if found != nil { print("🔍 Calendario trovato: \(name)") }
+        if found != nil { print("Calendar found: \(name)") }
         return found
     }
     
@@ -103,18 +104,18 @@ class CalendarManager: ObservableObject {
         
         if let source = eventStore.defaultCalendarForNewEvents?.source {
             newCalendar.source = source
-            print("ℹ️ Sorgente calendario impostata su: \(source.title)")
+            print("Calendar source: \(source.title)")
         } else {
             newCalendar.source = eventStore.sources.first(where: { $0.sourceType == .local }) ?? eventStore.sources.first
-            print("⚠️ Usata sorgente di backup per il calendario")
+            print("Using fallback calendar source")
         }
         
         do {
             try eventStore.saveCalendar(newCalendar, commit: true)
-            print("✅ Calendario '\(name)' creato con successo")
+            print("Calendar '\(name)' created")
             return newCalendar
         } catch {
-            print("❌ Errore creazione calendario: \(error)")
+            print("Calendar creation error: \(error)")
             return nil
         }
     }

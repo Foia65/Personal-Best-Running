@@ -1,28 +1,28 @@
 import SwiftUI
 
-// Struttura di supporto per gestire l'esportazione generica dei file nei fogli di condivisione
+// MARK: - DocumentItem
 struct DocumentItem: Identifiable {
     let id = UUID()
     let url: URL
 }
 
-// MARK: - Training Plan View
+// MARK: - TrainingPlanView
 struct TrainingPlanView: View {
     let plan: TrainingPlan
     var onBack: () -> Void
-    
+
     @State private var selectedTab = 0
     @State private var expandedWeek: Int?
     @State private var pdfItem: PDFDocumentItem?
-    @State private var csvItem: DocumentItem? // Stato per il foglio di condivisione CSV
+    @State private var csvItem: DocumentItem? // State for CSV share sheet
     @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
     @Environment(\.locale) private var locale
     @StateObject private var calendarManager = CalendarManager()
     private var goalFeasibility: GoalFeasibility { plan.feasibility }
-    
+
     var body: some View {
         VStack(spacing: 0) {
-            // Header con info piano
+            // Header with plan info
             planHeaderView
             calendarView
         }
@@ -33,9 +33,9 @@ struct TrainingPlanView: View {
             ShareSheet(url: item.url)
         }
     }
-    
+
     // MARK: Header
-    
+
     var planHeaderView: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
@@ -55,15 +55,15 @@ struct TrainingPlanView: View {
                         .foregroundStyle(.secondary)
                 }
             }
-            
+
             Divider()
-            
+
             HStack(alignment: .top, spacing: 8) {
                 Image(systemName: plan.feasibility.sfSymbol)
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(plan.feasibility.color)
                     .padding(.top, 1)
-                
+
                 Text(plan.localizedFitnessGap(locale: locale))
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -77,24 +77,24 @@ struct TrainingPlanView: View {
             .foregroundStyle(.primary)
             .frame(maxWidth: .infinity, alignment: .center)
             .padding(.top, 30)
-            
+
         }
         .padding(.horizontal)
         .padding(.vertical, 10)
         .padding(.top, 20)
         .background(Color(.systemGroupedBackground))
     }
-    
+
     // MARK: Calendar
-    
+
     var calendarView: some View {
         List {
             ForEach(plan.weeks) { week in
                 Section {
-                    // Header settimana
+                    // Week header
                     WeekHeaderView(week: week, locale: locale)
-                    
-                    // Workout della settimana
+
+                    // Week workouts
                     if expandedWeek == week.weekNumber {
                         ForEach(week.workouts) { workout in
                             WorkoutRowView(workout: workout, locale: locale)
@@ -110,7 +110,7 @@ struct TrainingPlanView: View {
                             Text(week.localizedHeader(locale: locale))
                                 .font(.caption.bold())
                                 .foregroundStyle(.blue)
-                            // Link contestuale → sezione fase corrispondente in MethodologyView
+                            // Contextual link → corresponding phase section in MethodologyView
                             MethodologyButton(section: week.phase.methodologySection)
                             Spacer()
                             Image(systemName: expandedWeek == week.weekNumber ? "chevron.up" : "chevron.down")
@@ -121,7 +121,7 @@ struct TrainingPlanView: View {
                     .buttonStyle(.plain)
                 }
             }
-            
+
             Section {
                 VStack(spacing: 8) {
                     Button(action: exportPDF) {
@@ -139,8 +139,8 @@ struct TrainingPlanView: View {
                     .tint(Color(red: 0.0, green: 0.0, blue: 0.3))
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets())
-                    
-#if DEBUG  // bottone CSV export per testing
+
+#if DEBUG  // CSV export button for testing
                     Button(action: exportCSV) {
                         HStack {
                             Spacer()
@@ -173,11 +173,11 @@ struct TrainingPlanView: View {
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets())
                 }
-                
+
             } header: {
                 Text("Condivisione")
             }
-            
+
             Section("Note") {
                 Text("I ritmi di allenamento sono calcolati tramite il sistema VDOT di Jack Daniels. La distribuzione settimanale segue il principio di polarizzazione 80/20 (Seiler). La progressione del volume rispetta la regola del 10% per prevenire infortuni.")
                     .font(.caption)
@@ -185,7 +185,6 @@ struct TrainingPlanView: View {
             }
         }
         .listStyle(.insetGrouped)
-        //   .navigationTitle("Programma Corse")
         .alert("Calendario Aggiornato", isPresented: $calendarManager.showConfirmation) {
             Button("Ottimo", role: .cancel) { }
         } message: {
@@ -201,7 +200,7 @@ struct TrainingPlanView: View {
             )
         }
     }
-    
+
     func formatTime(_ seconds: Double) -> String {
         let hour = Int(seconds) / 3600
         let minute = (Int(seconds) % 3600) / 60
@@ -209,24 +208,24 @@ struct TrainingPlanView: View {
         if hour > 0 { return String(format: "%d:%02d:%02d", hour, minute, second) }
         return String(format: "%d:%02d", minute, second)
     }
-    
+
     private func exportCalendar() {
         print("Exporting to Calendar...")
-        
-        // salvo tutti i workouts in allEvents
+
+        // Save all workouts into allEvents
         var allEvents: [EventData] = []
         for week in plan.weeks {
             for workout in week.workouts {
-                // Escludiamo il riposo
+                // Exclude rest days
                 guard workout.type != .rest else { continue }
-                
-                // 1. Gestione Passo (Pace) usando UnitSystem
+
+                // 1. Pace handling using UnitSystem
                 var paceString = ""
                 if let paceSecsPerKm = workout.paceTargetSecsPerKm {
                     paceString = "@ " + unitSystem.formatPace(paceSecsPerKm)
                 }
-                
-                // 2. Gestione Distanza usando UnitSystem
+
+                // 2. Distance handling using UnitSystem
                 let distanceString: String
                 if let kms = workout.distanceKm {
                     distanceString = unitSystem.formatDistance(kms)
@@ -236,8 +235,8 @@ struct TrainingPlanView: View {
                         locale: locale
                     )
                 }
-                
-                // 3. Creazione delle note dell'evento
+
+                // 3. Create event notes
                 let structuredDetails = workout.localizedStructuredSets(locale: locale).map { "📋 \($0)" } ?? ""
                 let notes = """
                 \(workout.localizedDescription(locale: locale))
@@ -247,12 +246,11 @@ struct TrainingPlanView: View {
                 ❤️ RPE: \(workout.rpe)
                 \(workout.localizedIntensityDescription(locale: locale))
                 """
-                
-                // 4. Creazione dell'oggetto EventData
+
+                // 4. Create EventData object
                 let newEvent = EventData(
                     date: workout.date,
                     title: "W\(week.weekNumber) \(workout.localizedTitle(locale: locale)) - \(distanceString) \(paceString) ",
-                    // notes: workout.description
                     notes: notes
                 )
                 allEvents.append(newEvent)
@@ -260,64 +258,70 @@ struct TrainingPlanView: View {
         }
 
 #if DEBUG
-        // --- STAMPA NELLA CONSOLE ---
-        
-        print("\n--- ELENCO EVENTI DA SCRIVERE (\(allEvents.count)) ---")
-        
+        // --- PRINT TO CONSOLE ---
+
+        print("\n--- EVENTS TO WRITE (\(allEvents.count)) ---")
+
         allEvents.forEach { event in
             let dateStr = event.date.formatted(date: .abbreviated, time: .omitted)
-            print("📅 Data: \(dateStr) | 🏃 Titolo: \(event.title)")
-            print("📝 Note: \(event.notes)")
+            print("📅 Date: \(dateStr) | 🏃 Title: \(event.title)")
+            print("📝 Notes: \(event.notes)")
             print("------------------------------------------\n")
         }
 #endif
-        
-        // scrivo sul calendario
+
+        // Write to calendar
         calendarManager.addEventsBatch(allEvents)
     }
-    
+
     private func exportPDF() {
         print("Exporting PDF...")
-        
+
         // 1. Generate the data
         let data = TrainingPlanPDFGenerator().generatePDF(plan: plan, unitSystem: unitSystem, locale: locale)
-        
+
         // 2. Setup the temporary file path
-        let fileName = "\(plan.input.raceName.replacingOccurrences(of: " ", with: "_"))_piano.pdf"
+        let localizedSuffix = String(
+            localized: LocalizedStringResource(
+                "export.pdf.filenameSuffix",
+                defaultValue: "_piano"
+            )
+        )
+        let fileName = "\(plan.input.raceName.replacingOccurrences(of: " ", with: "_"))\(localizedSuffix).pdf"
         let tmpURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
-        
+
         do {
             // 3. Write data to disk
             try data.write(to: tmpURL)
-            
+
             print("PDF size: \(data.count) bytes")
             print("PDF written to: \(tmpURL.path)")
-            
+
             // 4. Update the state item (this triggers the sheet)
             self.pdfItem = PDFDocumentItem(url: tmpURL)
-            
+
         } catch {
             print("PDF Export Failed: \(error.localizedDescription)")
         }
     }
-    
+
     func formatTimeForFilename(_ seconds: Double) -> String {
         guard seconds > 0 else { return "" }
         let hour = Int(seconds) / 3600
         let minute = (Int(seconds) % 3600) / 60
         let second = Int(seconds) % 60
-        
+
         if hour > 0 {
             return String(format: "%dh%02dm%02ds", hour, minute, second)
         }
         return String(format: "%dm%02ds", minute, second)
     }
-    
+
     // MARK: - Export CSV Logic
     private func exportCSV() {
         print("Exporting CSV...")
-        
-        // 1. Aggiungiamo il BOM UTF-8 (\u{FEFF}) come prefisso e usiamo ";" come separatore
+
+        // 1. Add UTF-8 BOM prefix and use ";" as separator
         let header = AppLocalizedString.resolve(
             LocalizedStringResource(
                 "export.csvHeader",
@@ -326,89 +330,87 @@ struct TrainingPlanView: View {
             locale: locale
         )
         var csvString = "\u{FEFF}" + header + "\n"
-        
-        // Formattatore di data comprensivo del giorno della settimana
+
+        // Date formatter including day of week
         let dateFormatter = DateFormatter()
         dateFormatter.locale = locale
         dateFormatter.setLocalizedDateFormatFromTemplate("EEEEddMMMM")
-        
-        // 2. Iterazione di settimane e workout
+
+        // 2. Iterate weeks and workouts
         for week in plan.weeks {
             for workout in week.workouts {
                 let weekNum = "\(week.weekNumber)"
                 let dateStr = dateFormatter.string(from: workout.date)
-                
-                // Sanitizziamo il titolo se contiene il separatore ";"
+
+                // Sanitize title if it contains the separator ";"
                 let localizedTitle = workout.localizedTitle(locale: locale)
                 let title = localizedTitle.contains(";") ? "\"\(localizedTitle)\"" : localizedTitle
-                
-                // Formattazione distanza pulita senza unità di misura e con la virgola per i decimali
+
+                // Clean distance formatting without units, using comma for decimals
                 let distanceStr: String
                 if let kms = workout.distanceKm {
                     let rawDistance = unitSystem.formatDistance(kms)
-                    // Rimuove tutto ciò che non è un numero, un punto o una virgola
+                    // Remove everything that is not a number, dot, or comma
                     var cleanedNumber = rawDistance.replacingOccurrences(of: "[^0-9.,]", with: "", options: .regularExpression, range: nil)
-                    // Sostituisce l'eventuale punto decimale del sistema anglosassone con la virgola
+                    // Replace Anglo-Saxon decimal point with comma
                     cleanedNumber = cleanedNumber.replacingOccurrences(of: ".", with: ",")
-                    
+
                     distanceStr = cleanedNumber.trimmingCharacters(in: .whitespacesAndNewlines)
                 } else {
-                    distanceStr = "" // Lascia la cella vuota se non c'è distanza (es. Riposo)
+                    distanceStr = "" // Leave cell empty if no distance (e.g. Rest)
                 }
-                
-                // Formattazione passo basata su unitSystem
+
+                // Pace formatting based on unitSystem
                 let paceStr: String
                 if let secsPerKm = workout.paceTargetSecsPerKm, workout.type != .rest {
                     paceStr = unitSystem.formatPace(secsPerKm)
                 } else {
                     paceStr = "-"
                 }
-                
-                // Composizione della riga usando ";"
+
+                // Compose row using ";"
                 let row = "\(weekNum);\(dateStr);\(title);\(distanceStr);\(paceStr)\n"
                 csvString.append(row)
             }
         }
-        
-        // 3. Preparazione e scrittura del file temporaneo .csv (Nome file base originale)
-        //    let fileName = "\(plan.input.raceName.replacingOccurrences(of: " ", with: "_"))_piano.csv"
-        
-        // --- DINAMIC FILENAME GENERATION ---
-        // Sanitizzazione del nome della gara
+
+        // 3. Prepare and write temporary .csv file
+
+        // --- DYNAMIC FILENAME GENERATION ---
+        // Sanitize race name
         let baseRaceName = plan.input.raceName.replacingOccurrences(of: " ", with: "_")
-        
-        // Formattiamo i tempi in stringhe leggibili per i file (es. 1h45m00s o 55m00s)
+
+        // Format times into readable strings for filenames (e.g. 1h45m00s or 55m00s)
         let targetTimeStr = formatTimeForFilename(Double(plan.input.targetTime))
         let currentTimeStr = formatTimeForFilename(Double(plan.input.currentPerformance.time))
-        
-        // Costruiamo il suffisso basato sulla presenza dei dati richiesti
+
+        // Build suffix based on presence of required data
         let metricsSuffix: String
         if !targetTimeStr.isEmpty && !currentTimeStr.isEmpty {
             metricsSuffix = "_Target_\(targetTimeStr)_Current_\(currentTimeStr)"
         } else {
-            // Fallback nel caso in cui i tempi siano vuoti o zero (puoi adattarlo se calcoli i ritmi/passi altrove)
+            // Fallback if times are empty or zero
             metricsSuffix = ""
         }
-        
+
         let fileName = "\(baseRaceName)\(metricsSuffix).csv"
-        
+
         let tmpURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
-        
+
         do {
-            
-            //  Se il file esiste già in 'tmp', lo eliminiamo
+            // If file already exists in 'tmp', remove it
             if FileManager.default.fileExists(atPath: tmpURL.path) {
                 try FileManager.default.removeItem(at: tmpURL)
-                print("Vecchio file CSV rimosso con successo.")
+                print("Old CSV file removed successfully.")
             }
-            // Scrittura in UTF-8
+            // UTF-8 writing
             try csvString.write(to: tmpURL, atomically: true, encoding: .utf8)
-            print("CSV salvato in: \(tmpURL.path)")
-            
-            // 4. Attivazione del foglio di condivisione nativo
+            print("CSV saved to: \(tmpURL.path)")
+
+            // 4. Activate native share sheet
             self.csvItem = DocumentItem(url: tmpURL)
         } catch {
-            print("Impossibile esportare il file CSV: \(error.localizedDescription)")
+            print("Failed to export CSV file: \(error.localizedDescription)")
         }
     }
 }
@@ -418,7 +420,7 @@ struct WeekHeaderView: View {
     let week: TrainingWeek
     let locale: Locale
     @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
-    
+
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
@@ -446,7 +448,7 @@ struct WorkoutRowView: View {
     let locale: Locale
     @State private var expanded = false
     @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Button {
@@ -454,7 +456,7 @@ struct WorkoutRowView: View {
             } label: {
                 HStack {
                     WorkoutBadge(type: workout.type, size: 36)
-                    
+
                     VStack(alignment: .leading, spacing: 2) {
                         Text(workout.date.formatted(.dateTime.weekday().day().month()))
                             .font(.caption)
@@ -481,20 +483,20 @@ struct WorkoutRowView: View {
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            
+
             if expanded {
                 VStack(alignment: .leading, spacing: 8) {
                     Divider()
-                    
+
                     Text(workout.localizedDescription(locale: locale))
                         .font(.footnote)
-                    
+
                     if let sets = workout.localizedStructuredSets(locale: locale) {
                         Label(sets, systemImage: "list.bullet.clipboard")
                             .font(.footnote)
                             .foregroundStyle(.primary)
                     }
-                    
+
                     HStack {
                         Label {
                             Text("RPE: \(workout.rpe)")
@@ -506,13 +508,6 @@ struct WorkoutRowView: View {
                     }
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                    
-                    // DisclosureGroup("📚 Razionale scientifico") {
-                    // Text(workout.scientificRationale)
-                    // .font(.caption)
-                    // .foregroundStyle(.secondary)
-                    // }
-                    // .font(.caption.bold())
                 }
                 .padding(.top, 8)
             }
@@ -525,7 +520,7 @@ struct WorkoutRowView: View {
 struct WorkoutBadge: View {
     let type: WorkoutType
     var size: CGFloat = 40
-    
+
     var body: some View {
         ZStack {
             Circle()
@@ -551,9 +546,9 @@ struct WorkoutBadge: View {
         ),
         sex: .male
     )
-    
+
     let samplePlan = TrainingPlanGenerator().generate(input: sampleInput)
-    
+
     NavigationStack {
         TrainingPlanView(plan: samplePlan) {
             print("Reset tapped")

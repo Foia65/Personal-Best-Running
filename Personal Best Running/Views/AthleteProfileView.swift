@@ -2,12 +2,12 @@ import SwiftUI
 
 // MARK: - AthleteProfileView
 //
-// Vista indipendente del profilo atleta.
-// Contiene:
-//   1. Riga VDOT / Stima attuale / Target
-//   2. Barra livello runner (RunnerLevelBar)
-//   3. Previsioni multi-distanza dal VDOT attuale
-//   4. Descrizione livello corrente + gap verso il livello successivo
+// Independent athlete profile view.
+// Contains:
+//   1. VDOT row / Current estimate / Target
+//   2. Runner level bar (RunnerLevelBar)
+//   3. Multi-distance predictions from current VDOT
+//   4. Current level description + gap to next level
 
 struct AthleteProfileView: View {
     let plan: TrainingPlan
@@ -21,11 +21,11 @@ struct AthleteProfileView: View {
     var body: some View {
         List {
 
-            // MARK: VDOT + Tempi + Livello
+            // MARK: VDOT + Times + Level
             Section {
                 VStack(spacing: 14) {
 
-                    // Riga VDOT / Stima attuale / Target
+                    // VDOT row / Current estimate / Target
                     HStack {
                         vdotBadge
                         Spacer()
@@ -51,7 +51,7 @@ struct AthleteProfileView: View {
 
                     Divider()
 
-                    // Barra livello runner. Usa soglie differenziate per sesso (RunRepeat 2023, WMA).
+                    // Runner level bar. Uses sex-differentiated thresholds (RunRepeat 2023, WMA).
                     RunnerLevelBar(level: level, sex: sex)
 
                     Divider()
@@ -62,10 +62,10 @@ struct AthleteProfileView: View {
                     .padding(.top, 20)
             }
 
-            // MARK: Previsioni Multi-Distanza
-            // Tempi stimati su tutte le distanze standard dal VDOT attuale.
-            // Permette di capire la propria forma su distanze diverse da quella obiettivo.
-            // Fonte: VDOTCalculator.predictRaceTime — stesso algoritmo dei ritmi.
+            // MARK: Multi-Distance Predictions
+            // Estimated times on all standard distances from current VDOT.
+            // Helps understand fitness on distances other than the target.
+            // Source: VDOTCalculator.predictRaceTime — same algorithm as paces.
             Section {
                 ForEach(RaceDistance.allCases) { distance in
                     MultiDistancePredictionRow(
@@ -81,7 +81,7 @@ struct AthleteProfileView: View {
                     .font(.caption)
             }
 
-            // MARK: Livello e Progressione
+            // MARK: Level and Progression
             Section {
                 RunnerLevelDescriptionView(level: level, vdot: vdot, sex: sex)
             } header: {
@@ -98,7 +98,7 @@ struct AthleteProfileView: View {
                 Text("VDOT")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                // Link contestuale → sezione VDOT in MethodologyView
+                // Contextual link → VDOT section in MethodologyView
                 MethodologyButton(section: .vdot)
             }
             Text(String(format: "%.1f", vdot))
@@ -142,8 +142,8 @@ struct AthleteProfileView: View {
 
 // MARK: - MultiDistancePredictionRow
 //
-// Singola riga della tabella previsioni: distanza + tempo stimato + passo medio.
-// Evidenzia la distanza obiettivo del piano con un badge "obiettivo".
+// Single prediction row: distance + estimated time + average pace.
+// Highlights the plan's target distance with a "target" badge.
 
 struct MultiDistancePredictionRow: View {
     let distance: RaceDistance
@@ -174,8 +174,8 @@ struct MultiDistancePredictionRow: View {
                             .background(Color.indigo.opacity(0.1), in: Capsule())
                     }
                 }
-                /// Usa unitSystem.formatPace per rispettare la preferenza metrico/imperiale.
-                /// Il suffisso (/km o /mi) è già incluso in unitSystem.formatPace.
+                // Uses unitSystem.formatPace to respect metric/imperial preference.
+                // The suffix (/km or /mi) is already included in unitSystem.formatPace.
                 Text(unitSystem.formatPace(predictedPaceSecsPerKm))
                     .font(.caption2)
                     .foregroundStyle(.secondary)
@@ -201,8 +201,8 @@ struct MultiDistancePredictionRow: View {
 
 // MARK: - RunnerLevelDescriptionView
 //
-// Descrive il livello corrente e mostra quanto VDOT manca per salire
-// al livello successivo, con una barra di progressione nel range corrente.
+// Describes the current level and shows how much VDOT is needed to reach
+// the next level, with a progress bar in the current range.
 
 struct RunnerLevelDescriptionView: View {
     let level: RunnerLevel
@@ -245,7 +245,7 @@ struct RunnerLevelDescriptionView: View {
         }
     }
 
-    // Inizio del range VDOT del livello corrente (per la barra di progressione)
+    // Start of current level VDOT range (for progress bar)
     private var vdotRangeStart: Double {
         let sogliaLivello = sex.levelThresholds
         switch level {
@@ -260,12 +260,12 @@ struct RunnerLevelDescriptionView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
 
-            // Descrizione narrativa
+            // Narrative description
             Text(levelDescription)
                 .font(.footnote)
                 .foregroundStyle(.primary)
 
-            // Gap verso il livello successivo
+            // Gap to next level
             if let nextVDOT = vdotToNextLevel, let nextName = nextLevelName {
                 let gap = nextVDOT - vdot
                 let rangeWidth = nextVDOT - vdotRangeStart
@@ -286,7 +286,7 @@ struct RunnerLevelDescriptionView: View {
                             .foregroundStyle(.blue)
                     }
 
-                    // Barra di progressione nel range corrente
+                    // Progress bar in current range
                     GeometryReader { geo in
                         ZStack(alignment: .leading) {
                             Capsule()
@@ -313,7 +313,7 @@ struct RunnerLevelDescriptionView: View {
                     Text("Con un piano di 16-20 settimane è realistico guadagnare 3-5 punti VDOT.")
                         .font(.caption2)
                         .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true) // per vedere tutto il text (problema con GeometryReader)
+                        .fixedSize(horizontal: false, vertical: true) // to see all text (GeometryReader issue)
 
                 }
             } else {
@@ -339,9 +339,9 @@ struct RunnerLevelDescriptionView: View {
         ),
         sex: .female
     )
-    
+
     let samplePlan = TrainingPlanGenerator().generate(input: sampleInput)
-    
+
     NavigationStack {
         AthleteProfileView(plan: samplePlan)
     }
@@ -400,8 +400,8 @@ struct RunnerLevelBar: View {
             }
             .frame(height: 8)
 
-            // usato un altro Geometry reader dentro una ZStack
-            // per allineare i livelli testuali ai dots
+            // Used another GeometryReader inside a ZStack
+            // to align text labels to dots
             GeometryReader { geo in
                 let dotCount = RunnerLevel.allCases.count
                 let spacing = geo.size.width / CGFloat(dotCount - 1)

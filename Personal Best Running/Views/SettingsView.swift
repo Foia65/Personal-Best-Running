@@ -1,21 +1,27 @@
 import SwiftUI
 import Combine
 
+// MARK: - LanguageManager
+
+/// Manages the app's language preference and provides a `Locale` for SwiftUI.
 class LanguageManager: ObservableObject {
-    // Salva l'identificatore della lingua (es. "it", "en") in UserDefaults
+    // Saves the language identifier (e.g. "it", "en") to UserDefaults
     @AppStorage("selected_language") var selectedLanguage: String = "en" {
         didSet {
-            // Notifica i cambiamenti alle viste
+            // Notify views of changes
             objectWillChange.send()
         }
     }
-    
-    // Converte la stringa in un oggetto Locale utilizzabile da SwiftUI
+
+    // Converts the string to a Locale object usable by SwiftUI
     var currentLocale: Locale {
         Locale(identifier: selectedLanguage)
     }
 }
 
+// MARK: - SettingsView
+//
+// App settings view: language, theme, measurement system, runner profile, and legal links.
 struct SettingsView: View {
     @AppStorage("runnerSex") private var runnerSex: RunnerSex = .male
     @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
@@ -23,7 +29,7 @@ struct SettingsView: View {
     @State private var showSexInfo = false
     @EnvironmentObject var languageManager: LanguageManager
     
-    // Lingue supportate
+    // Supported languages
     let languages = [
         ("Italiano", "it"),
         ("English", "en")
@@ -33,7 +39,7 @@ struct SettingsView: View {
         List {
             Section(header: HStack { Text("Informazioni e supporto").font(.title3) }.padding(.top, 20)) {
                 
-                // 1 - Le basi del metodo
+                // 1 - Method basics
                 NavigationLink(destination: MethodologyView()) {
                     Label {
                         Text("Le basi del metodo")
@@ -45,7 +51,7 @@ struct SettingsView: View {
                     }
                 }
                 
-                // 2 - Aiuto
+                // 2 - Help
                 NavigationLink(destination: HelpView()) {
                     Label {
                         Text("Guida")
@@ -58,7 +64,7 @@ struct SettingsView: View {
                     }
                 }
                 
-                // 3 - supporto
+                // 3 - Support
                 Button {
                     if let url = URL(string: "mailto:info.foiasoft@gmail.com") {
                         UIApplication.shared.open(url)
@@ -74,7 +80,7 @@ struct SettingsView: View {
                     }
                 }
                 
-                // 4 - versione app
+                // 4 - App version
                 HStack {
                     Label {
                         Text("Versione: ")
@@ -94,7 +100,7 @@ struct SettingsView: View {
             
             Section(header: Text("Preferenze").font(.title3)) {
                 
-                // 1 - Sesso runner
+                // 1 - Runner gender
                 HStack {
                     Label {
                         Text("Genere")
@@ -148,7 +154,7 @@ struct SettingsView: View {
                     .presentationDetents([.medium])
                 }
                 
-                // 2 - Sistema di misura
+                // 2 - Measurement system
                 HStack {
                     Label {
                         Text("Sistema di misura")
@@ -202,7 +208,7 @@ struct SettingsView: View {
                     .fixedSize(horizontal: false, vertical: true)
                 }
                 
-                // 4 - Lingua
+                // 4 - Language
                 HStack {
                     Label {
                         Text("Lingua")

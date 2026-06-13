@@ -1,38 +1,39 @@
 import SwiftUI
 
 // MARK: - GoalFeasibility
+//
+// Single source of truth for race goal assessment.
+// Based on vdotGap because:
+//   - It is independent of race distance
+//   - It directly measures how much fitness must improve
+//   - It is the same unit used throughout the Daniels system [1]
+//   - diffSecs depends by distance (22' on marathon ≠ 22' on 5K)
+// Source: Daniels [1] ch. 5 — VDOT as a universal measure of fitness.
+
 enum GoalFeasibility {
-    /// Unica fonte di verità per la valutazione dell'obiettivo gara.
-    /// basata su vdotGap perché:
-    ///   - È indipendente dalla distanza di gara
-    ///   - Misura direttamente quanta fitness deve crescere
-    ///   - È la stessa unità usata in tutto il sistema Daniels [1]
-    ///   - diffSecs dipende dalla distanza (22' su maratona ≠ 22' su 5K
-    /// Fonte: Daniels [1] cap. 5 — VDOT come misura universale della fitness.
-    
-    case conservative    // vdotGap < -5  (target più lento della forma attuale)
-    case prudent        // vdotGap -5..<-2
-    case realistic      // vdotGap -2..<2  (allineato alla forma attuale)
-    case ambitious      // vdotGap  2..<5
-    case challenging    // vdotGap  5..<10
-    case extreme        // vdotGap >= 10
-    
-    // Calcolo dalla differenza VDOT. Entry point unico usato dal generatore.
+    case conservative    // vdotGap < -5  (target slower than current fitness)
+    case prudent         // vdotGap -5..<-2
+    case realistic       // vdotGap -2..<2  (aligned with current fitness)
+    case ambitious       // vdotGap  2..<5
+    case challenging     // vdotGap  5..<10
+    case extreme         // vdotGap >= 10
+
+    // Calculation from VDOT difference. Single entry point used by the generator.
     static func from(vdotGap: Double) -> GoalFeasibility {
         switch vdotGap {
-        case ..<(-5):  return .conservative
+        case ..<(-5):   return .conservative
         case -5..<(-2): return .prudent
-        case -2..<2:   return .realistic
-        case  2..<5:   return .ambitious
-        case  5..<10:  return .challenging
-        default:       return .extreme
+        case -2..<2:    return .realistic
+        case  2..<5:    return .ambitious
+        case  5..<10:   return .challenging
+        default:        return .extreme
         }
     }
-    
-    // MARK: Label breve (usata in PlanHeaderView / fitnessGap)
 
-    // Testo breve senza emoji — la segnalazione visiva è affidata a
-    // sfSymbol e color, più coerenti con l'estetica iOS di SF Symbols.
+    // MARK: Short label (used in PlanHeaderView / fitnessGap)
+
+    // Short text without emoji — visual indication is handled by
+    // sfSymbol and color, more consistent with iOS SF Symbols aesthetics.
     var localizedLabel: LocalizedStringResource {
         switch self {
         case .conservative:
@@ -103,8 +104,8 @@ enum GoalFeasibility {
             )
         }
     }
-    
-    // SF Symbol abbinati al livello di fattibilità.
+
+    // SF Symbols paired with feasibility level.
     var sfSymbol: String {
         switch self {
         case .conservative: return "checkmark.seal.fill"
@@ -115,10 +116,10 @@ enum GoalFeasibility {
         case .extreme:      return "exclamationmark.triangle.fill"
         }
     }
-    
-    // MARK: Descrizione estesa (usata in WorkoutRowView / scheda GARA)
-    // Contestualizzata per il giorno di gara: tono motivazionale e consigli pratici.
-    
+
+    // MARK: Extended description (used in WorkoutRowView / RACE card)
+    // Contextualized for race day: motivational tone and practical advice.
+
     var raceDescription: String {
         switch self {
         case .conservative:
@@ -135,8 +136,8 @@ enum GoalFeasibility {
             return "Giorno di gara! L'obiettivo dichiarato era molto oltre la forma di partenza. Corri al tuo ritmo stimato: usa questa gara come esperienza e rivaluta l'obiettivo per il prossimo ciclo."
         }
     }
-    
-    // MARK: Colore SwiftUI (coerente tra PlanHeaderView e WorkoutRowView)
+
+    // MARK: SwiftUI Color (consistent between PlanHeaderView and WorkoutRowView)
     var color: Color {
         switch self {
         case .conservative, .prudent, .realistic: return .green
@@ -153,8 +154,8 @@ enum RunnerLevel: String, Equatable, CaseIterable {
     case intermediate = "Intermedio"
     case advanced = "Avanzato"
     case elite = "Elite"
-    
-    // Questo dice a Xcode di mettere queste stringhe e mettile nel file .xcstrings!"
+
+    // This tells Xcode to put these strings in the .xcstrings file!
     var localizedRunnerLevel: LocalizedStringResource {
         switch self {
         case .beginner: return "Principiante"
@@ -170,7 +171,7 @@ enum RunnerLevel: String, Equatable, CaseIterable {
 enum RunnerSex: String, CaseIterable, Identifiable, Codable {
     case male
     case female
-    
+
     var id: String { rawValue }
     var label: String {
         switch self {
@@ -187,42 +188,43 @@ enum RunnerSex: String, CaseIterable, Identifiable, Codable {
             return LocalizedStringResource("gender.label.female", defaultValue: "Donna")
         }
     }
-        
+
     var icon: String {
         switch self {
         case .male:   return "figure.stand"
         case .female: return "figure.stand.dress"
         }
     }
-    
-    // MARK: Soglie livelli atleta
-    /// Soglie VDOT per livello, differenziate per sesso.
-    /// Basate sulla distribuzione percentile dei finishing time    // nelle maratone di massa (RunRepeat Global Report 2023)
-    /// e sulle tabelle age-grading di WMA (World Masters Athletics).
-    ///
-    /// Uomo:   mediana maratona ~4:30 → VDOT ~37
-    /// Donna:  mediana maratona ~4:55 → VDOT ~33
-    /// Il "corridore medio" ha VDOT diverso per sesso → le soglie si spostano.
-    
+
+    // MARK: - Athlete level thresholds
+    //
+    // VDOT thresholds per level, differentiated by sex.
+    // Based on percentile distribution of finishing times in mass marathons (RunRepeat Global Report 2023)
+    // and on WMA (World Masters Athletics) age-grading tables.
+    //
+    // Male:   median marathon ~4:30 → VDOT ~37
+    // Female: median marathon ~4:55 → VDOT ~33
+    // The "average runner" has different VDOT by sex → thresholds shift.
+
     // swiftlint:disable:next large_tuple
     var levelThresholds: (recreational: Double, intermediate: Double, advanced: Double, elite: Double) {
         switch self {
         case .male:
-            // Distribuzione maschile: mediana ~VDOT 37
+            // Male distribution: median ~VDOT 37
             return (recreational: 32, intermediate: 42, advanced: 52, elite: 62)
         case .female:
-            // Distribuzione femminile: mediana ~VDOT 33, shift ~8-10 punti
+            // Female distribution: median ~VDOT 33, shift ~8-10 points
             return (recreational: 28, intermediate: 37, advanced: 47, elite: 57)
         }
     }
-    
+
     func runnerLevel(vdot: Double) -> RunnerLevel {
-        let soglie = levelThresholds
+        let thresholds = levelThresholds
         switch vdot {
-        case ..<soglie.recreational:  return .beginner
-        case soglie.recreational..<soglie.intermediate: return .recreational
-        case soglie.intermediate..<soglie.advanced: return .intermediate
-        case soglie.advanced..<soglie.elite: return .advanced
+        case ..<thresholds.recreational:  return .beginner
+        case thresholds.recreational..<thresholds.intermediate: return .recreational
+        case thresholds.intermediate..<thresholds.advanced: return .intermediate
+        case thresholds.advanced..<thresholds.elite: return .advanced
         default: return .elite
         }
     }
@@ -232,9 +234,9 @@ enum RunnerSex: String, CaseIterable, Identifiable, Codable {
 enum UnitSystem: String, CaseIterable, Identifiable, Codable {
     case metric
     case imperial
-    
+
     var id: String { rawValue }
-    
+
     var label: String {
         switch self {
         case .metric:   return "Metrico (km)"
@@ -249,49 +251,50 @@ enum UnitSystem: String, CaseIterable, Identifiable, Codable {
             return LocalizedStringResource("UnitSystem.label.imperial", defaultValue: "Imperiale")
         }
     }
-    
-    // MARK: Conversions
-    /// Converte km → unità visualizzata
+
+    // MARK: - Conversions
+
+    // Converts km → display unit
     func displayDistance(_ kms: Double) -> Double {
         switch self {
         case .metric:   return kms
         case .imperial: return kms * 0.621371
         }
     }
-    
-    // Suffisso distanza
+
+    // Distance suffix
     var distanceUnit: String {
         switch self {
         case .metric:   return "km"
         case .imperial: return "mi"
         }
     }
-    
-    // Converte secondi/km → secondi/unità visualizzata
+
+    // Converts sec/km → sec/display unit
     func displayPace(_ secsPerKm: Double) -> Double {
         switch self {
         case .metric:   return secsPerKm
         case .imperial: return secsPerKm / 0.621371   // sec/mi
         }
     }
-    
-    // Suffisso passo
+
+    // Pace suffix
     var paceUnit: String {
         switch self {
         case .metric:   return "/km"
         case .imperial: return "/mi"
         }
     }
-    
-    // Formatta secondi/km → stringa passo localizzata
+
+    // Formats sec/km → localized pace string
     func formatPace(_ secsPerKm: Double) -> String {
         let converted = displayPace(secsPerKm)
         let mins = Int(converted) / 60
         let secs = Int(converted) % 60
         return String(format: "%d:%02d %@", mins, secs, paceUnit)
     }
-    
-    /// Formatta km → stringa distanza localizzata
+
+    // Formats km → localized distance string
     func formatDistance(_ kms: Double) -> String {
         let value = displayDistance(kms)
         return String(format: "%.1f %@", value, distanceUnit)
@@ -304,8 +307,8 @@ enum RaceDistance: String, CaseIterable, Identifiable {
     case tenK = "10 km"
     case halfMarathon = "Mezza Maratona"
     case marathon = "Maratona"
-    
-    // Questo dice a Xcode di mettere queste stringhe e mettile nel file .xcstrings!"
+
+    // This tells Xcode to put these strings in the .xcstrings file!
     var localizedName: LocalizedStringResource {
         switch self {
         case .fiveK: return "5 km"
@@ -314,17 +317,17 @@ enum RaceDistance: String, CaseIterable, Identifiable {
         case .marathon: return "Maratona"
         }
     }
-    
-    // La 5K è esclusa dalle distanze target perché:
-    // - Richiede una struttura di piano diversa (più R e I, meno volume)
-    // - Il generatore è ottimizzato per distanze da resistenza prolungata
-    // - Rimane disponibile come distanza di riferimento per il VDOT
+
+    // 5K is excluded from target distances because:
+    // - It requires a different plan structure (more R and I, less volume)
+    // - The generator is optimized for prolonged endurance distances
+    // - It remains available as a reference distance for VDOT
     static var targetDistances: [RaceDistance] {
         [.tenK, .halfMarathon, .marathon]
     }
-    
+
     var id: String { rawValue }
-    
+
     var meters: Double {
         switch self {
         case .fiveK: return 5000
@@ -333,8 +336,8 @@ enum RaceDistance: String, CaseIterable, Identifiable {
         case .marathon: return 42195
         }
     }
-    
-    // lunghezza max in settimane per i piani di allenamento
+
+    // Max plan length in weeks
     var maxPlanWeeks: Int {
         switch self {
         case .fiveK:        return 16
@@ -343,8 +346,8 @@ enum RaceDistance: String, CaseIterable, Identifiable {
         case .marathon:     return 24
         }
     }
-    /// Fattore di conversione VDOT per stimare performance su distanze diverse
-    /// Fonte: Daniels' Running Formula (Jack Daniels, 3rd Ed.)
+    // VDOT conversion factor for estimating performance on different distances
+    // Source: Daniels' Running Formula (Jack Daniels, 3rd Ed.)
     var vdotConversionFactor: Double {
         switch self {
         case .fiveK: return 1.0
@@ -353,27 +356,27 @@ enum RaceDistance: String, CaseIterable, Identifiable {
         case .marathon: return 0.9090
         }
     }
-    
+
     var performanceBounds: PerformanceBounds {
         switch self {
         case .fiveK:
             return PerformanceBounds(
-                minSeconds: 13 * 60,          // 13:00 (élite mondiale ~12:35)
+                minSeconds: 13 * 60,          // 13:00 (world elite ~12:35)
                 maxSeconds: 60 * 60           // 1:00:00 (12:00 /km)
             )
         case .tenK:
             return PerformanceBounds(
-                minSeconds: 27 * 60,          // 27:00 (élite mondiale ~26:17)
+                minSeconds: 27 * 60,          // 27:00 (world elite ~26:17)
                 maxSeconds: 2 * 3600          // 2:00:00 (12:00 /km)
             )
         case .halfMarathon:
             return PerformanceBounds(
-                minSeconds: 58 * 60,          // 58:00 (élite mondiale ~57:31)
+                minSeconds: 58 * 60,          // 58:00 (world elite ~57:31)
                 maxSeconds: 4 * 3600          // 4:00:00 (~11:22 /km)
             )
         case .marathon:
             return PerformanceBounds(
-                minSeconds: 2 * 3600,         // 2:00:00 (élite mondiale)
+                minSeconds: 2 * 3600,         // 2:00:00 (world elite)
                 maxSeconds: 8 * 3600          // 8:00:00 (~11:22 /km)
             )
         }
@@ -381,130 +384,115 @@ enum RaceDistance: String, CaseIterable, Identifiable {
 }
 
 // MARK: - WorkoutType
+//
+// Enum of workout types based on the official Daniels categories [1].
+//
+// Sources:
+// [1] Daniels J. (2022). Daniels' Running Formula (4th ed.). Human Kinetics.
+//     Ch. 4: E, M, T, I, R — the five core intensities of the Daniels system.
+// [2] Pfitzinger P., Douglas S. (2009). Advanced Marathoning (2nd ed.). Human Kinetics.
+// [6] Mujika I., Padilla S. (2003). Scientific bases for precompetition tapering strategies.
+//     Medicine & Science in Sports & Exercise, 35(7), 1182-1187.
+
 enum WorkoutType: String, CaseIterable {
-    /// Enum dei tipi di allenamento basato sulle categorie ufficiali di Daniels [1].
-    ///
-    /// FONTI
-    /// [1] Daniels J. (2022). Daniels' Running Formula (4th ed.). Human Kinetics.
-    ///     Cap. 4: E, M, T, I, R — le cinque intensità core del sistema Daniels.
-    /// [2] Pfitzinger P., Douglas S. (2009). Advanced Marathoning (2nd ed.). Human Kinetics.
-    /// [6] Mujika I., Padilla S. (2003). Scientific bases for precompetition tapering strategies.
-    ///     Medicine & Science in Sports & Exercise, 35(7), 1182-1187.
-    ///
-    /// MODIFICHE RISPETTO ALLA VERSIONE PRECEDENTE
-    ///
-    /// [FIX-2] Aggiunto caso .repetition (R-pace di Daniels).
-    ///   Era completamente assente. Daniels [1] cap. 4 dedica una sezione autonoma
-    ///   alle Repetition: scopo primario è velocità ed economia di corsa.
-    ///   Work bout MAX 2 min, recupero COMPLETO (jog = distanza del lavoro).
-    ///   Introdotte in Phase II (Build), prima delle Interval.
-    ///
-    /// [FIX-5] Intensità FCmax di .tempo corretta: da "80-90%" a "88-92%".
-    ///   Daniels [1] cap. 4: T-pace = 85-88% VO2max / 88-92% FCmax (atleti allenati).
-    ///   Il precedente 80% coincideva con M-pace, non con la soglia anaerobica.
-    ///
-    /// [FIX-6] Intensità di .recovery allineata all'E-pace di Daniels.
-    ///   Daniels non definisce una zona "recovery" separata: usa E-pace (59-74% VO2max)
-    ///   per tutto il continuum di bassa intensità. L'intensityDescription ora
-    ///   rispecchia questo, usando il limite inferiore dell'E-pace.
-    
+
     // ── Daniels core training types ─────────────────────────────────────────
     case easy        = "Corsa Facile"
     case longRun     = "Lungo"
     case marPace     = "Ritmo Maratona"
     case tempo       = "Tempo Run"
     case interval    = "Interval Training"
-    
-    // [FIX-2] Nuovo caso: R (Repetition) pace di Daniels [1] cap. 4.
-    // Scopo: velocità, economia di corsa, potenza anaerobica.
-    // Distinto dall'Interval per: work bout più breve (max 2 min),
-    // recupero completo (non attivo), intensità più alta (~105-120% VDOT).
+
+    // R (Repetition) pace from Daniels [1] ch. 4.
+    // Purpose: speed, running economy, anaerobic power.
+    // Distinct from Interval by: shorter work bout (max 2 min),
+    // full recovery (not active), higher intensity (~105-120% VDOT).
     case repetition  = "Ripetute"
-    
-    // ── Tipi supplementari ───────────────────────────────────────────────────
+
+    // ── Supplemental types ───────────────────────────────────────────────────
     case progression = "Corsa Progressiva"
     case hillRepeat  = "Ripetute in Salita"
-    
-    // ── Speciali ─────────────────────────────────────────────────────────────
+
+    // ── Special ─────────────────────────────────────────────────────────────
     case recovery    = "Recupero Attivo"
     case race        = "GARA"
     case rest        = "Riposo"
-    
-    // MARK: - Palette colori / zona / emoji
+
+    // MARK: - Color palette / zone / emoji
     //
-    /// Fonte unica di verità per colore, etichetta zona, codice Daniels ed emoji.
-    /// Sia calendarView che PacesView attingono a queste proprietà,
-    /// garantendo coerenza visiva senza duplicazioni.
-    ///
-    /// Palette basata sull'intensità crescente secondo Daniels [1] cap. 4:
-    ///   gray   → nessuna intensità (rest/recovery)
-    ///   green  → E  (Z2, aerobico base)
-    ///   teal   → progressione/colline (Z2→Z4, supplemental)
-    ///   yellow → M  (Z3, marathon pace)
-    ///   orange → T  (Z4, soglia)
-    ///   red    → I  (Z5, VO2max)
-    ///   purple → R  (Z5+, velocità pura)
-    ///   indigo → gara
-    ///
-    /// Correzioni rispetto alla versione precedente:
-    /// - interval e repetition avevano lo stesso colore purple → ora distinti (red/purple)
-    /// - recovery era blue suggerendo una zona separata → ora green (limite inf. E-pace)
-    /// - tempo era red come interval → ora orange (un gradino sotto in intensità)
-    
+    // Single source of truth for color, zone label, Daniels code, and emoji.
+    // Both calendarView and PacesView draw from these properties,
+    // ensuring visual consistency without duplication.
+    //
+    // Palette based on increasing intensity per Daniels [1] ch. 4:
+    //   gray   → no intensity (rest/recovery)
+    //   green  → E  (Z2, aerobic base)
+    //   teal   → progression/hills (Z2→Z4, supplemental)
+    //   yellow → M  (Z3, marathon pace)
+    //   orange → T  (Z4, threshold)
+    //   red    → I  (Z5, VO2max)
+    //   purple → R  (Z5+, pure speed)
+    //   indigo → race
+    //
+    // Corrections from previous version:
+    // - interval and repetition had the same purple color → now distinct (red/purple)
+    // - recovery was blue suggesting a separate zone → now green (lower bound E-pace)
+    // - tempo was red like interval → now orange (one step below in intensity)
+
     var color: Color {
         switch self {
         case .rest:
-            // Nessuno sforzo — neutro.
+            // No effort — neutral.
             return .gray
-            
+
         case .recovery:
-            // Limite inferiore dell'E-pace (59% VO2max). Daniels non definisce
-            // una zona separata: è semplicemente E-pace molto leggero.
-            // Stesso colore di .easy per coerenza concettuale.
+            // Lower bound of E-pace (59% VO2max). Daniels does not define
+            // a separate zone: it's simply very light E-pace.
+            // Same color as .easy for conceptual consistency.
             return .green
-            
+
         case .easy, .longRun:
-            // E-pace / L run: Z2, aerobico base. Fonte: Daniels [1] cap. 4.
+            // E-pace / L run: Z2, aerobic base. Source: Daniels [1] ch. 4.
             return .green
-            
+
         case .progression:
-            // La progressiva inizia a E-pace (Z2) e sale verso T-pace (Z4),
-            // ma la maggior parte del volume è nella metà inferiore del range.
-            // .yellow (Z3/M-pace) riflette l'intensità media onesta della sessione.
-            // Precedentemente .teal: non comunicava intensità, solo "tipo diverso".
+            // Progression starts at E-pace (Z2) and rises toward T-pace (Z4),
+            // but most of the volume is in the lower half of the range.
+            // .yellow (Z3/M-pace) reflects the honest average intensity of the session.
+            // Previously .teal: didn't communicate intensity, just "different type".
             return .yellow
-            
+
         case .marPace:
-            // M-pace: Z3, 75-84% VO2max. Fonte: Daniels [1] cap. 4.
+            // M-pace: Z3, 75-84% VO2max. Source: Daniels [1] ch. 4.
             return .yellow
-            
+
         case .hillRepeat:
-            // Intensità media Z4: sforzo ~90-95% in salita, recupero passivo
-            // in discesa. Sessione impegnativa quanto il Tempo Run → stesso colore.
-            // Precedentemente .teal: sottostimava lo sforzo richiesto.
+            // Average Z4 intensity: effort ~90-95% uphill, passive recovery
+            // downhill. Session as demanding as Tempo Run → same color.
+            // Previously .teal: underestimated the required effort.
             return .orange
-            
+
         case .tempo:
-            // T-pace: Z4, soglia anaerobica, 85-88% VO2max. Fonte: Daniels [1] cap. 4.
+            // T-pace: Z4, anaerobic threshold, 85-88% VO2max. Source: Daniels [1] ch. 4.
             return .orange
-            
+
         case .interval:
-            // I-pace: Z5, 95-100% VO2max. Fonte: Daniels [1] cap. 4.
+            // I-pace: Z5, 95-100% VO2max. Source: Daniels [1] ch. 4.
             return .red
-            
+
         case .repetition:
-            // R-pace: Z5+, >100% VO2max, velocità pura. Distinto da .interval
-            // per work bout più breve e recupero completo. Fonte: Daniels [1] cap. 4.
+            // R-pace: Z5+, >100% VO2max, pure speed. Distinct from .interval
+            // by shorter work bout and full recovery. Source: Daniels [1] ch. 4.
             return .purple
-            
+
         case .race:
-            // Gara: sforzo massimo pianificato. Colore distinto da tutti i tipi
-            // di allenamento per segnalare l'unicità dell'evento nel calendario.
+            // Race: maximum planned effort. Color distinct from all workout types
+            // to signal the uniqueness of the event in the calendar.
             return .indigo
         }
     }
-    
-    /// Etichetta zona numerica (es. "Z2", "Z4", "Z5+").
+
+    // Numeric zone label (e.g. "Z2", "Z4", "Z5+").
     var zoneLabel: String {
         switch self {
         case .rest:        return "—"
@@ -520,8 +508,8 @@ enum WorkoutType: String, CaseIterable {
         case .race:        return "—"
         }
     }
-    
-    /// Lettera ufficiale Daniels (E/M/T/I/R). Vuota per i tipi non-Daniels.
+
+    // Official Daniels letter (E/M/T/I/R). Empty for non-Daniels types.
     var danielsCode: String {
         switch self {
         case .easy, .longRun, .recovery: return "E"
@@ -533,21 +521,21 @@ enum WorkoutType: String, CaseIterable {
                 .rest, .race:               return ""
         }
     }
-    
-    /// SF Symbol coerente con `color` e `zoneLabel`.
-    /// Sostituisce le emoji: più coerenti con l'estetica iOS/SwiftUI,
-    /// supportano tinting automatico, dark mode e Dynamic Type.
-    ///
-    /// Criteri di scelta:
-    /// - rest/recovery: attività minima o assente
-    /// - easy/longRun:  figura che corre (intensità bassa)
-    /// - progression:   grafico ascendente
-    /// - hillRepeat:    freccia su (salita)
-    /// - marPace:       gauge a 1/3 (ritmo controllato e sostenuto)
-    /// - tempo:         fiamma (sforzo alto ma sostenibile)
-    /// - interval:      fulmine (sforzo massimo aerobico, intermittente)
-    /// - repetition:    coniglio (velocità pura, sprint)
-    /// - race:          trofeo
+
+    // SF Symbol consistent with `color` and `zoneLabel`.
+    // Replaces emoji: more consistent with iOS/SwiftUI aesthetics,
+    // support automatic tinting, dark mode, and Dynamic Type.
+    //
+    // Selection criteria:
+    // - rest/recovery: minimal or no activity
+    // - easy/longRun:  running figure (low intensity)
+    // - progression:   ascending chart
+    // - hillRepeat:    arrow up (hill)
+    // - marPace:       gauge at 1/3 (controlled and sustained pace)
+    // - tempo:         flame (high but sustainable effort)
+    // - interval:      lightning (maximum aerobic effort, intermittent)
+    // - repetition:    hare (pure speed, sprint)
+    // - race:          trophy
     var sfSymbol: String {
         switch self {
         case .rest:        return "moon.zzz"
@@ -650,76 +638,70 @@ enum WorkoutType: String, CaseIterable {
             )
         }
     }
-    
-    // MARK: - Descrizione intensità fisiologica
-    
-    // Le percentuali di FCmax e VO2max seguono Daniels [1] cap. 4 (figura 4.1).
+
+    // MARK: - Physiological intensity description
+
+    // FCmax and VO2max percentages follow Daniels [1] ch. 4 (figure 4.1).
     var intensityDescription: String {
         switch self {
         case .rest:
             return "Riposo completo o attività leggera"
-            
+
         case .recovery:
-            // [FIX-6] Daniels non definisce una zona recovery distinta dall'Easy.
-            // Usa il limite inferiore del range E-pace (59% VO2max / 65% FCmax).
-            // Fonte: [1] cap. 4 – E pace range 59-74% VO2max.
+            // [FIX-6] Daniels does not define a separate recovery zone from Easy.
+            // Uses the lower bound of the E-pace range (59% VO2max / 65% FCmax).
+            // Source: [1] ch. 4 – E pace range 59-74% VO2max.
             return "59-65% VO2max / 65-70% FCmax – limite inferiore E-pace (Daniels)"
-            
+
         case .easy:
-            // Fonte: [1] cap. 4: "E is typically about 59 to 74 percent of O2max
+            // Source: [1] ch. 4: "E is typically about 59 to 74 percent of O2max
             // or about 65 to 79 percent of maximum heart rate."
             return "59-74% VO2max / 65-79% FCmax – Easy pace (Daniels E)"
-            
+
         case .longRun:
-            // Il lungo è sempre a E-pace. Fonte: [1] cap. 4.
+            // The long run is always at E-pace. Source: [1] ch. 4.
             return "59-74% VO2max / 65-79% FCmax – E-pace (L run = E run prolungato)"
-            
+
         case .marPace:
-            // Fonte: [1] cap. 4 figura 4.1: M = 75-84% VO2max / 80-89% FCmax.
+            // Source: [1] ch. 4 figure 4.1: M = 75-84% VO2max / 80-89% FCmax.
             return "75-84% VO2max / 80-89% FCmax – Marathon pace (Daniels M)"
-            
+
         case .tempo:
-            // [FIX-5] Corretto: Daniels [1] cap. 4: "T-pace at about 85 to 88 percent
-            // of O2max (88 to 92 percent of maximum heart rate) for well-trained athletes."
-            // La versione precedente indicava 80-90% FCmax — il limite inferiore era
-            // troppo basso, coincideva con M-pace anziché con la soglia lattato.
+            // Source: [1] ch. 4: T-pace = 85-88% VO2max / 88-92% FCmax (trained athletes).
             return "85-88% VO2max / 88-92% FCmax – Threshold/Tempo pace (Daniels T)"
-            
+
         case .interval:
-            // Fonte: [1] cap. 4: I-pace = ~95-100% VO2max (vVO2max).
-            // Work bout 3-5 min. Recupero attivo (jog) uguale o leggermente inferiore
-            // al tempo di lavoro.
+            // Source: [1] ch. 4: I-pace = ~95-100% VO2max (vVO2max).
+            // Work bout 3-5 min. Active recovery (jog) equal to or slightly less than
+            // work time.
             return "95-100% VO2max / ~98% FCmax – Interval pace (Daniels I)"
-            
+
         case .repetition:
-            // [FIX-2] Nuovo. Fonte: [1] cap. 4 – Repetition training section.
-            // "The primary purpose of R training is to improve anaerobic power,
-            //  speed, and economy of running."
-            // R-pace ≈ 105-120% intensità VDOT (più veloce di I-pace).
-            // "Daniels' 6-second rule": R pace è ~6 sec/400m più veloce di I pace.
-            // Work bout MAX 2 minuti. Recupero COMPLETO (jog = distanza corsa).
+            // Source: [1] ch. 4 – Repetition training. R-pace ≈ 105-120% VDOT (faster than I-pace).
+            // "Daniels' 6-second rule": R pace is ~6 sec/400m faster than I pace.
+            // Work bout MAX 2 minutes. FULL recovery (jog = run distance).
             return "105-120% VDOT (>100% VO2max) – Repetition pace (Daniels R) – max 2 min/rep"
-            
+
         case .progression:
-            // Da E-pace a T-pace progressivamente. Fonte: [2] Pfitzinger.
+            // From E-pace to T-pace progressively. Source: [2] Pfitzinger.
             return "Da 59% a 88% VO2max – E→M→T progressivo (Z2→Z4)"
-            
+
         case .hillRepeat:
-            // Collinare: stimolo forza-velocità a impatto articolare ridotto.
-            // Compatibile con Phase I/II di Daniels. Fonte: [2] Pfitzinger.
+            // Hills: strength-speed stimulus with reduced joint impact.
+            // Compatible with Phase I/II of Daniels. Source: [2] Pfitzinger.
             return "~90-95% sforzo in salita – forza specifica (Z4-5, impatto ridotto)"
-            
+
         case .race:
             return "Sforzo massimo pianificato – ritmo gara specifico"
         }
     }
-    
-    // MARK: - Fase consigliata (Daniels [1] cap. 10)
-    
-    // Indica in quale fase del piano Daniels introduce preferibilmente questo tipo.
-    // Utile per validazione e UI.
-    // [FIX-3] La sequenza corretta è: E (Base) → R (Build) → T+I (Peak).
-    //         Non: E (Base) → T+I (Build). L'I non va introdotto prima di R.
+
+    // MARK: - Recommended phase (Daniels [1] ch. 10)
+
+    // Indicates in which phase Daniels preferably introduces this type.
+    // Useful for validation and UI.
+    // [FIX-3] The correct sequence is: E (Base) → R (Build) → T+I (Peak).
+    //         Not: E (Base) → T+I (Build). I should not be introduced before R.
     var recommendedPhases: [TrainingPhase] {
         switch self {
         case .rest:
@@ -727,65 +709,63 @@ enum WorkoutType: String, CaseIterable {
         case .recovery:
             return [.base, .build, .peak, .taper, .race]
         case .easy, .longRun:
-            // E-pace è presente in tutte le fasi come volume di base.
+            // E-pace is present in all phases as base volume.
             return [.base, .build, .peak, .taper, .race]
         case .progression, .hillRepeat:
-            // Stimoli leggeri compatibili con Phase I (Base) di Daniels.
+            // Light stimuli compatible with Phase I (Base) of Daniels.
             return [.base, .build]
         case .repetition:
-            // [FIX-2][FIX-3] R introdotto in Phase II (Build), prima di I.
-            // Fonte: [1] cap. 10 – Phase II: "going from E running to R workouts
+            // R introduced in Phase II (Build), before I.
+            // Source: [1] ch. 10 – Phase II: "going from E running to R workouts
             // is adding only a speed stress."
             return [.build, .peak]
         case .tempo:
-            // T introdotto da Phase II (Build) in poi.
+            // T introduced from Phase II (Build) onward.
             return [.build, .peak, .taper]
         case .marPace:
-            // M-pace rilevante in Peak, soprattutto per maratona/HM. Fonte: [2].
+            // M-pace relevant in Peak, especially for marathon/HM. Source: [2].
             return [.peak, .taper]
         case .interval:
-            // [FIX-3] I introdotto solo in Peak (Phase III/IV di Daniels), mai in Base.
-            // Nella versione precedente era inserito già nella fase Build.
+            // I introduced only in Peak (Phase III/IV of Daniels), never in Base.
             return [.peak]
         case .race:
             return [.race]
         }
     }
-    
-    // MARK: - Massimo volume per sessione (% del volume settimanale)
-    
-    // Limiti definiti da Daniels [1] cap. 4.
-    // Utile per validazione dei workout generati.
+
+    // MARK: - Max volume per session (% of weekly volume)
+
+    // Limits defined by Daniels [1] ch. 4.
+    // Useful for validation of generated workouts.
     var maxSessionFractionOfWeeklyVolume: Double? {
         switch self {
         case .longRun:
-            // [FIX-1] 25% — Daniels [1] cap. 4: "no more than 25 percent
-            // of weekly mileage." Precedentemente era 33%, non supportato.
+            // Daniels [1] ch. 4: "no more than 25 percent of weekly mileage."
             return 0.25
         case .tempo:
-            // Daniels [1] cap. 4: "not totaling more than 10 percent of
+            // Daniels [1] ch. 4: "not totaling more than 10 percent of
             // your weekly mileage in a single workout."
             return 0.10
         case .marPace:
-            // Daniels [1] cap. 4: "not add up to more than the lesser of
+            // Daniels [1] ch. 4: "not add up to more than the lesser of
             // 20 percent of your weekly mileage or 18 miles."
             return 0.20
         case .interval:
-            // Daniels [1] cap. 4: "maximum the lesser of 10K or 8 percent
+            // Daniels [1] ch. 4: "maximum the lesser of 10K or 8 percent
             // of your weekly mileage."
             return 0.08
         case .repetition:
-            // [FIX-2] Daniels [1] cap. 4: R sessioni più brevi e intense.
-            // Limite conservativo: 5% del volume settimanale.
+            // Daniels [1] ch. 4: R sessions shorter and more intense.
+            // Conservative limit: 5% of weekly volume.
             return 0.05
         case .easy, .recovery, .progression,
                 .hillRepeat, .rest, .race:
-            return nil  // nessun limite percentuale rigido per questi tipi
+            return nil  // no strict percentage limit for these types
         }
     }
-    
-    // Sezione corrispondente in MethodologyView.
-    // nil per tipi senza zona Daniels dedicata (rest, race, ecc.).
+
+    // Corresponding section in MethodologyView.
+    // nil for types without a dedicated Daniels zone (rest, race, etc.).
     var methodologySection: MethodologySection? {
         switch self {
         case .easy, .longRun, .recovery: return .zoneE
@@ -800,53 +780,54 @@ enum WorkoutType: String, CaseIterable {
 }
 
 // MARK: - VDOT / Paces calculator
+//
+// VDOT and training paces calculation.
+// Main sources:
+// - Daniels J. (2014). Daniels' Running Formula, 3rd Ed. Human Kinetics.
+// - Pfitzinger P., Douglas S. (2009). Advanced Marathoning. Human Kinetics.
+// - Billat V. (2001). Interval Training for Performance. Sports Medicine.
+
 struct VDOTCalculator {
-    /// Calcolo VDOT e ritmi di allenamento
-    /// Fonti principali:
-    /// - Daniels J. (2014). Daniels' Running Formula, 3rd Ed. Human Kinetics.
-    /// - Pfitzinger P., Douglas S. (2009). Advanced Marathoning. Human Kinetics.
-    /// - Billat V. (2001). Interval Training for Performance. Sports Medicine.
     static func calculate(timeInSeconds: Double, distanceMeters: Double) -> Double {
-        let time = timeInSeconds / 60.0  // minuti
-        //   let dist = distanceMeters / 1000.0 // km
-        
-        // Velocità in m/min
+        let time = timeInSeconds / 60.0  // minutes
+
+        // Velocity in m/min
         let velocity = (distanceMeters / timeInSeconds) * 60.0
-        
-        // VO2 richiesto a quella velocità
+
+        // VO2 required at that velocity
         let vo2 = -4.60 + 0.182258 * velocity + 0.000104 * velocity * velocity
-        
-        // Frazione VO2max utilizzata a quella durata (Daniels)
+
+        // Fraction of VO2max used at that duration (Daniels)
         let pctVO2max = 0.8 + 0.1894393 * exp(-0.012778 * time) + 0.2989558 * exp(-0.1932605 * time)
-        
+
         let vdot = vo2 / pctVO2max
         return max(20, min(85, vdot))
     }
-    
-    /// Ritmi di allenamento in sec/km basati su VDOT
-    /// Fonte: Daniels' Running Formula, Tables (adattate)
+
+    // Training paces in sec/km based on VDOT
+    // Source: Daniels' Running Formula, Tables (adapted)
     static func trainingPaces(vdot: Double) -> TrainingPaces {
-        
+
         // Easy pace: ~70% VDOT velocity
         let easyVelocity = velocityFromVDOT(vdot * 0.70)
         let easyPace = 1000.0 / easyVelocity * 60.0
-        
+
         // Marathon pace: ~80% VDOT velocity
         let mpVelocity = velocityFromVDOT(vdot * 0.80)
         let mpPace = 1000.0 / mpVelocity * 60.0
-        
+
         // Threshold (Tempo) pace: ~83-88% VDOT
         let thresholdVelocity = velocityFromVDOT(vdot * 0.86)
         let thresholdPace = 1000.0 / thresholdVelocity * 60.0
-        
+
         // Interval pace: ~95-100% VDOT (VO2max pace)
         let intervalVelocity = velocityFromVDOT(vdot * 0.98)
         let intervalPace = 1000.0 / intervalVelocity * 60.0
-        
+
         // Recovery pace: ~60% VDOT
         let recoveryVelocity = velocityFromVDOT(vdot * 0.60)
         let recoveryPace = 1000.0 / recoveryVelocity * 60.0
-        
+
         return TrainingPaces(
             vdot: vdot,
             easyPaceSecsPerKm: easyPace,
@@ -856,23 +837,23 @@ struct VDOTCalculator {
             recoveryPaceSecsPerKm: recoveryPace
         )
     }
-    
-    // Velocità (m/min) da VDOT (inversione approssimativa)
+
+    // Velocity (m/min) from VDOT (approximate inversion)
     private static func velocityFromVDOT(_ vdot: Double) -> Double {
-        // Inversione numerica semplificata della formula Daniels
-        // a 100% VO2max (pctVO2max ≈ 1.0 per durate ~10-15 min)
-        // v ≈ soluzione di: -4.60 + 0.182258*v + 0.000104*v^2 = vdot
+        // Simplified numerical inversion of the Daniels formula
+        // at 100% VO2max (pctVO2max ≈ 1.0 for durations ~10-15 min)
+        // v ≈ solution of: -4.60 + 0.182258*v + 0.000104*v^2 = vdot
         let a = 0.000104
         let b = 0.182258
         let c = -4.60 - vdot
         let discriminant = b * b - 4 * a * c
         return (-b + sqrt(discriminant)) / (2 * a)
     }
-    
-    /// Stima il tempo target su distanza gara dal VDOT
+
+    // Estimates target time on race distance from VDOT
     static func predictRaceTime(vdot: Double, distance: RaceDistance) -> Double {
-        // Trova il tempo (in sec) tale che VDOT calcolato ≈ vdot dato
-        // Metodo bisezione
+        // Find the time (in sec) such that calculated VDOT ≈ given vdot
+        // Bisection method
         var low: Double = 60
         var hig: Double = 36000
         for _ in 0..<50 {
@@ -892,44 +873,44 @@ struct TrainingPaces {
     let thresholdPaceSecsPerKm: Double
     let intervalPaceSecsPerKm: Double
     let recoveryPaceSecsPerKm: Double
-    
+
     func formatted(_ secsPerKm: Double) -> String {
         let mins = Int(secsPerKm) / 60
         let secs = Int(secsPerKm) % 60
         return String(format: "%d:%02d /km", mins, secs)
     }
-    
+
     var easyFormatted: String { formatted(easyPaceSecsPerKm) }
     var mpFormatted: String { formatted(marathonPaceSecsPerKm) }
     var thresholdFormatted: String { formatted(thresholdPaceSecsPerKm) }
     var intervalFormatted: String { formatted(intervalPaceSecsPerKm) }
     var recoveryFormatted: String { formatted(recoveryPaceSecsPerKm) }
-    
+
     func formattedPace(_ secsPerKm: Double, unitSystem: UnitSystem) -> String {
         unitSystem.formatPace(secsPerKm)
     }
-    
+
     func easyFormatted(unitSystem: UnitSystem) -> String { formattedPace(easyPaceSecsPerKm, unitSystem: unitSystem) }
     func mpFormatted(unitSystem: UnitSystem) -> String { formattedPace(marathonPaceSecsPerKm, unitSystem: unitSystem) }
     func thresholdFormatted(unitSystem: UnitSystem) -> String { formattedPace(thresholdPaceSecsPerKm, unitSystem: unitSystem) }
     func intervalFormatted(unitSystem: UnitSystem) -> String { formattedPace(intervalPaceSecsPerKm, unitSystem: unitSystem) }
     func recoveryFormatted(unitSystem: UnitSystem) -> String { formattedPace(recoveryPaceSecsPerKm, unitSystem: unitSystem) }
-    
-    // [FIX-2] R-pace: circa 105-120% dell'intensità VDOT (velocità > I-pace).
-    // Daniels [1]: R pace ≈ ritmo gara sul miglio / 1500m.
-    // "Regola dei 6 secondi": R pace è ~6 sec/400m più veloce di I pace.
-    // Implementazione: invertiamo la formula con VDOT * 1.05 (approssimazione
-    // conservativa, equivale a circa 5% più veloce del ritmo di gara a VO2max).
+
+    // R-pace: ~105-120% of VDOT intensity (faster than I-pace).
+    // Daniels [1]: R pace ≈ race pace on mile / 1500m.
+    // "6-second rule": R pace is ~6 sec/400m faster than I pace.
+    // Implementation: invert the formula with VDOT * 1.05 (approximate
+    // conservative, equivalent to about 5% faster than race pace at VO2max).
     var repetitionPaceSecsPerKm: Double {
-        // Approssimazione: R pace ≈ I pace - 6 sec/400m ≈ I pace * 0.965
-        // (6 sec su 400m = 15 sec/km, e a I-pace ~3:30-4:00/km, -15 sec ≈ 4%)
+        // Approximation: R pace ≈ I pace - 6 sec/400m ≈ I pace * 0.965
+        // (6 sec on 400m = 15 sec/km, and at I-pace ~3:30-4:00/km, -15 sec ≈ 4%)
         return intervalPaceSecsPerKm * 0.965
     }
-    
+
     var repetitionFormatted: String {
         formatted(repetitionPaceSecsPerKm)
     }
-    
+
     func repetitionFormatted(unitSystem: UnitSystem) -> String {
         formattedPace(repetitionPaceSecsPerKm, unitSystem: unitSystem)
     }
@@ -954,7 +935,7 @@ struct Workout: Identifiable {
     let structuredSetsKind: StructuredSetsKind?
     let scientificRationale: String
     let rpe: String  // Rate of Perceived Exertion 1-10
-    let tss: Double  // Training Stress Score (approssimativo)
+    let tss: Double  // Training Stress Score (approximate)
 
     func localizedTitle(locale: Locale) -> String {
         titleKind.localizedText(locale: locale)
@@ -979,7 +960,7 @@ struct TrainingPlanInput {
     let raceDate: Date
     let raceName: String
     let trainingDaysPerWeek: Int
-    let targetTime: TimeInterval        // secondi
+    let targetTime: TimeInterval        // seconds
     let currentPerformance: CurrentPerformance
     let sex: RunnerSex
 }
@@ -987,7 +968,7 @@ struct TrainingPlanInput {
 // MARK: - Current Performance
 struct CurrentPerformance {
     let distance: RaceDistance
-    let time: TimeInterval  // secondi
+    let time: TimeInterval  // seconds
 }
 
 // MARK: - Training Plan Output
@@ -1000,11 +981,11 @@ struct TrainingPlan: Identifiable {
     let estimatedRaceTime: Double
     let vdotCurrent: Double
     let vdotTarget: Double
-    let feasibility: GoalFeasibility   // seve per sfSymbol e color
+    let feasibility: GoalFeasibility   // used for sfSymbol and color
 
-    /// Testo localizzato al momento della presentazione.
-    /// `String(localized:)` da solo usa la lingua di sistema; passando `locale` da `@Environment(\.locale)`
-    /// si allinea al language picker in-app (come fanno già le `Text` statiche).
+    // Localized text at presentation time.
+    // `String(localized:)` alone uses the system language; passing `locale` from `@Environment(\.locale)`
+    // aligns with the in-app language picker (as static `Text` already do).
     func localizedFitnessGap(locale: Locale) -> String {
         let diffSeconds = input.targetTime - estimatedRaceTime
         let direction = diffSeconds > 0
@@ -1069,7 +1050,6 @@ struct TrainingWeek: Identifiable {
     let weeklyNote: String
     let weeklyNoteKind: WeeklyNoteKind
 
-    // Somma le distanze reali dei workout
     var totalKm: Double {
         workouts.compactMap(\.distanceKm).reduce(0, +)
     }
@@ -1090,7 +1070,7 @@ struct TrainingWeek: Identifiable {
     }
 }
 
-// MARK: Event data (per il calendario)
+// MARK: Event data (for calendar)
 struct EventData: Identifiable {
     let id = UUID()
     var date: Date
@@ -1120,7 +1100,7 @@ enum TrainingPhase: String {
             return LocalizedStringResource("trainingPhase.race", defaultValue: "Gara")
         }
     }
-    
+
     var description: String {
         switch self {
         case .base: return "Costruzione aerobica, adattamento muscolo-scheletrico, volume progressivo"
@@ -1130,7 +1110,7 @@ enum TrainingPhase: String {
         case .race: return "Settimana di gara"
         }
     }
-    
+
     var methodologySection: MethodologySection {
         switch self {
         case .base:  return .phaseBase

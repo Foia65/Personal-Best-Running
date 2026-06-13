@@ -1,21 +1,23 @@
 import SwiftUI
 
+// MARK: - PersonalBestRunningApp
+//
+// Main app entry point. Configures theme, language, and launches with a splash screen.
 @main
 struct Personal_Best_RunningApp: App {
-    
+
     @StateObject private var themeManager = ThemeManager()
     @StateObject private var languageManager = LanguageManager()
 
     init() {
-            #if DEBUG
-            // Svuota la cache degli snapshot della Launch Screen per resettare i bug visivi
-            if let cachePath = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first {
-                let snapshotsPath = cachePath.appendingPathComponent("Snapshots")
-                try? FileManager.default.removeItem(at: snapshotsPath)
-                print("🚀 Cache della Launch Screen svuotata!")
-            }
-            #endif
+        #if DEBUG
+        // Clear launch screen snapshot cache to reset visual bugs
+        if let cachePath = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first {
+            let snapshotsPath = cachePath.appendingPathComponent("Snapshots")
+            try? FileManager.default.removeItem(at: snapshotsPath)
         }
+        #endif
+    }
     
     var body: some Scene {
         WindowGroup {

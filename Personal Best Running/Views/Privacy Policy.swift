@@ -287,5 +287,5 @@ struct PrivacyPolicyView: View {
 
 #Preview {
     PrivacyPolicyView()
-        .environment(\.locale, .init(identifier: "it"))
+        .environment(\.locale, .init(identifier: "en"))
 }

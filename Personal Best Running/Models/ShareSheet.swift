@@ -1,6 +1,7 @@
 import SwiftUI
 import UIKit
 
+/// Wraps `UIActivityViewController` for sharing files via the system share sheet.
 struct ShareSheet: UIViewControllerRepresentable {
     let url: URL
 

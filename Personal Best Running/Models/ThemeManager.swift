@@ -1,6 +1,7 @@
 import SwiftUI
 import Combine
 
+/// App-wide theme options.
 enum AppTheme: String, CaseIterable {
     case system = "Sistema"
     case light = "Chiaro"
@@ -19,6 +20,7 @@ enum AppTheme: String, CaseIterable {
     
 }
 
+/// Manages the app's color scheme preference and applies it globally.
 class ThemeManager: ObservableObject {
     @Published var selectedTheme: AppTheme = .system {
         didSet {

@@ -1,7 +1,8 @@
 import Foundation
 
-// MARK: - App-localized strings (rispetta il language picker via locale esplicita)
+// MARK: - App-localized strings (respects the language picker via explicit locale)
 
+/// Resolves `LocalizedStringResource` against an explicit locale (respects the in-app language picker).
 enum AppLocalizedString {
     static func resolve(_ resource: LocalizedStringResource, locale: Locale) -> String {
         var resource = resource
@@ -23,6 +24,7 @@ enum AppLocalizedString {
 
 // MARK: - Weekly note (TrainingWeek header)
 
+/// Localized weekly summary shown above each week in the training plan.
 enum WeeklyNoteKind {
     case baseDeload
     case baseProgress
@@ -79,6 +81,7 @@ enum WeeklyNoteKind {
 
 // MARK: - Workout title
 
+/// Determines how a workout title is displayed (by type, race name, etc.).
 enum WorkoutTitleKind {
     case workoutType(WorkoutType)
     case easyRecovery
@@ -122,6 +125,7 @@ enum WorkoutTitleKind {
 
 // MARK: - Workout description
 
+/// Determines how a workout description is composed (by type, with dynamic parameters).
 enum WorkoutDescriptionKind {
     case rest
     case postRaceRest
@@ -213,8 +217,9 @@ enum WorkoutDescriptionKind {
     }
 }
 
-// MARK: - Structured sets (workout detail con ritmi dinamici)
+// MARK: - Structured sets (workout detail with dynamic paces)
 
+/// Localized workout structure descriptions (warm-up, main set, cool-down).
 enum StructuredSetsKind {
     case tempo(mainKm: Int, pace: String)
     case interval(raceDistance: RaceDistance, pace: String)

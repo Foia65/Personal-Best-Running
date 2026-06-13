@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// Vista che rappresenta la pagina di aiuto dell'applicazione.
-/// Rispetta le regole SwiftLint e supporta la localizzazione nativa tramite Xcode.
+// MARK: - HelpView
+
 struct HelpView: View {
     @Environment(\.dismiss) private var dismiss
     
@@ -31,7 +31,7 @@ struct HelpView: View {
         }
     }
     
-    // MARK: - Sezioni della List
+    // MARK: - List Sections
     
     private var introductionSection: some View {
         Section {
@@ -146,7 +146,7 @@ struct HelpView: View {
                 Text("La scheda **Profilo** riassume lo stato attuale del tuo percorso atletico. Al suo interno trovi una panoramica dettagliata che include:")
                     .font(.body)
 
-                // Elenco dettagliato delle informazioni del profilo
+                // Detailed profile information list
                 VStack(alignment: .leading, spacing: 8) {
                     
                     Label("**Calcolo del VDOT:** Visualizza il tuo punteggio VDOT corrente, calcolato  incrociando la tua distanza di riferimento con il tuo ultimo tempo cronometrato.", systemImage: "waveform.path.ecg")
@@ -173,5 +173,5 @@ struct HelpView: View {
 
 #Preview {
     HelpView()
-        .environment(\.locale, .init(identifier: "EN"))
+        .environment(\.locale, .init(identifier: "en"))
 }

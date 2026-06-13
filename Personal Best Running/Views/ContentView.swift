@@ -1,7 +1,11 @@
 import SwiftUI
 import UIKit
 
+// MARK: - ContentView
+
 private let navyBlue = Color(red: 0.0, green: 0.0, blue: 0.3)
+
+// MARK: - Color Extension
 
 extension Color {
     init(light: Color, dark: Color) {
@@ -23,8 +27,6 @@ struct ContentView: View {
     @State private var showingPlan = false
     @State private var selectedTab = 0
     @StateObject private var languageManager = LanguageManager()
-    @AppStorage("runnerSex") private var runnerSex: RunnerSex = .male
-    @StateObject private var calendarManager = CalendarManager()
 
     var body: some View {
         NavigationStack {
@@ -119,6 +121,8 @@ struct ContentView: View {
         .environment(\.locale, languageManager.currentLocale)
     }
 }
+
+// MARK: - EmptyStateView
 
 struct EmptyStateView: View {
     let icon: String

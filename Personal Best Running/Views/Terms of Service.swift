@@ -18,7 +18,7 @@ struct TermsOfServiceView: View {
                         .foregroundColor(.secondary)
                         .padding(.bottom, 20)
                     
-                    // 1. Introduzione
+                    // 1. Introduction
                     VStack(alignment: .leading, spacing: 10) {
                         Text("1. Introduzione")
                             .font(.headline)
@@ -27,7 +27,7 @@ struct TermsOfServiceView: View {
                         Text("Benvenuto in **Personal Best Running**. I presenti Termini di Servizio (\"Termini\") disciplinano l'utilizzo della nostra applicazione. Scaricando, installando o utilizzando Personal Best Running, l'utente accetta di essere vincolato dai presenti Termini.")
                     }
                     
-                    // 2. Descrizione dell'App
+                    // 2. App Description
                     VStack(alignment: .leading, spacing: 10) {
                         Text("2. Descrizione dell'App")
                             .font(.headline)
@@ -36,7 +36,7 @@ struct TermsOfServiceView: View {
                         Text("Personal Best Running è uno strumento dedicato ai runner che permette di creare piani di allenamento personalizzati.")
                     }
                     
-                    // 3. Proprietà Intellettuale e Fonti Scientifiche (NUOVA)
+                    // 3. Intellectual Property and Scientific Sources
                     VStack(alignment: .leading, spacing: 10) {
                         Text("3. Proprietà Intellettuale e Fonti Scientifiche")
                             .font(.headline)
@@ -47,7 +47,7 @@ struct TermsOfServiceView: View {
                         Text("Personal Best Running è un progetto software totalmente indipendente. L'applicazione e il suo sviluppatore non sono in alcun modo affiliati, associati, sponsorizzati, autorizzati o ufficialmente collegati a Jack Daniels, al 'Run SMART Project', ai loro partner commerciali o alle rispettive case editrici. Tutti i marchi registrati e i nomi citati appartengono ai legittimi proprietari.") // swiftlint:disable:this line_length
                     }
                     
-                    // 4. Disclaimer Medico Importante (Ex 3)
+                    // 4. Important Medical Disclaimer
                     VStack(alignment: .leading, spacing: 10) {
                         HStack {
                             Text("4. Disclaimer Medico Importante")
@@ -65,7 +65,7 @@ struct TermsOfServiceView: View {
                             .fontWeight(.semibold)
                     }
                     
-                    // 5. Responsabilità dell'Utente (Ex 4)
+                    // 5. User Responsibility
                     VStack(alignment: .leading, spacing: 10) {
                         Text("5. Responsabilità dell'Utente")
                             .font(.headline)
@@ -102,7 +102,7 @@ struct TermsOfServiceView: View {
                         .padding(.leading, 15)
                     }
                     
-                    // 6. Limitazione di Responsabilità ed Esonero (Ex 5)
+                    // 6. Liability Limitation and Disclaimer
                     VStack(alignment: .leading, spacing: 10) {
                         Text("6. Limitazione di Responsabilità")
                             .font(.headline)
@@ -112,7 +112,7 @@ struct TermsOfServiceView: View {
                             .fontWeight(.medium)
                     }
                     
-                    // 7. Aggiornamenti e Modifiche (Ex 6)
+                    // 7. Updates and Modifications
                     VStack(alignment: .leading, spacing: 10) {
                         Text("7. Aggiornamenti e Modifiche")
                             .font(.headline)
@@ -121,7 +121,7 @@ struct TermsOfServiceView: View {
                         Text("Ci riserviamo il diritto di modificare i presenti Termini in qualsiasi momento. L'uso continuato dell'app dopo le modifiche costituisce l'accettazione dei nuovi Termini. Potremmo aggiornare l'app per migliorare le funzionalità, correggere bug o conformarci ai requisiti del sistema operativo.") // swiftlint:disable:this line_length
                     }
                     
-                    // 8. Risoluzione (Ex 7)
+                    // 8. Termination
                     VStack(alignment: .leading, spacing: 10) {
                         Text("8. Risoluzione")
                             .font(.headline)
@@ -130,7 +130,7 @@ struct TermsOfServiceView: View {
                         Text("I presenti Termini rimangono in vigore fino alla loro risoluzione. L'utente può recedere in qualsiasi momento disinstallando l'app. Lo sviluppatore può sospendere o interrompere l'accesso alle funzionalità dell'app in caso di violazione dei presenti Termini.")
                     }
                     
-                    // 9. Contatti (Ex 8)
+                    // 9. Contact (Ex 8)
                     VStack(alignment: .leading, spacing: 10) {
                         Text("9. Contatti")
                             .font(.headline)
@@ -152,7 +152,7 @@ struct TermsOfServiceView: View {
                         }
                     }
                     
-                    // 10. Legge Applicabile e Foro Competente (Ex 9)
+                    // 10. Applicable Law and Jurisdiction (Ex 9)
                     VStack(alignment: .leading, spacing: 10) {
                         Text("10. Legge Applicabile")
                             .font(.headline)

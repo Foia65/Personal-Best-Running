@@ -1,8 +1,8 @@
 // MARK: - TrainingPlanPDFGenerator
 //
-// Genera un PDF completo del piano di Allenamento.
-// Tutte le stringhe sono localizzate tramite AppLocalizedString + locale esplicito.
-// Distanze e passi rispettano il UnitSystem scelto dall'utente (metrico/imperiale).
+// Generates a complete PDF of the training plan.
+// All strings are localized via AppLocalizedString + explicit locale.
+// Distances and paces respect the user's chosen UnitSystem (metric/imperial).
 
 import UIKit
 import SwiftUI
@@ -14,7 +14,7 @@ struct PDFDocumentItem: Identifiable {
 
 class TrainingPlanPDFGenerator {
 
-    // Configurazione del layout A4 standard (72 punti per pollice)
+    // Standard A4 layout configuration (72 points per inch)
     private let pageWidth: CGFloat = 595.2
     private let pageHeight: CGFloat = 841.8
     private let margin: CGFloat = 40
@@ -74,14 +74,12 @@ class TrainingPlanPDFGenerator {
             .foregroundColor: UIColor.secondaryLabel
         ]
 
-        // Nome gara
         plan.input.raceName.uppercased().draw(
             at: CGPoint(x: margin, y: currentY),
             withAttributes: titleAttributes
         )
         currentY += 26
 
-        // Distanza + obiettivo + settimane + data gara
         let raceDistanceStr = AppLocalizedString.resolve(plan.input.raceDistance.localizedName, locale: locale)
         let goalTimeStr = formatTime(plan.input.targetTime)
         let raceDateStr = plan.input.raceDate.formatted(date: .abbreviated, time: .omitted)
@@ -97,7 +95,6 @@ class TrainingPlanPDFGenerator {
         info.draw(at: CGPoint(x: margin, y: currentY), withAttributes: subtitleAttributes)
         currentY += 18
 
-        // Distanza totale
         let totalDistStr = AppLocalizedString.formatted(
             LocalizedStringResource(
                 "pdf.header.totalDistance",
@@ -116,7 +113,7 @@ class TrainingPlanPDFGenerator {
         currentY += 15
     }
 
-    // MARK: - Profilo Atleta (VDOT)
+    // MARK: - Athlete Profile (VDOT)
 
     private func drawAthleteProfile(plan: TrainingPlan) {
         let labelAttr: [NSAttributedString.Key: Any] = [
@@ -141,7 +138,7 @@ class TrainingPlanPDFGenerator {
         currentY += 42
     }
 
-    // MARK: - Tabella Ritmi
+    // MARK: - Paces Table
 
     private func drawPacesTable(plan: TrainingPlan) {
         let headerAttr: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 10)]
@@ -194,7 +191,7 @@ class TrainingPlanPDFGenerator {
         currentY += 15
     }
 
-    // MARK: - Calendario per Fasi
+    // MARK: - Calendar by Phase
 
     private func drawCalendarByPhases(plan: TrainingPlan, context: UIGraphicsPDFRendererContext) {
         var currentPhase: String?
@@ -205,14 +202,12 @@ class TrainingPlanPDFGenerator {
                 currentY = margin
             }
 
-            // Intestazione fase
             let phaseName = AppLocalizedString.resolve(week.phase.localizedName, locale: locale)
             if phaseName != currentPhase {
                 currentPhase = phaseName
                 drawPhaseHeader(phaseName: phaseName)
             }
 
-            // Titolo settimana + volume
             let weekTitle = AppLocalizedString.formatted(
                 LocalizedStringResource(
                     "pdf.week.header",
@@ -239,7 +234,6 @@ class TrainingPlanPDFGenerator {
             )
             currentY += 16
 
-            // Nota settimanale
             let noteText = week.localizedWeeklyNote(locale: locale)
             let noteRect = CGRect(x: margin, y: currentY, width: pageWidth - (margin * 2), height: 32)
             noteText.draw(in: noteRect, withAttributes: [
@@ -248,7 +242,6 @@ class TrainingPlanPDFGenerator {
             ])
             currentY += 26
 
-            // Workout rows
             for workout in week.workouts {
                 if currentY > pageHeight - 65 {
                     context.beginPage()
@@ -270,7 +263,7 @@ class TrainingPlanPDFGenerator {
         UIColor.systemGroupedBackground.setFill()
         UIBezierPath(roundedRect: rect, cornerRadius: 6).fill()
 
-        // Bordo laterale blu per risaltare il cambio fase
+        // Blue left border to highlight phase change
         let borderRect = CGRect(x: margin, y: currentY, width: 4, height: 28)
         UIColor.systemBlue.setFill()
         UIBezierPath(roundedRect: borderRect, cornerRadius: 2).fill()
@@ -288,39 +281,35 @@ class TrainingPlanPDFGenerator {
         currentY += 36
     }
 
-    // MARK: - Riga Workout
+    // MARK: - Workout Row
 
     private func drawWorkoutRow(workout: Workout) {
         let dateStr = workout.date.formatted(.dateTime.weekday(.abbreviated).day().month())
 
-        // Data
         dateStr.draw(at: CGPoint(x: margin, y: currentY), withAttributes: [
             .font: UIFont.systemFont(ofSize: 9),
             .foregroundColor: UIColor.secondaryLabel
         ])
 
-        // Titolo localizzato
         let titleStr = workout.localizedTitle(locale: locale)
         titleStr.draw(
             at: CGPoint(x: margin + 65, y: currentY),
             withAttributes: [.font: UIFont.boldSystemFont(ofSize: 10)]
         )
 
-        // Passo (se presente e non riposo)
         if let pace = workout.paceTargetSecsPerKm, workout.type != .rest {
             let pStr = unitSystem.formatPace(pace)
             let pWidth = pStr.size(withAttributes: [
-                .font: UIFont.monospacedSystemFont(ofSize: 9, weight: .semibold)
+                .font: UIFont.systemFont(ofSize: 9, weight: .semibold)
             ]).width
             pStr.draw(at: CGPoint(x: pageWidth - margin - pWidth, y: currentY), withAttributes: [
-                .font: UIFont.monospacedSystemFont(ofSize: 9, weight: .semibold),
+                .font: UIFont.systemFont(ofSize: 9, weight: .semibold),
                 .foregroundColor: UIColor.label
             ])
         }
 
         currentY += 14
 
-        // Descrizione localizzata
         let descText = workout.localizedDescription(locale: locale)
         let descRect = CGRect(x: margin + 65, y: currentY, width: pageWidth - margin - 140, height: 28)
         descText.draw(in: descRect, withAttributes: [
@@ -328,7 +317,6 @@ class TrainingPlanPDFGenerator {
             .foregroundColor: UIColor.darkGray
         ])
 
-        // Distanza (se presente)
         if let kms = workout.distanceKm {
             let distStr = unitSystem.formatDistance(kms)
             let distWidth = distStr.size(withAttributes: [.font: UIFont.systemFont(ofSize: 8.5)]).width
@@ -340,7 +328,6 @@ class TrainingPlanPDFGenerator {
 
         currentY += 22
 
-        // RPE (se non riposo)
         if workout.type != .rest {
             let rpeLabel = AppLocalizedString.resolve(
                 LocalizedStringResource("pdf.workout.rpe", defaultValue: "RPE"),
@@ -354,7 +341,7 @@ class TrainingPlanPDFGenerator {
             currentY += 12
         }
 
-        // Sets strutturati (se presenti)
+        // Structured sets (if present)
         if let localizedSets = workout.localizedStructuredSets(locale: locale) {
             let setsRect = CGRect(x: margin + 65, y: currentY, width: pageWidth - margin - 140, height: 28)
             localizedSets.draw(in: setsRect, withAttributes: [
