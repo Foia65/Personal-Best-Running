@@ -1,10 +1,13 @@
 import SwiftUI
+// swiftlint:disable file_length
 
 // MARK: - DocumentItem
 struct DocumentItem: Identifiable {
     let id = UUID()
     let url: URL
 }
+
+private let navyBlue = Color(red: 0.0, green: 0.0, blue: 0.3)
 
 // MARK: - TrainingPlanView
 struct TrainingPlanView: View {
@@ -14,23 +17,51 @@ struct TrainingPlanView: View {
     @State private var selectedTab = 0
     @State private var expandedWeek: Int?
     @State private var pdfItem: PDFDocumentItem?
-    @State private var csvItem: DocumentItem? // State for CSV share sheet
+    @State private var csvItem: DocumentItem?
+    @State private var showingPremiumOverlay = false
+    @State private var showingPremiumSheet = false
+    @State private var premiumAlertFeature = ""
     @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
+    @AppStorage("isPremiumUser") private var isPremiumUser = false
     @Environment(\.locale) private var locale
     @StateObject private var calendarManager = CalendarManager()
     private var goalFeasibility: GoalFeasibility { plan.feasibility }
 
     var body: some View {
-        VStack(spacing: 0) {
-            // Header with plan info
-            planHeaderView
-            calendarView
-        }
-        .sheet(item: $pdfItem) { item in
-            ShareSheet(url: item.url)
-        }
-        .sheet(item: $csvItem) { item in
-            ShareSheet(url: item.url)
+        ZStack {
+            VStack(spacing: 0) {
+                planHeaderView
+                calendarView
+            }
+            .sheet(item: $pdfItem) { item in
+                ShareSheet(url: item.url)
+            }
+            .sheet(item: $csvItem) { item in
+                ShareSheet(url: item.url)
+            }
+            .sheet(isPresented: $showingPremiumSheet) {
+                NavigationStack {
+                    PremiumInfoView()
+                        .environmentObject(StoreKitManager.shared)
+                }
+            }
+
+            if showingPremiumOverlay {
+                PremiumAlertOverlay(
+                    title: AppLocalizedString.resolve(
+                        LocalizedStringResource("premiumAlert.title", defaultValue: "Funzione Premium"),
+                        locale: locale
+                    ),
+                    message: AppLocalizedString.resolve(alertMessage(for: premiumAlertFeature), locale: locale),
+                    onUpgrade: {
+                        showingPremiumOverlay = false
+                        showingPremiumSheet = true
+                    },
+                    onDismiss: {
+                        showingPremiumOverlay = false
+                    }
+                )
+            }
         }
     }
 
@@ -124,10 +155,19 @@ struct TrainingPlanView: View {
 
             Section {
                 VStack(spacing: 8) {
-                    Button(action: exportPDF) {
+                    
+                    // 1 - Calendar export
+                    Button(action: {
+                        if isPremiumUser {
+                            exportCalendar()
+                        } else {
+                            premiumAlertFeature = "calendario"
+                            showingPremiumOverlay = true
+                        }
+                    }) {
                         HStack {
                             Spacer()
-                            Label("Esporta Piano in PDF", systemImage: "square.and.arrow.up")
+                            Label("Esporta Piano nel Calendario", systemImage: "calendar")
                                 .font(.headline)
                                 .foregroundStyle(.white)
                             Spacer()
@@ -136,12 +176,42 @@ struct TrainingPlanView: View {
                     }
                     .padding(.vertical, 8)
                     .buttonStyle(.borderedProminent)
-                    .tint(Color(red: 0.0, green: 0.0, blue: 0.3))
+                    .tint(navyBlue)
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets())
-
-#if DEBUG  // CSV export button for testing
-                    Button(action: exportCSV) {
+                    
+                    // 2 - PDF export
+                    Button(action: {
+                        if isPremiumUser {
+                            exportPDF()
+                        } else {
+                            premiumAlertFeature = "PDF"
+                            showingPremiumOverlay = true
+                        }
+                    }) {
+                        HStack {
+                            Spacer()
+                            Label("Esporta Piano in PDF", systemImage: "doc")
+                                .font(.headline)
+                                .foregroundStyle(.white)
+                            Spacer()
+                        }
+                        .padding(.vertical, 8)
+                    }
+                    .padding(.vertical, 8)
+                    .buttonStyle(.borderedProminent)
+                    .tint(navyBlue)
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets())
+                    // 3 - CSV export
+                    Button(action: {
+                        if isPremiumUser {
+                            exportCSV()
+                        } else {
+                            premiumAlertFeature = "CSV"
+                            showingPremiumOverlay = true
+                        }
+                    }) {
                         HStack {
                             Spacer()
                             Label("Esporta Piano in CSV", systemImage: "tablecells.badge.ellipsis")
@@ -153,29 +223,13 @@ struct TrainingPlanView: View {
                     }
                     .padding(.vertical, 8)
                     .buttonStyle(.borderedProminent)
-                    .tint(.teal)
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets())
-#endif
-                    Button(action: exportCalendar) {
-                        HStack {
-                            Spacer()
-                            Label("Esporta nel Calendario", systemImage: "calendar")
-                                .font(.headline)
-                                .foregroundStyle(.white)
-                            Spacer()
-                        }
-                        .padding(.vertical, 8)
-                    }
-                    .padding(.vertical, 8)
-                    .buttonStyle(.borderedProminent)
-                    .tint(.orange)
+                    .tint(navyBlue)
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets())
                 }
 
             } header: {
-                Text("Condivisione")
+                Text("Esporta piano")
             }
 
             Section("Note") {
@@ -207,6 +261,35 @@ struct TrainingPlanView: View {
         let second = Int(seconds) % 60
         if hour > 0 { return String(format: "%d:%02d:%02d", hour, minute, second) }
         return String(format: "%d:%02d", minute, second)
+    }
+    
+    private var isIPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
+    
+    private func alertMessage(for feature: String) -> LocalizedStringResource {
+        switch feature {
+        case "calendario":
+            return LocalizedStringResource(
+                "premiumAlert.calendar",
+                defaultValue: "L'esportazione nel calendario è riservata agli utenti Premium.\nEsegui l'upgrade per aggiungere automaticamente gli allenamenti al calendario del tuo \(isIPad ? "iPad" : "iPhone")."
+            )
+        case "PDF":
+            return LocalizedStringResource(
+                "premiumAlert.pdf",
+                defaultValue: "L'esportazione in PDF è riservata agli utenti Premium.\nEsegui l'upgrade per generare il tuo piano di allenamento in formato PDF."
+            )
+        case "CSV":
+            return LocalizedStringResource(
+                "premiumAlert.csv",
+                defaultValue: "L'esportazione in CSV è riservata agli utenti Premium.\nEsegui l'upgrade per esportare il tuo piano in formato CSV e analizzarlo in Excel o altri strumenti."
+            )
+        default:
+            return LocalizedStringResource(
+                "premiumAlert.default",
+                defaultValue: "Questa funzione è riservata agli utenti premium. Esegui l'upgrade per sbloccare tutte le funzionalità."
+            )
+        }
     }
 
     private func exportCalendar() {
@@ -553,6 +636,6 @@ struct WorkoutBadge: View {
         TrainingPlanView(plan: samplePlan) {
             print("Reset tapped")
         }
-        .environment(\.locale, .init(identifier: "en"))
+        .environment(\.locale, .init(identifier: "it"))
     }
 }

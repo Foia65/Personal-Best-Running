@@ -1,17 +1,14 @@
 import SwiftUI
 
-// MARK: - PersonalBestRunningApp
-//
-// Main app entry point. Configures theme, language, and launches with a splash screen.
 @main
 struct Personal_Best_RunningApp: App {
 
     @StateObject private var themeManager = ThemeManager()
     @StateObject private var languageManager = LanguageManager()
+    @StateObject private var storeKitManager = StoreKitManager.shared
 
     init() {
         #if DEBUG
-        // Clear launch screen snapshot cache to reset visual bugs
         if let cachePath = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first {
             let snapshotsPath = cachePath.appendingPathComponent("Snapshots")
             try? FileManager.default.removeItem(at: snapshotsPath)
@@ -26,6 +23,7 @@ struct Personal_Best_RunningApp: App {
                 .preferredColorScheme(themeManager.colorScheme)
                 .environmentObject(languageManager)
                 .environment(\.locale, languageManager.currentLocale)
+                .environmentObject(storeKitManager)
                 .background(Color(.systemBackground))
         }
     }

@@ -89,12 +89,12 @@ struct HelpView: View {
 
                 constrainedImage("dettaglio")
 
-                Text("\nSotto il piano, trovi due bottoni per esportarlo in formato PDF o per scriverlo direttamente sul tuo calendario.")
+                Text("\nSotto il piano, trovi tre bottoni per esportarlo nei formati PDF e CSV, e per scriverlo direttamente sul calendario del tuo \(isIPad ? "iPad" : "iPhone").")
                     .font(.body)
 
                 constrainedImage("condivisione")
 
-                Text("Per evitare interferenze con il tuo calendario principale, il piano di allenamento sarà scritto su un nuovo calendario denominato **PB Running**")
+                Text("Per evitare interferenze con il tuo calendario principale, il piano di allenamento sarà importato in un nuovo calendario denominato **PB Running**")
                     .font(.callout)
                     .foregroundStyle(.secondary)
             }
@@ -170,5 +170,5 @@ private struct OptionalMaxWidth: ViewModifier {
 
 #Preview {
     HelpView()
-        .environment(\.locale, .init(identifier: "it"))
+        .environment(\.locale, .init(identifier: "en"))
 }

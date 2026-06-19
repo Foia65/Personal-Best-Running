@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Screenshot 2026-06-10 at 17.27.43 1.png",
+      "filename" : "expoert_en.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -14,7 +14,7 @@
       "scale" : "3x"
     },
     {
-      "filename" : "Screenshot 2026-06-10 at 17.27.43.png",
+      "filename" : "expoert_en 1.png",
       "idiom" : "universal",
       "locale" : "en",
       "scale" : "1x"
@@ -30,7 +30,7 @@
       "scale" : "3x"
     },
     {
-      "filename" : "condivisione.png",
+      "filename" : "export_it.jpg",
       "idiom" : "universal",
       "locale" : "it",
       "scale" : "1x"

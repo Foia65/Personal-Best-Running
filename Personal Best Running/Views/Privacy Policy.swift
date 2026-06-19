@@ -274,13 +274,13 @@ struct PrivacyPolicyView: View {
                 .padding(.vertical, 10)
             }
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Fine") {
-                        dismiss()
-                    }
-                }
-            }
+//            .toolbar {
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    Button("Fine") {
+//                        dismiss()
+//                    }
+//                }
+//            }
         }
     }
 }

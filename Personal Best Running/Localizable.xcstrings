@@ -4,21 +4,18 @@
     "" : {
       "shouldTranslate" : false
     },
-    "\nSotto il piano, trovi due bottoni per esportarlo in formato PDF o per scriverlo direttamente sul tuo calendario." : {
+    "\nSotto il piano, trovi tre bottoni per esportarlo nei formati PDF e CSV, e per scriverlo direttamente sul calendario del tuo %@." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "\nBelow the plan, you will find two buttons to export it in PDF format or to write it directly to your calendar."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "\nSotto il piano, trovi due bottoni per esportarlo in formato PDF o per scriverlo direttamente sul tuo calendario."
+            "value" : "Below the plan, you will find three buttons to export it in PDF and CSV formats, or to write it directly to your %@ calendar."
           }
         }
       }
+    },
+    "—" : {
+      "shouldTranslate" : false
     },
     ":" : {
       "shouldTranslate" : false
@@ -525,6 +522,16 @@
         }
       }
     },
+    "Account" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account"
+          }
+        }
+      }
+    },
     "Aiuto e Supporto" : {
       "localizations" : {
         "en" : {
@@ -579,6 +586,16 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Analisi sull'utilizzo o dati comportamentali"
+          }
+        }
+      }
+    },
+    "Annulla" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
           }
         }
       }
@@ -702,6 +719,16 @@
         }
       }
     },
+    "Base (gratuito)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Base (free)"
+          }
+        }
+      }
+    },
     "Benvenuto in **Personal Best Running**. I presenti Termini di Servizio (\"Termini\") disciplinano l'utilizzo della nostra applicazione. Scaricando, installando o utilizzando Personal Best Running, l'utente accetta di essere vincolato dai presenti Termini." : {
       "localizations" : {
         "en" : {
@@ -724,6 +751,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Welcome to Personal Best Running!\nThis app helps you create a personalized training plan based on Jack Daniels' VDOT method"
+          }
+        }
+      }
+    },
+    "Build:" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Build:"
           }
         }
       }
@@ -761,7 +799,6 @@
       }
     },
     "Chiudi" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -836,6 +873,7 @@
       }
     },
     "Condivisione" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1063,6 +1101,16 @@
         }
       }
     },
+    "Elaborazione..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Processing…"
+          }
+        }
+      }
+    },
     "Elite" : {
       "localizations" : {
         "en" : {
@@ -1073,7 +1121,59 @@
         }
       }
     },
+    "Esperienza fluida senza pubblicità" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enjoy a clean distraction-free experience"
+          }
+        }
+      }
+    },
+    "Esporta il tuo piano di allenamento in formato CSV per analizzarlo in Excel e altri strumenti, oppure per importarlo in altre app." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export your training plan as a CSV file to analyze it in Excel and other tools, or import it into other apps."
+          }
+        }
+      }
+    },
+    "Esporta in CSV" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export to CSV"
+          }
+        }
+      }
+    },
+    "Esporta in PDF" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "export to PDF"
+          }
+        }
+      }
+    },
+    "Esporta nel calendario" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export to calendar"
+          }
+        }
+      }
+    },
     "Esporta nel Calendario" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1085,6 +1185,26 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Esporta nel Calendario"
+          }
+        }
+      }
+    },
+    "Esporta piano" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export  Training Plan"
+          }
+        }
+      }
+    },
+    "Esporta Piano in CSV" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export Plan as CSV"
           }
         }
       }
@@ -1101,6 +1221,16 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Esporta Piano in PDF"
+          }
+        }
+      }
+    },
+    "Esporta Piano nel Calendario" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export Plan to calendar"
           }
         }
       }
@@ -1221,6 +1351,7 @@
       }
     },
     "Fine" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1334,6 +1465,16 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Genera Piano"
+          }
+        }
+      }
+    },
+    "Genera un file PDF con il tuo piano di allenamento completo, pronto da stampare o condividere facilmente." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Generate a PDF file with your complete training plan, ready to print or easily share."
           }
         }
       }
@@ -2312,6 +2453,26 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Livello atleta"
+          }
+        }
+      }
+    },
+    "Livello Prodotto:" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Product level"
+          }
+        }
+      }
+    },
+    "Lo stato attuale del tuo percorso atletico e le previsioni dei tuoi tempi stimati per ogni distanza." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your current athletic progress and estimated race times for every distance"
           }
         }
       }
@@ -3569,6 +3730,16 @@
         }
       }
     },
+    "Ogni sessione di allenamento viene automaticamente aggiunta al tuo calendario come evento giornaliero." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each workout is automatically added to your calendar as a daily event."
+          }
+        }
+      }
+    },
     "OK" : {
       "shouldTranslate" : false
     },
@@ -3894,6 +4065,26 @@
         }
       }
     },
+    "Pagamento unico. Nessun abbonamento." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One-off payment. No subscriptions"
+          }
+        }
+      }
+    },
+    "Passa a Premium" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GO Premium"
+          }
+        }
+      }
+    },
     "Passo Attuale: **%@**" : {
       "localizations" : {
         "en" : {
@@ -4150,18 +4341,12 @@
         }
       }
     },
-    "Per evitare interferenze con il tuo calendario principale, il piano di allenamento sarà scritto su un nuovo calendario denominato **PB Running**" : {
+    "Per evitare interferenze con il tuo calendario principale, il piano di allenamento sarà importato in un nuovo calendario denominato **PB Running**" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To avoid interference with your main calendar, the training plan will be written on a new calendar called **PB Running**"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Per evitare interferenze con il tuo calendario principale, il piano di allenamento sarà scritto su un nuovo calendario denominato **PB Running**"
+            "value" : "To avoid interference with your main calendar, the training plan will be imported into a new calendar called **PB Running**"
           }
         }
       }
@@ -4353,6 +4538,118 @@
         }
       }
     },
+    "Premium" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Premium"
+          }
+        }
+      }
+    },
+    "premiumAlert.calendar" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calendar export is exclusive to Premium users.\nUpgrade to automatically add workouts to your %@ calendar."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "L'esportazione nel calendario è riservata agli utenti Premium.\nEsegui l'upgrade per aggiungere automaticamente gli allenamenti al calendario del tuo %@."
+          }
+        }
+      }
+    },
+    "premiumAlert.csv" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CSV export is exclusive to Premium users.\nUpgrade to export your plan as a CSV file and analyze it in Excel or other tools."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "L'esportazione in CSV è riservata agli utenti Premium.\nEsegui l'upgrade per esportare il tuo piano in formato CSV e analizzarlo in Excel o altri strumenti."
+          }
+        }
+      }
+    },
+    "premiumAlert.default" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This feature is exclusive to Premium users. Upgrade to unlock all features."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Questa funzione è riservata agli utenti premium. Esegui l'upgrade per sbloccare tutte le funzionalità."
+          }
+        }
+      }
+    },
+    "premiumAlert.pdf" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PDF export is exclusive to Premium users.\nUpgrade to generate your training plan in PDF format."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "L'esportazione in PDF è riservata agli utenti Premium.\nEsegui l'upgrade per generare il tuo piano di allenamento in formato PDF."
+          }
+        }
+      }
+    },
+    "premiumAlert.profile" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Athlete Profile is exclusive to Premium users.\nUpgrade to view your current progress and estimated race times for every distance."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Il Profilo Atleta è riservato agli utenti Premium.\nEsegui l'upgrade per visualizzare il tuo stato attuale e le previsioni dei tempi stimati per ogni distanza."
+          }
+        }
+      }
+    },
+    "premiumAlert.title" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Premium Feature"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Funzione Premium"
+          }
+        }
+      }
+    },
     "Prestazioni di alto livello. L'ottimizzazione riguarda dettagli fisiologici fini: periodizzazione, recupero e picco di forma." : {
       "localizations" : {
         "en" : {
@@ -4375,6 +4672,16 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Previsioni dal VDOT Attuale"
+          }
+        }
+      }
+    },
+    "Prezzo chiaro" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simple pricing"
           }
         }
       }
@@ -4549,6 +4856,16 @@
         }
       }
     },
+    "Ripristina l'acquisto" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore purchase"
+          }
+        }
+      }
+    },
     "Rispettare i diritti di proprietà intellettuale relativi ai contenuti dell'app" : {
       "localizations" : {
         "en" : {
@@ -4625,6 +4942,16 @@
     },
     "RPE: %@" : {
       "shouldTranslate" : false
+    },
+    "Sblocca tutto il potenziale di Personal Best Running" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock the full potential of Personal Best Running"
+          }
+        }
+      }
     },
     "Scarico" : {
       "localizations" : {
@@ -5300,6 +5627,16 @@
         }
       }
     },
+    "Valuta questa App" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rate this App"
+          }
+        }
+      }
+    },
     "VDOT" : {
       "shouldTranslate" : false
     },
@@ -5318,6 +5655,16 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "VDOT e sesso biologico"
+          }
+        }
+      }
+    },
+    "Vedi l'offerta Premium" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View Premium Offer"
           }
         }
       }
@@ -5350,6 +5697,16 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Verso %@"
+          }
+        }
+      }
+    },
+    "Visualizza l'offerta premium" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View Premium offer"
           }
         }
       }

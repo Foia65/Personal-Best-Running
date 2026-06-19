@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import StoreKit
 
 // MARK: - LanguageManager
 
@@ -26,9 +27,11 @@ struct SettingsView: View {
     @AppStorage("runnerSex") private var runnerSex: RunnerSex = .male
     @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
     @EnvironmentObject private var themeManager: ThemeManager
+    @EnvironmentObject var storeKitManager: StoreKitManager
     @State private var showSexInfo = false
     @EnvironmentObject var languageManager: LanguageManager
-    
+    @AppStorage("isPremiumUser") private var isPremiumUser = false
+
     // Supported languages
     let languages = [
         ("Italiano", "it"),
@@ -97,6 +100,82 @@ struct SettingsView: View {
                     
                 }
             }
+
+             Section(header: Text("Account").font(.title3)) {
+                
+                // 1 - Product level
+                HStack {
+                    Label {
+                        Text("Livello Prodotto:")
+                    } icon: {
+                        Image(systemName: "person.badge.shield.checkmark")
+                            .foregroundColor(.secondary)
+                            .font(.footnote)
+                    }
+                    
+                    Spacer()
+                    
+                    if isPremiumUser {
+                        HStack {
+                            Image(systemName: "crown.fill")
+                                .font(.footnote)
+                                .foregroundColor(.yellow)
+                            Text("Premium")
+                                .font(.system(.subheadline, design: .rounded, weight: .regular))
+                                .foregroundColor(.secondary)
+                        }
+                    } else {
+                        Text("Base (gratuito)")
+                            .font(.system(.subheadline, design: .rounded, weight: .regular))
+                            .foregroundColor(.secondary)
+                    }
+                }
+                
+                // 2 - View premium offer-
+                if !isPremiumUser {
+                    NavigationLink(destination: PremiumInfoView()) {
+                        Label {
+                            Text("Visualizza l'offerta premium")
+                        } icon: {
+                            Image(systemName: "crown")
+                            .font(.footnote)
+                        .foregroundColor(.secondary)}
+                    }
+                }
+                
+                // 3 - restore purchase
+                if !isPremiumUser {
+                    Button {
+                        Task {
+                            await storeKitManager.restorePurchases()
+                        }
+                    } label: {
+                        Label {
+                            Text("Ripristina l'acquisto")
+                                .foregroundColor(.primary)
+                        } icon: {
+                            Image(systemName: "icloud.and.arrow.down")
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                        }
+                    }
+                }
+                  
+                // 4 - Rate this App
+                 Button {
+                    requestAppReview()
+                    
+                } label: {
+                    Label {
+                        Text("Valuta questa App")
+                            .foregroundColor(.primary)
+                    } icon: {
+                        Image(systemName: "star")
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                    }
+                }
+            } 
             
             Section(header: Text("Preferenze").font(.title3)) {
                 
@@ -131,8 +210,8 @@ struct SettingsView: View {
                     }
                     .font(.system(.subheadline, design: .rounded, weight: .regular))
                     .labelsHidden()
-                    .pickerStyle(.navigationLink)
-                    .frame(minWidth: 90, maxWidth: 130, alignment: .trailing)
+                     .pickerStyle(.navigationLink)
+                     .frame(minWidth: 90, maxWidth: 130, alignment: .trailing)
                     .fixedSize(horizontal: false, vertical: true)
                 }
                 .sheet(isPresented: $showSexInfo) {
@@ -217,8 +296,8 @@ struct SettingsView: View {
                             .layoutPriority(1)
                     } icon: {
                         Image(systemName: "globe")
-                            .foregroundColor(.secondary)
-                            .font(.footnote)
+                        .foregroundColor(.secondary)
+                        .font(.footnote)
                     }
                     Spacer()
                     Picker("", selection: $languageManager.selectedLanguage) {
@@ -227,8 +306,8 @@ struct SettingsView: View {
                         }
                     }
                     .font(.system(.subheadline, design: .rounded, weight: .regular))
-                    .pickerStyle(.navigationLink) 
-                }
+                     .pickerStyle(.navigationLink)
+                 }
             }
             
             Section(header: Text("Privacy e Sicurezza").font(.title3)) {
@@ -254,6 +333,19 @@ struct SettingsView: View {
                 }
                 
             }
+            
+#if DEBUG
+            Section(header: Text("Debug").font(.title3)) {
+                
+                // to play with premium status
+                Toggle(isOn: $isPremiumUser) {
+                    Label("Premium User", systemImage: "crown")
+                }
+                .foregroundStyle(.blue)
+            }
+
+#endif
+            
         }
         .font(.system(.subheadline, design: .default, weight: .semibold))
         .environment(\.defaultMinListRowHeight, 28)
@@ -272,10 +364,32 @@ extension Bundle {
     }
 }
 
+func requestAppReview() {
+    print("=== Review Request Debug ===")
+    print("Bundle ID: \(Bundle.main.bundleIdentifier ?? "nil")")
+    #if DEBUG
+    print("Is Debug: true")
+    #else
+    print("Is Debug: false")
+    #endif
+    
+    guard let scene = UIApplication.shared.connectedScenes.first(where: {
+        $0.activationState == .foregroundActive
+    }) as? UIWindowScene else {
+        print("No active window scene found")
+        return
+    }
+    
+    print("Scene found: \(scene)")
+    print("Requesting review...")
+    AppStore.requestReview(in: scene)
+}
+
 #Preview {
     NavigationStack {
         SettingsView()
             .environmentObject(ThemeManager())
             .environmentObject(LanguageManager())
+            .environment(\.locale, .init(identifier: "it"))
     }
 }
