@@ -342,6 +342,7 @@ struct SettingsView: View {
                     Label("Premium User", systemImage: "crown")
                 }
                 .foregroundStyle(.blue)
+                
             }
 
 #endif

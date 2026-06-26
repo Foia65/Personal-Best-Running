@@ -798,6 +798,9 @@
         }
       }
     },
+    "Caricamento..." : {
+
+    },
     "Chiudi" : {
       "localizations" : {
         "en" : {
@@ -826,6 +829,23 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Ci riserviamo il diritto di modificare i presenti Termini in qualsiasi momento. L'uso continuato dell'app dopo le modifiche costituisce l'accettazione dei nuovi Termini. Potremmo aggiornare l'app per migliorare le funzionalità, correggere bug o conformarci ai requisiti del sistema operativo."
+          }
+        }
+      }
+    },
+    "cippa_lippa" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ENG"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ITA"
           }
         }
       }
@@ -1117,6 +1137,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Elite"
+          }
+        }
+      }
+    },
+    "Errore" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error"
           }
         }
       }
@@ -4676,12 +4706,12 @@
         }
       }
     },
-    "Prezzo chiaro" : {
+    "Prezzo chiaro:" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Simple pricing"
+            "value" : "Simple pricing:"
           }
         }
       }
@@ -4711,6 +4741,20 @@
           }
         }
       }
+    },
+    "Prodotti non disponibili al momento" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Product not available at the moment"
+          }
+        }
+      }
+    },
+    "Prodotto non disponibile al momento" : {
+
     },
     "Profilo" : {
       "localizations" : {
@@ -4943,12 +4987,12 @@
     "RPE: %@" : {
       "shouldTranslate" : false
     },
-    "Sblocca tutto il potenziale di Personal Best Running" : {
+    "Sblocca tutto il potenziale di PB Running" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unlock the full potential of Personal Best Running"
+            "value" : "Unlock the full potential of PB Running"
           }
         }
       }
