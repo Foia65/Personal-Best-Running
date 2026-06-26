@@ -1,23 +1,21 @@
 import SwiftUI
 
-/// Root view that shows a splash video on launch, then transitions to the main content.
-/// In DEBUG builds the splash is skipped entirely.
 struct SplashView: View {
     @State private var isSplashActive = true
+    @State private var showHelp = false
+    @AppStorage("hasSeenHelp") private var hasSeenHelp = false
     @StateObject private var languageManager = LanguageManager()
 
     var body: some View {
-        #if DEBUG
-        ContentView()
-            .environmentObject(languageManager)
-            .environment(\.locale, languageManager.currentLocale)
-        #else
         ZStack {
             if isSplashActive {
                 ZStack {
                     SplashVideoView(videoName: "splash_iphone", videoType: "mp4") {
                         withAnimation(.easeInOut(duration: 1.5)) {
                             isSplashActive = false
+                            if !hasSeenHelp {
+                                showHelp = true
+                            }
                         }
                     }
                     VStack {
@@ -43,7 +41,17 @@ struct SplashView: View {
                     .environmentObject(languageManager)
                     .environment(\.locale, languageManager.currentLocale)
             }
+
+            if showHelp {
+                HelpView {
+                    showHelp = false
+                    hasSeenHelp = true
+                }
+                .environment(\.locale, languageManager.currentLocale)
+                .transition(.opacity)
+                .zIndex(1)
+            }
         }
-        #endif
+        .animation(.easeInOut(duration: 1.5), value: showHelp)
     }
 }

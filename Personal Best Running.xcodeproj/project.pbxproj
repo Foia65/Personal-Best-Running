@@ -9,11 +9,26 @@
 /* Begin PBXBuildFile section */
 		E4029A9E2FA77E9600DB1597 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		E47FED782FC84D1B00759E95 /* splash_iphone.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E47FED772FC84D1B00759E95 /* splash_iphone.mp4 */; };
+		E4A1B2CCD4E5F6A7B8C9D0FC /* TrainingModelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A1B2CCD4E5F6A7B8C9D0FD /* TrainingModelsTests.swift */; };
+		E4A1B2CED4E5F6A7B8C9D0FE /* TrainingPlanGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A1B2CFD4E5F6A7B8C9D0FF /* TrainingPlanGeneratorTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E4A1B2CAD4E5F6A7B8C9D0FA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E4029A5A2FA777CD00DB1597 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E4029A612FA777CD00DB1597;
+			remoteInfo = "Personal Best Running";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		E4029A622FA777CD00DB1597 /* Personal Best Running.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Personal Best Running.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E47FED772FC84D1B00759E95 /* splash_iphone.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = splash_iphone.mp4; sourceTree = "<group>"; };
+		E4A1B2C5D4E5F6A7B8C9D0F6 /* Personal Best RunningTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Personal Best RunningTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4A1B2CCD4E5F6A7B8C9D0FD /* TrainingModelsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingModelsTests.swift; sourceTree = "<group>"; };
+		E4A1B2CFD4E5F6A7B8C9D0FF /* TrainingPlanGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingPlanGeneratorTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -39,6 +54,7 @@
 			isa = PBXGroup;
 			children = (
 				E4029A642FA777CD00DB1597 /* Personal Best Running */,
+				E4A1B2C4D4E5F6A7B8C9D0F2 /* Personal Best RunningTests */,
 				E4029A632FA777CD00DB1597 /* Products */,
 				E47FED772FC84D1B00759E95 /* splash_iphone.mp4 */,
 			);
@@ -48,8 +64,18 @@
 			isa = PBXGroup;
 			children = (
 				E4029A622FA777CD00DB1597 /* Personal Best Running.app */,
+				E4A1B2C5D4E5F6A7B8C9D0F6 /* Personal Best RunningTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E4A1B2C4D4E5F6A7B8C9D0F2 /* Personal Best RunningTests */ = {
+			isa = PBXGroup;
+			children = (
+				E4A1B2CCD4E5F6A7B8C9D0FD /* TrainingModelsTests.swift */,
+				E4A1B2CFD4E5F6A7B8C9D0FF /* TrainingPlanGeneratorTests.swift */,
+			);
+			path = "Personal Best RunningTests";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -79,6 +105,24 @@
 			productReference = E4029A622FA777CD00DB1597 /* Personal Best Running.app */;
 			productType = "com.apple.product-type.application";
 		};
+		E4A1B2C2D4E5F6A7B8C9D0F3 /* Personal Best RunningTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E4A1B2C6D4E5F6A7B8C9D0F4 /* Build configuration list for PBXNativeTarget "Personal Best RunningTests" */;
+			buildPhases = (
+				E4A1B2C1D4E5F6A7B8C9D0F5 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E4A1B2CBD4E5F6A7B8C9D0FB /* PBXTargetDependency */,
+			);
+			name = "Personal Best RunningTests";
+			packageProductDependencies = (
+			);
+			productName = "Personal Best RunningTests";
+			productReference = E4A1B2C5D4E5F6A7B8C9D0F6 /* Personal Best RunningTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -90,6 +134,9 @@
 				LastUpgradeCheck = 2640;
 				TargetAttributes = {
 					E4029A612FA777CD00DB1597 = {
+						CreatedOnToolsVersion = 26.4.1;
+					};
+					E4A1B2C2D4E5F6A7B8C9D0F3 = {
 						CreatedOnToolsVersion = 26.4.1;
 					};
 				};
@@ -109,6 +156,7 @@
 			projectRoot = "";
 			targets = (
 				E4029A612FA777CD00DB1597 /* Personal Best Running */,
+				E4A1B2C2D4E5F6A7B8C9D0F3 /* Personal Best RunningTests */,
 			);
 		};
 /* End PBXProject section */
@@ -174,7 +222,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E4A1B2C1D4E5F6A7B8C9D0F5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4A1B2CCD4E5F6A7B8C9D0FC /* TrainingModelsTests.swift in Sources */,
+				E4A1B2CED4E5F6A7B8C9D0FE /* TrainingPlanGeneratorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E4A1B2CBD4E5F6A7B8C9D0FB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E4029A612FA777CD00DB1597 /* Personal Best Running */;
+			targetProxy = E4A1B2CAD4E5F6A7B8C9D0FA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		E4029A6B2FA777CE00DB1597 /* Debug */ = {
@@ -307,7 +372,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 497;
+				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_TEAM = TY6W6JY45R;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -347,7 +412,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 497;
+				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_TEAM = TY6W6JY45R;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -380,6 +445,46 @@
 			};
 			name = Release;
 		};
+		E4A1B2C7D4E5F6A7B8C9D0F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Personal Best Running.app/Personal Best Running";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 26;
+				DEVELOPMENT_TEAM = TY6W6JY45R;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.foiasoft.Personal-Best-RunningTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				TEST_TARGET_NAME = "Personal Best Running";
+			};
+			name = Debug;
+		};
+		E4A1B2C8D4E5F6A7B8C9D0F8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Personal Best Running.app/Personal Best Running";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 26;
+				DEVELOPMENT_TEAM = TY6W6JY45R;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.foiasoft.Personal-Best-RunningTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				TEST_TARGET_NAME = "Personal Best Running";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -397,6 +502,15 @@
 			buildConfigurations = (
 				E4029A6E2FA777CE00DB1597 /* Debug */,
 				E4029A6F2FA777CE00DB1597 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E4A1B2C6D4E5F6A7B8C9D0F4 /* Build configuration list for PBXNativeTarget "Personal Best RunningTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E4A1B2C7D4E5F6A7B8C9D0F7 /* Debug */,
+				E4A1B2C8D4E5F6A7B8C9D0F8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -756,7 +756,6 @@
       }
     },
     "Build:" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -799,7 +798,14 @@
       }
     },
     "Caricamento..." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading..."
+          }
+        }
+      }
     },
     "Chiudi" : {
       "localizations" : {
@@ -4754,7 +4760,14 @@
       }
     },
     "Prodotto non disponibile al momento" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Product not available at the moment"
+          }
+        }
+      }
     },
     "Profilo" : {
       "localizations" : {
@@ -5709,6 +5722,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "View Premium Offer"
+          }
+        }
+      }
+    },
+    "Version:" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versione:"
           }
         }
       }

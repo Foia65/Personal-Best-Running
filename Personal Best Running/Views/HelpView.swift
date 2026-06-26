@@ -3,6 +3,8 @@ import SwiftUI
 // MARK: - HelpView
 
 struct HelpView: View {
+    var onDismiss: (() -> Void)?
+
     private var isIPad: Bool {
         UIDevice.current.userInterfaceIdiom == .pad
     }
@@ -11,18 +13,21 @@ struct HelpView: View {
         NavigationStack {
             List {
                 introductionSection
-
                 tabGoalSection
-
                 tabPlanSection
-
                 tabPacesSection
-
                 tabProfileSection
             }
             .listStyle(.insetGrouped)
             .navigationTitle("Aiuto e Supporto")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Chiudi") {
+                        onDismiss?()
+                    }
+                }
+            }
         }
     }
 
