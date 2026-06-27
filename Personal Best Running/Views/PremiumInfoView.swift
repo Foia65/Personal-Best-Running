@@ -89,7 +89,7 @@ struct PremiumInfoView: View {
                         .cornerRadius(16)
                     }
                     .disabled(true)
-                } else if let errorMsg = storeKitManager.productsErrorMessage {
+                } else if storeKitManager.productsErrorMessage != nil {
                     Button {
                         Task { await storeKitManager.requestProducts() }
                     } label: {

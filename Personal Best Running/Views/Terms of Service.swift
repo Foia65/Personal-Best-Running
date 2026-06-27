@@ -4,7 +4,7 @@ struct TermsOfServiceView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     
@@ -166,13 +166,6 @@ struct TermsOfServiceView: View {
                 .padding(.vertical, 10)
             }
             .navigationBarTitleDisplayMode(.inline)
-//            .toolbar {
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    Button("Fine") {
-//                        dismiss()
-//                    }
-//                }
-//            }
         }
     }
 }

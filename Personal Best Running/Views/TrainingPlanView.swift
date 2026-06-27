@@ -7,8 +7,6 @@ struct DocumentItem: Identifiable {
     let url: URL
 }
 
-private let navyBlue = Color(red: 0.0, green: 0.0, blue: 0.3)
-
 // MARK: - TrainingPlanView
 struct TrainingPlanView: View {
     let plan: TrainingPlan
@@ -176,7 +174,7 @@ struct TrainingPlanView: View {
                     }
                     .padding(.vertical, 8)
                     .buttonStyle(.borderedProminent)
-                    .tint(navyBlue)
+                    .tint(AppColors.themeNavy)
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets())
                     
@@ -200,7 +198,7 @@ struct TrainingPlanView: View {
                     }
                     .padding(.vertical, 8)
                     .buttonStyle(.borderedProminent)
-                    .tint(navyBlue)
+                    .tint(AppColors.themeNavy)
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets())
                     // 3 - CSV export
@@ -223,7 +221,7 @@ struct TrainingPlanView: View {
                     }
                     .padding(.vertical, 8)
                     .buttonStyle(.borderedProminent)
-                    .tint(navyBlue)
+                    .tint(AppColors.themeNavy)
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets())
                 }
@@ -254,15 +252,7 @@ struct TrainingPlanView: View {
             )
         }
     }
-
-    func formatTime(_ seconds: Double) -> String {
-        let hour = Int(seconds) / 3600
-        let minute = (Int(seconds) % 3600) / 60
-        let second = Int(seconds) % 60
-        if hour > 0 { return String(format: "%d:%02d:%02d", hour, minute, second) }
-        return String(format: "%d:%02d", minute, second)
-    }
-    
+   
     private var isIPad: Bool {
         UIDevice.current.userInterfaceIdiom == .pad
     }

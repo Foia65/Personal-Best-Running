@@ -1103,14 +1103,6 @@ class TrainingPlanGenerator {  // swiftlint:disable:this type_body_length
         (kms * 2).rounded() / 2
     }
 
-    private func formatTime(_ seconds: Double) -> String {
-        let hrs = Int(seconds) / 3600
-        let min = (Int(seconds) % 3600) / 60
-        let sec = Int(seconds) % 60
-        if hrs > 0 { return String(format: "%d:%02d:%02d", hrs, min, sec) }
-        return String(format: "%d:%02d", min, sec)
-    }
-
     // MARK: - Scientific Sources
 
     private func scientificSources() -> [String] {

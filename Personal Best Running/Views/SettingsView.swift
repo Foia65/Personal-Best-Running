@@ -2,56 +2,6 @@ import SwiftUI
 import Combine
 import StoreKit
 
-// MARK: - LanguageManager
-
-/// Manages the app's language preference and provides a `Locale` for SwiftUI.
-class LanguageManager: ObservableObject {
-
-    static let supportedLanguageCodes = ["it", "en"]
-
-    // Saves the language identifier (e.g. "it", "en") to UserDefaults
-    @AppStorage("selected_language") var selectedLanguage: String = "en" {
-        didSet {
-            objectWillChange.send()
-        }
-    }
-
-    // Converts the string to a Locale object usable by SwiftUI
-    var currentLocale: Locale {
-        Locale(identifier: selectedLanguage)
-    }
-
-    init() {
-        #if DEBUG
-        print("[LanguageManager] Init. UserDefaults selected_language exists: \(UserDefaults.standard.object(forKey: "selected_language") != nil)")
-        print("[LanguageManager] Bundle.preferredLocalizations: \(Bundle.main.preferredLocalizations)")
-        print("[LanguageManager] Locale.current.identifier: \(Locale.current.identifier)")
-        print("[LanguageManager] Locale.current.language.languageCode: \(Locale.current.language.languageCode?.identifier ?? "nil")")
-        print("[LanguageManager] Bundle.main.developmentLocalization: \(Bundle.main.developmentLocalization ?? "nil")")
-        print("[LanguageManager] Locale.preferredLanguages: \(Locale.preferredLanguages)")
-        #endif
-
-        if UserDefaults.standard.object(forKey: "selected_language") == nil {
-            let resolved = Self.systemLanguageCode()
-            #if DEBUG
-            print("[LanguageManager] First launch — resolved system language: \(resolved)")
-            #endif
-            selectedLanguage = resolved
-        }
-
-        #if DEBUG
-        print("[LanguageManager] Final selectedLanguage: \(selectedLanguage)")
-        #endif
-    }
-
-    private static func systemLanguageCode() -> String {
-        let deviceCode = Locale.preferredLanguages
-            .compactMap { Locale(identifier: $0).language.languageCode?.identifier }
-            .first { Self.supportedLanguageCodes.contains($0) }
-        return deviceCode ?? "en"
-    }
-}
-
 // MARK: - SettingsView
 //
 // App settings view: language, theme, measurement system, runner profile, and legal links.

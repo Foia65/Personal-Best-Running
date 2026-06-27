@@ -1,7 +1,5 @@
 import SwiftUI
 
-private let navyBlue = Color(red: 0.0, green: 0.0, blue: 0.3)
-
 struct TimePickerHintPopover: View {
     var onDismiss: () -> Void
     
@@ -316,7 +314,7 @@ struct PlanInputView: View {
                         .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.borderedProminent)
-                    .tint(navyBlue)
+                    .tint(AppColors.themeNavy)
                     .controlSize(.large)
                     .disabled(isGenerateDisabled)
                     .listRowInsets(EdgeInsets())

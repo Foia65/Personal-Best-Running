@@ -130,14 +130,6 @@ struct AthleteProfileView: View {
     }
 
     private var targetColor: Color { plan.feasibility.color }
-
-    private func formatTime(_ seconds: Double) -> String {
-        let ore = Int(seconds) / 3600
-        let min = (Int(seconds) % 3600) / 60
-        let sec = Int(seconds) % 60
-        if ore > 0 { return String(format: "%d:%02d:%02d", ore, min, sec) }
-        return String(format: "%d:%02d", min, sec)
-    }
 }
 
 // MARK: - MultiDistancePredictionRow
@@ -188,14 +180,6 @@ struct MultiDistancePredictionRow: View {
                 .foregroundStyle(isTarget ? .indigo : .primary)
         }
         .padding(.vertical, 2)
-    }
-
-    private func formatTime(_ seconds: Double) -> String {
-        let ore = Int(seconds) / 3600
-        let min = (Int(seconds) % 3600) / 60
-        let sec = Int(seconds) % 60
-        if ore > 0 { return String(format: "%d:%02d:%02d", ore, min, sec) }
-        return String(format: "%d:%02d", min, sec)
     }
 }
 

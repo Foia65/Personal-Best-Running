@@ -3,8 +3,6 @@ import UIKit
 
 // MARK: - ContentView
 
-private let navyBlue = Color(red: 0.0, green: 0.0, blue: 0.3)
-
 // MARK: - Color Extension
 
 extension Color {
@@ -37,7 +35,7 @@ struct ContentView: View {
         NavigationStack {
             VStack(spacing: 0) {
                 ZStack {
-                    navyBlue
+                    AppColors.themeNavy
                         .ignoresSafeArea(edges: .top)
                     HStack {
                         Image(systemName: "figure.run")

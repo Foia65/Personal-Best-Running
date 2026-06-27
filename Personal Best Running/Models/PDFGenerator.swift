@@ -383,13 +383,4 @@ class TrainingPlanPDFGenerator {
         path.lineWidth = 0.5
         path.stroke()
     }
-
-    private func formatTime(_ seconds: Double) -> String {
-        let ore = Int(seconds) / 3600
-        let min = (Int(seconds) % 3600) / 60
-        let sec = Int(seconds) % 60
-        return ore > 0
-            ? String(format: "%d:%02d:%02d", ore, min, sec)
-            : String(format: "%d:%02d", min, sec)
-    }
 }
