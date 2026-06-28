@@ -27,7 +27,7 @@ struct ContentView: View {
     @State private var previousTab = 0 // Stores the last valid tab index to restore after premium alert dismissal
     @State private var showingPremiumSheet = false
     @State private var showingPremiumAlert = false
-    @StateObject private var languageManager = LanguageManager()
+    @EnvironmentObject private var languageManager: LanguageManager
     @AppStorage("isPremiumUser") private var isPremiumUser = false
     @Environment(\.locale) private var locale
 

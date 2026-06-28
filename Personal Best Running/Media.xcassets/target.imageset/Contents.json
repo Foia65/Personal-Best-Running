@@ -44,6 +44,22 @@
       "idiom" : "universal",
       "locale" : "it",
       "scale" : "3x"
+    },
+    {
+      "filename" : "Simulator Screenshot - iPhone 17 Pro - 2026-06-28 at 11.06.41.png",
+      "idiom" : "universal",
+      "locale" : "es",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "es",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "es",
+      "scale" : "3x"
     }
   ],
   "info" : {

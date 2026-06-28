@@ -253,9 +253,7 @@ struct TrainingPlanView: View {
         }
     }
    
-    private var isIPad: Bool {
-        UIDevice.current.userInterfaceIdiom == .pad
-    }
+    private var isIPad: Bool { DeviceInfo.isIPad }
     
     private func alertMessage(for feature: String) -> LocalizedStringResource {
         switch feature {

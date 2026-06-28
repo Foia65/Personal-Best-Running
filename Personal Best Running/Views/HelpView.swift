@@ -5,9 +5,7 @@ import SwiftUI
 struct HelpView: View {
     var onDismiss: (() -> Void)?
 
-    private var isIPad: Bool {
-        UIDevice.current.userInterfaceIdiom == .pad
-    }
+    private var isIPad: Bool { DeviceInfo.isIPad }
 
     var body: some View {
         NavigationStack {
@@ -150,6 +148,9 @@ struct HelpView: View {
 
             }
             .padding(.vertical, 4)
+            
+            constrainedImage("profilo")
+
         } header: {
             Text("4. Profilo Atleta")
         }

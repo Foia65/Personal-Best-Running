@@ -17,7 +17,8 @@ struct SettingsView: View {
     // Supported languages
     let languages = [
         ("Italiano", "it"),
-        ("English", "en")
+        ("English", "en"),
+        ("Español", "es")
     ]
     
     var body: some View {
@@ -326,7 +327,6 @@ struct SettingsView: View {
                 .foregroundStyle(.blue)
                 
             }
-
 #endif
             
         }

@@ -4,7 +4,7 @@ struct SplashView: View {
     @State private var isSplashActive = true
     @State private var showHelp = false
     @AppStorage("hasSeenHelp") private var hasSeenHelp = false
-    @StateObject private var languageManager = LanguageManager()
+    @EnvironmentObject private var languageManager: LanguageManager
 
     var body: some View {
         ZStack {

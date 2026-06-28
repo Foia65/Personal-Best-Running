@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "x 2.jpg",
+      "filename" : "profile 1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -14,7 +14,7 @@
       "scale" : "3x"
     },
     {
-      "filename" : "x 1.jpg",
+      "filename" : "profile.png",
       "idiom" : "universal",
       "locale" : "en",
       "scale" : "1x"
@@ -30,7 +30,7 @@
       "scale" : "3x"
     },
     {
-      "filename" : "x.jpg",
+      "filename" : "profilo 1.png",
       "idiom" : "universal",
       "locale" : "it",
       "scale" : "1x"
@@ -46,7 +46,7 @@
       "scale" : "3x"
     },
     {
-      "filename" : "Simulator Screenshot - iPhone 17 Pro - 2026-06-28 at 11.12.39.png",
+      "filename" : "es.png",
       "idiom" : "universal",
       "locale" : "es",
       "scale" : "1x"

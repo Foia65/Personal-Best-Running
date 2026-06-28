@@ -1,5 +1,12 @@
 import SwiftUI
 import Combine
+import UIKit
+
+struct DeviceInfo {
+    static var isIPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
+}
 
 struct AppColors {
  static let themeNavy = Color(red: 0.0, green: 0.0, blue: 0.3)
