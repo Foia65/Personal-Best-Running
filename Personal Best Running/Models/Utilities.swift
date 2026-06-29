@@ -1,6 +1,5 @@
 import SwiftUI
 import Combine
-import UIKit
 
 struct DeviceInfo {
     static var isIPad: Bool {
@@ -10,7 +9,7 @@ struct DeviceInfo {
 
 struct AppColors {
  static let themeNavy = Color(red: 0.0, green: 0.0, blue: 0.3)
-}  
+}
 
 func formatTime(_ seconds: Double) -> String {
     let ore = Int(seconds) / 3600
@@ -23,9 +22,9 @@ func formatTime(_ seconds: Double) -> String {
 // MARK: - LanguageManager
 class LanguageManager: ObservableObject {
 
-    static let supportedLanguageCodes = ["it", "en"]
+    static let supportedLanguageCodes = ["it", "en", "es", "fr"]
 
-    // Saves the language identifier (e.g. "it", "en") to UserDefaults
+    // Saves the language identifier to UserDefaults
     @AppStorage("selected_language") var selectedLanguage: String = "en" {
         didSet {
             objectWillChange.send()

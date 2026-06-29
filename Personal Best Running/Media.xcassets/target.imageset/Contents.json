@@ -1,8 +1,8 @@
 {
   "images" : [
     {
+      "idiom" : "universal",
       "filename" : "target 1.png",
-      "idiom" : "universal",
       "scale" : "1x"
     },
     {
@@ -14,9 +14,9 @@
       "scale" : "3x"
     },
     {
+      "locale" : "en",
+      "idiom" : "universal",
       "filename" : "target.png",
-      "idiom" : "universal",
-      "locale" : "en",
       "scale" : "1x"
     },
     {
@@ -30,9 +30,9 @@
       "scale" : "3x"
     },
     {
+      "locale" : "it",
+      "idiom" : "universal",
       "filename" : "target.jpg",
-      "idiom" : "universal",
-      "locale" : "it",
       "scale" : "1x"
     },
     {
@@ -46,9 +46,9 @@
       "scale" : "3x"
     },
     {
-      "filename" : "Simulator Screenshot - iPhone 17 Pro - 2026-06-28 at 11.06.41.png",
-      "idiom" : "universal",
       "locale" : "es",
+      "idiom" : "universal",
+      "filename" : "Simulator Screenshot - iPhone 17 Pro - 2026-06-28 at 11.06.41.png",
       "scale" : "1x"
     },
     {
@@ -63,8 +63,8 @@
     }
   ],
   "info" : {
-    "author" : "xcode",
-    "version" : 1
+    "version" : 1,
+    "author" : "xcode"
   },
   "properties" : {
     "localizable" : true

@@ -165,7 +165,7 @@ struct TrainingPlanView: View {
                     }) {
                         HStack {
                             Spacer()
-                            Label("Esporta Piano nel Calendario", systemImage: "calendar")
+                            Label("Esporta nel Calendario", systemImage: "calendar")
                                 .font(.headline)
                                 .foregroundStyle(.white)
                             Spacer()
@@ -189,7 +189,7 @@ struct TrainingPlanView: View {
                     }) {
                         HStack {
                             Spacer()
-                            Label("Esporta Piano in PDF", systemImage: "doc")
+                            Label("Esporta in PDF", systemImage: "doc")
                                 .font(.headline)
                                 .foregroundStyle(.white)
                             Spacer()
@@ -212,7 +212,7 @@ struct TrainingPlanView: View {
                     }) {
                         HStack {
                             Spacer()
-                            Label("Esporta Piano in CSV", systemImage: "tablecells.badge.ellipsis")
+                            Label("Esporta in CSV", systemImage: "tablecells.badge.ellipsis")
                                 .font(.headline)
                                 .foregroundStyle(.white)
                             Spacer()

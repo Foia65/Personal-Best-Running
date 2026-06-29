@@ -51,6 +51,12 @@ struct PlanInputView: View {
     @AppStorage("currentMinutes") private var currentMinutes: Int = 55
     @AppStorage("currentSeconds") private var currentSeconds: Int = 0
     @State private var showResetConfirmation = false
+    @State private var showRaceNameError = false
+    @State private var scrollProxy: ScrollViewProxy?
+    
+    private var raceNameIsEmpty: Bool {
+        raceName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
     
     @AppStorage("runnerSex") private var runnerSex: RunnerSex = .male
     @AppStorage("unitSystem") private var unitSystem: UnitSystem = .metric
@@ -130,6 +136,18 @@ struct PlanInputView: View {
                         TextField("Nome evento", text: $raceName)
                             .autocorrectionDisabled(true)
                             .multilineTextAlignment(.trailing)
+                            .onChange(of: raceName) {
+                                showRaceNameError = false
+                            }
+                    }
+                    if showRaceNameError && raceName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        Label {
+                            Text("Nome evento obbligatorio")
+                        } icon: {
+                            Image(systemName: "exclamationmark.circle.fill")
+                        }
+                        .font(.caption)
+                        .foregroundStyle(.red)
                     }
                     DatePicker("Data gara", selection: $raceDate, in: Date()..., displayedComponents: .date)
                     if !isRaceOnSunday {
@@ -144,7 +162,7 @@ struct PlanInputView: View {
                     
                     if isPreparationTooShort {
                         Label {
-                            Text("Una preparazione adeguata richiede almeno 12 settimane")
+                            Text("Una preparazione adeguata richiede almeno 12 settimane.\nSeleziona una data successiva al \(Calendar.current.date(byAdding: .weekOfYear, value: 12, to: Date())?.formatted(date: .numeric, time: .omitted) ?? "")")
                         } icon: {
                             Image(systemName: "calendar.badge.exclamationmark")
                         }
@@ -318,15 +336,6 @@ struct PlanInputView: View {
                     .controlSize(.large)
                     .disabled(isGenerateDisabled)
                     .listRowInsets(EdgeInsets())
-
-                    if isPreparationTooShort {
-                        Text("La preparazione richiede almeno 12 settimane. Seleziona una data successiva al \(Calendar.current.date(byAdding: .weekOfYear, value: 12, to: Date())?.formatted(date: .abbreviated, time: .omitted) ?? "")")
-                            .font(.footnote)
-                            .frame(maxWidth: .infinity)
-                            .foregroundStyle(.red)
-                            .font(.footnote)
-                            .multilineTextAlignment(.center)
-                    }
                     
                     Button(role: .destructive) {
                         resetParameters()
@@ -350,6 +359,17 @@ struct PlanInputView: View {
                 .listRowBackground(Color.clear)
             }
             .listSectionSpacing(16)
+            .background(
+                EmptyView()
+                    .onAppear { scrollProxy = proxy }
+            )
+        }
+        .onChange(of: showRaceNameError) { _, showError in
+            if showError {
+                withAnimation(.smooth) {
+                    scrollProxy?.scrollTo("top", anchor: .top)
+                }
+            }
         }
         .sheet(isPresented: $showTimePickerHint) {
             TimePickerHintPopover {
@@ -359,13 +379,20 @@ struct PlanInputView: View {
     }
     
     private func generate() {
-        guard !isPreparationTooShort, targetTime > 0, currentTime > 0 else {
-                return
-            }
+        guard !isPreparationTooShort,
+              targetTime > 0,
+              currentTime > 0
+        else {
+            return
+        }
+        if raceName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            showRaceNameError = true
+            return
+        }
         let input = TrainingPlanInput(
             raceDistance: raceDistance,
             raceDate: raceDate,
-            raceName: raceName.isEmpty ? raceDistance.rawValue : raceName,
+            raceName: raceName,
             trainingDaysPerWeek: trainingDays,
             targetTime: targetTime,
             currentPerformance: CurrentPerformance(distance: currentDistance, time: currentTime),
@@ -399,6 +426,7 @@ struct PlanInputView: View {
         currentHours    = 0
         currentMinutes  = 55
         currentSeconds  = 0
+        showRaceNameError = false
         onReset()
     }
 }

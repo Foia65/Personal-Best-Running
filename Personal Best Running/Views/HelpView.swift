@@ -19,13 +19,13 @@ struct HelpView: View {
             .listStyle(.insetGrouped)
             .navigationTitle("Aiuto e Supporto")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Chiudi") {
-                        onDismiss?()
-                    }
-                }
-            }
+//            .toolbar {
+//                ToolbarItem(placement: .topBarTrailing) {
+//                    Button("Chiudi") {
+//                        onDismiss?()
+//                    }
+//                }
+//            }
         }
     }
 
@@ -42,7 +42,7 @@ struct HelpView: View {
 
     private var introductionSection: some View {
         Section {
-            Text("Benvenuto in Personal Best Running!\nQuesta applicazione ti aiuta a generare un piano di allenamento personalizzato basato sul metodo VDOT di Jack Daniels.")
+            Text("Benvenuto in **Personal Best Running**!\nQuesta applicazione ti aiuta a generare un piano di allenamento personalizzato basato sul metodo VDOT di Jack Daniels.")
                 .font(.body)
                 .padding(.vertical, 4)
         } header: {

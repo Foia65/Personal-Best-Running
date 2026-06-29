@@ -18,7 +18,8 @@ struct SettingsView: View {
     let languages = [
         ("Italiano", "it"),
         ("English", "en"),
-        ("Español", "es")
+        ("Español", "es"),
+        ("Français", "fr")
     ]
     
     var body: some View {
@@ -69,7 +70,7 @@ struct SettingsView: View {
                 // 4 - App version
                 HStack {
                     Label {
-                        Text("Versione: ")
+                        Text("Versione")
                             .foregroundColor(.primary)
                     } icon: {
                         Image(systemName: "shippingbox")
@@ -147,7 +148,6 @@ struct SettingsView: View {
                 // 4 - Rate this App
                  Button {
                     requestAppReview()
-                    
                 } label: {
                     Label {
                         Text("Valuta questa App")
@@ -347,25 +347,21 @@ extension Bundle {
     }
 }
 
-func requestAppReview() {
-    print("=== Review Request Debug ===")
-    print("Bundle ID: \(Bundle.main.bundleIdentifier ?? "nil")")
-    #if DEBUG
-    print("Is Debug: true")
-    #else
-    print("Is Debug: false")
-    #endif
-    
-    guard let scene = UIApplication.shared.connectedScenes.first(where: {
-        $0.activationState == .foregroundActive
-    }) as? UIWindowScene else {
-        print("No active window scene found")
+private func requestAppReview() {
+    // Deep-link directly to the App Store review composer.
+    // Reads the Apple App ID from Info.plist (AppStoreAppID key).
+    // This works in both production and sandbox/test builds.
+    let appID = Bundle.main.object(forInfoDictionaryKey: "AppStoreAppID") as? String ?? ""
+    guard !appID.isEmpty, let url = URL(string: "https://apps.apple.com/app/id\(appID)?action=write-review") else {
+        print("[Review] App Store App ID not configured. Add 'AppStoreAppID' to Info.plist.")
         return
     }
-    
-    print("Scene found: \(scene)")
-    print("Requesting review...")
-    AppStore.requestReview(in: scene)
+
+    #if DEBUG
+    print("[Review] Opening review URL: \(url.absoluteString)")
+    #endif
+
+    UIApplication.shared.open(url)
 }
 
 #Preview {
